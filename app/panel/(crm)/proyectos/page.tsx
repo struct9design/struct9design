@@ -1,0 +1,258 @@
+'use client'
+
+import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { Plus, Trash2, ExternalLink, AlertCircle, Pencil, Download, Search } from 'lucide-react'
+import type { Project } from '@/lib/types'
+import { STATUS_LABELS, STATUS_COLORS } from '@/lib/types'
+
+const ITEMS_PER_PAGE = 25
+
+function matchesSearch(p: Project, q: string) {
+  if (!q) return true
+  const s = q.toLowerCase()
+  return (
+    p.client_name.toLowerCase().includes(s) ||
+    (p.client_email ?? '').toLowerCase().includes(s) ||
+    p.service.toLowerCase().includes(s)
+  )
+}
+
+function downloadCSV(rows: Record<string, unknown>[], filename: string) {
+  if (!rows.length) return
+  const headers = Object.keys(rows[0])
+  const lines = [
+    headers.join(','),
+    ...rows.map(r => headers.map(h => JSON.stringify(r[h] ?? '')).join(',')),
+  ]
+  const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' })
+  const url = URL.createObjectURL(blob)
+  const a = Object.assign(document.createElement('a'), { href: url, download: filename })
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+export default function Proyectos() {
+  const [projects, setProjects] = useState<Project[]>([])
+  const [loading, setLoading]   = useState(true)
+  const [filter, setFilter]     = useState<string>('todos')
+  const [search, setSearch]     = useState('')
+  const [currentPage, setCurrentPage] = useState(1)
+
+  useEffect(() => {
+    fetch('/api/proyectos')
+      .then(r => r.json())
+      .then(d => { setProjects(Array.isArray(d) ? d : []); setLoading(false) })
+  }, [])
+
+  // Reset page when filter or search changes
+  useEffect(() => { setCurrentPage(1) }, [filter, search])
+
+  async function updateStatus(id: string, status: string) {
+    await fetch('/api/proyectos', {
+      method: 'PATCH',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id, status }),
+    })
+    setProjects(prev => prev.map(p => p.id === id ? { ...p, status: status as Project['status'] } : p))
+  }
+
+  async function deleteProject(id: string) {
+    if (!confirm('¿Eliminar este proyecto?')) return
+    await fetch('/api/proyectos', {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id }),
+    })
+    setProjects(prev => prev.filter(p => p.id !== id))
+  }
+
+  const statuses = ['todos', 'pendiente', 'en_proceso', 'entregado', 'facturado', 'cobrado']
+  const now = new Date()
+
+  const statusFiltered = filter === 'todos' ? projects : projects.filter(p => p.status === filter)
+  const searched       = statusFiltered.filter(p => matchesSearch(p, search))
+  const totalPages     = Math.max(1, Math.ceil(searched.length / ITEMS_PER_PAGE))
+  const paginated      = searched.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
+
+  return (
+    <div className="p-8">
+      <div className="flex items-center justify-between mb-6">
+        <h1 className="text-2xl font-bold text-humo">Proyectos</h1>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => downloadCSV(searched as unknown as Record<string, unknown>[], 'proyectos.csv')}
+            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-xs text-humo/50 hover:text-humo transition-colors"
+            title="Exportar CSV"
+          >
+            <Download className="h-3.5 w-3.5" /> CSV
+          </button>
+          <Link
+            href="/panel/proyectos/nuevo"
+            className="flex items-center gap-2 rounded-lg bg-oro px-4 py-2 text-sm font-bold text-grafito hover:bg-oro/80 transition-colors"
+          >
+            <Plus className="h-4 w-4" /> Nuevo proyecto
+          </Link>
+        </div>
+      </div>
+
+      {/* Filter tabs */}
+      <div className="flex gap-2 mb-4 flex-wrap">
+        {statuses.map(s => (
+          <button
+            key={s}
+            onClick={() => setFilter(s)}
+            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors capitalize ${
+              filter === s
+                ? 'bg-oro text-grafito'
+                : 'bg-white/5 text-humo/50 hover:text-humo'
+            }`}
+          >
+            {s === 'todos' ? 'Todos' : STATUS_LABELS[s as Project['status']]}
+            {s !== 'todos' && (
+              <span className="ml-1.5 opacity-60">
+                {projects.filter(p => p.status === s).length}
+              </span>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {/* Search */}
+      <div className="relative mb-4">
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-humo/30 pointer-events-none" />
+        <input
+          type="text"
+          placeholder="Buscar por cliente, email o servicio..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-full rounded-lg border border-white/10 bg-pizarra/10 pl-9 pr-4 py-2 text-sm text-humo placeholder-humo/30 focus:border-oro/40 focus:outline-none transition-colors"
+        />
+      </div>
+
+      <div className="rounded-xl border border-white/5 bg-pizarra/10 overflow-hidden">
+        {loading ? (
+          <div className="py-12 text-center text-sm text-humo/30">Cargando proyectos...</div>
+        ) : searched.length === 0 ? (
+          <div className="py-12 text-center">
+            <p className="text-sm text-humo/30">No hay proyectos que coincidan.</p>
+          </div>
+        ) : (
+          <>
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="border-b border-white/5">
+                  {['Fecha', 'Entrega', 'Cliente', 'Servicio', 'Estado', 'Precio', ''].map(h => (
+                    <th key={h} className="px-5 py-3 text-left text-xs font-medium text-humo/40">{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {paginated.map(p => {
+                  const overdue = p.deadline_at &&
+                    new Date(p.deadline_at) < now &&
+                    p.status !== 'entregado' &&
+                    p.status !== 'facturado' &&
+                    p.status !== 'cobrado'
+
+                  return (
+                    <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <td className="px-5 py-3 text-xs text-humo/40 whitespace-nowrap">
+                        {new Date(p.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
+                      </td>
+                      <td className="px-5 py-3 whitespace-nowrap">
+                        {p.deadline_at ? (
+                          <span className={`flex items-center gap-1 text-xs ${overdue ? 'text-red-400 font-medium' : 'text-humo/40'}`}>
+                            {overdue && <AlertCircle className="h-3 w-3 shrink-0" />}
+                            {new Date(p.deadline_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+                          </span>
+                        ) : (
+                          <span className="text-humo/20 text-xs">—</span>
+                        )}
+                      </td>
+                      <td className="px-5 py-3">
+                        <div className="font-medium text-humo text-xs">{p.client_name}</div>
+                        {p.client_email && (
+                          <div className="text-[10px] text-humo/35">{p.client_email}</div>
+                        )}
+                      </td>
+                      <td className="px-5 py-3 text-humo/60 text-xs">{p.service}</td>
+                      <td className="px-5 py-3">
+                        <select
+                          value={p.status}
+                          onChange={e => updateStatus(p.id, e.target.value)}
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium border-0 cursor-pointer ${STATUS_COLORS[p.status]}`}
+                        >
+                          {(Object.keys(STATUS_LABELS) as Project['status'][]).map(s => (
+                            <option key={s} value={s}>{STATUS_LABELS[s]}</option>
+                          ))}
+                        </select>
+                      </td>
+                      <td className="px-5 py-3 text-oro font-medium text-xs">
+                        {p.price ? `€${p.price.toLocaleString('es')}` : '—'}
+                      </td>
+                      <td className="px-5 py-3">
+                        <div className="flex items-center gap-2.5">
+                          {p.deliverable_url && (
+                            <a
+                              href={p.deliverable_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-humo/25 hover:text-oro transition-colors"
+                              title="Ver entregable"
+                            >
+                              <ExternalLink className="h-3.5 w-3.5" />
+                            </a>
+                          )}
+                          <Link
+                            href={`/panel/proyectos/${p.id}`}
+                            className="text-humo/25 hover:text-humo transition-colors"
+                            title="Editar"
+                          >
+                            <Pencil className="h-3.5 w-3.5" />
+                          </Link>
+                          <button
+                            onClick={() => deleteProject(p.id)}
+                            className="text-humo/20 hover:text-red-400 transition-colors"
+                            title="Eliminar"
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+
+            {/* Pagination */}
+            {totalPages > 1 && (
+              <div className="flex items-center justify-between px-5 py-3 border-t border-white/5">
+                <span className="text-xs text-humo/30">
+                  {searched.length} proyectos · página {currentPage} de {totalPages}
+                </span>
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                    className="rounded px-3 py-1 text-xs text-humo/50 hover:text-humo disabled:opacity-30 transition-colors"
+                  >
+                    ← Anterior
+                  </button>
+                  <button
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                    className="rounded px-3 py-1 text-xs text-humo/50 hover:text-humo disabled:opacity-30 transition-colors"
+                  >
+                    Siguiente →
+                  </button>
+                </div>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
+  )
+}

@@ -18,6 +18,11 @@ export const metadata: Metadata = {
   keywords: ['agencia digital', 'agencia IA', 'SEO España', 'diseño web PYME', 'automatización n8n', 'Meta Ads', 'agencia digital Madrid'],
   authors: [{ name: 'STRUCT9 Design', url: SITE_URL }],
   creator: 'STRUCT9 Design',
+  icons: {
+    icon: '/icon.png',
+    apple: '/icon.png',
+    shortcut: '/icon.png',
+  },
   robots: {
     index: true,
     follow: true,
@@ -30,13 +35,13 @@ export const metadata: Metadata = {
     siteName: 'STRUCT9 Design',
     title: 'STRUCT9 Design — Agencia IA para PYMEs',
     description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Entrega en 48h, precio fijo, sin sorpresas.',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'STRUCT9 Design — Agencia IA para PYMEs' }],
+    images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: 'summary',
     title: 'STRUCT9 Design — Agencia IA para PYMEs',
     description: 'Webs, SEO, Meta Ads y automatizaciones con IA. Entrega en 48h.',
-    images: ['/og-image.png'],
+    images: ['/icon.png'],
   },
 }
 

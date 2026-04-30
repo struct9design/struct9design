@@ -11,8 +11,8 @@ import { ArrowRight } from 'lucide-react'
 const differentiators = [
   {
     n: '01',
-    title: 'Velocidad que las agencias ni contemplan',
-    desc: 'Las agencias tardan semanas. Los freelances, días. Nosotros: horas. Usamos IA de nivel enterprise para comprimir el tiempo de ejecución sin comprometer ni un milímetro la calidad del resultado.',
+    title: 'De la idea al resultado antes de lo que esperas',
+    desc: 'Sabemos que el tiempo es lo más valioso de un negocio. Por eso cada proyecto arranca con un plazo concreto que cumplimos siempre: procesos optimizados, sin esperas innecesarias, para que tengas el resultado en tus manos cuanto antes.',
   },
   {
     n: '02',
@@ -94,7 +94,7 @@ export const metadata: Metadata = {
     title: 'STRUCT9 Design — Agencia IA · La entrega más rápida del mercado',
     description: 'Webs, SEO, Meta Ads y automatizaciones con IA. Entrega en 48h, precio fijo.',
     url: 'https://struct9design.com',
-    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'STRUCT9 Design' }],
+    images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
     siteName: 'STRUCT9 Design',
     locale: 'es_ES',
     type: 'website',
@@ -266,8 +266,8 @@ export default function Home() {
             <div className="mb-16 max-w-2xl">
               <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-oro mb-3">Por qué STRUCT9</p>
               <h2 className="text-3xl sm:text-4xl font-bold text-nieve leading-tight">
-                No somos una agencia más.<br />
-                <span className="text-gradient-oro">Somos lo que las agencias deberían haber sido siempre.</span>
+                Somos el equipo digital<br />
+                <span className="text-gradient-oro">que ojalá hubieras encontrado antes.</span>
               </h2>
             </div>
 

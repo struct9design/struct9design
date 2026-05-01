@@ -15,6 +15,9 @@ export interface Project {
   deliverable_url: string | null
   deadline_at: string | null
   paid_at: string | null
+  amount_paid: number | null
+  stripe_session_id: string | null
+  stripe_payment_url: string | null
 }
 
 export interface Client {

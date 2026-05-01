@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, Clock } from 'lucide-react'
+import { ArrowLeft, Clock, Send, CheckCircle2, ExternalLink } from 'lucide-react'
 import { SERVICES, STATUS_LABELS } from '@/lib/types'
 import type { Project, ProjectStatus } from '@/lib/types'
 
@@ -34,6 +34,13 @@ export default function EditarProyecto() {
   const [saving, setSaving] = useState(false)
   const [error, setError]   = useState('')
 
+  // Modal de cobro
+  const [showCobrarModal, setShowCobrarModal] = useState(false)
+  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '' })
+  const [enviando, setEnviando] = useState(false)
+  const [cobrarError, setCobrarError] = useState('')
+  const [cobrarOk, setCobrarOk] = useState(false)
+
   useEffect(() => {
     Promise.all([
       fetch(`/api/proyectos/${id}`).then(r => r.ok ? r.json() : null),
@@ -54,6 +61,10 @@ export default function EditarProyecto() {
         notes:           p.notes           ?? '',
         deliverable_url: p.deliverable_url ?? '',
         deadline_at:     p.deadline_at     ? new Date(p.deadline_at).toISOString().split('T')[0] : '',
+      })
+      setCobrarForm({
+        concepto: p.service ?? '',
+        importe:  p.price != null ? String(p.price) : '',
       })
       setLoading(false)
     })
@@ -100,6 +111,35 @@ export default function EditarProyecto() {
     }
   }
 
+  async function handleCobrar(e: React.FormEvent) {
+    e.preventDefault()
+    if (!project) return
+    setCobrarError('')
+    setEnviando(true)
+    try {
+      const res = await fetch('/api/stripe/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          project_id:   project.id,
+          amount:       cobrarForm.importe,
+          service:      cobrarForm.concepto,
+          client_name:  form.client_name,
+          client_email: form.client_email,
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || 'Error al generar el enlace')
+      setCobrarOk(true)
+      // Actualizar estado local
+      setProject(p => p ? { ...p, stripe_payment_url: data.payment_url } : p)
+    } catch (err) {
+      setCobrarError(err instanceof Error ? err.message : 'Error desconocido')
+    } finally {
+      setEnviando(false)
+    }
+  }
+
   if (loading) {
     return (
       <div className="p-8">
@@ -118,6 +158,8 @@ export default function EditarProyecto() {
     )
   }
 
+  const isPaid = !!project.paid_at
+
   return (
     <div className="p-8 max-w-2xl">
       {/* Breadcrumb */}
@@ -134,7 +176,21 @@ export default function EditarProyecto() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5 mb-10">
+      {/* Badge de pago */}
+      {isPaid && (
+        <div className="flex items-center gap-2 mb-6 rounded-lg bg-emerald-900/30 border border-emerald-500/20 px-4 py-3">
+          <CheckCircle2 className="h-4 w-4 text-emerald-400 shrink-0" />
+          <div className="text-sm text-emerald-300">
+            <span className="font-semibold">Cobrado</span>
+            {project.amount_paid != null && <span className="text-emerald-400"> — {project.amount_paid.toFixed(2)} €</span>}
+            <span className="text-emerald-500 text-xs ml-2">
+              {new Date(project.paid_at!).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', year: 'numeric' })}
+            </span>
+          </div>
+        </div>
+      )}
+
+      <form onSubmit={handleSubmit} className="space-y-5 mb-6">
         <div>
           <label className="block text-xs font-medium text-humo/60 mb-1.5">Servicio *</label>
           <select
@@ -266,6 +322,35 @@ export default function EditarProyecto() {
         </div>
       </form>
 
+      {/* Botón Cobrar */}
+      {!isPaid && (
+        <div className="mb-10">
+          <button
+            onClick={() => {
+              setCobrarForm({ concepto: form.service, importe: form.price })
+              setCobrarOk(false)
+              setCobrarError('')
+              setShowCobrarModal(true)
+            }}
+            className="w-full flex items-center justify-center gap-2 rounded-lg border border-oro/40 bg-oro/10 px-4 py-3 text-sm font-semibold text-oro hover:bg-oro/20 transition-colors"
+          >
+            <Send className="h-4 w-4" />
+            Enviar presupuesto y cobrar
+          </button>
+
+          {project.stripe_payment_url && (
+            <a
+              href={project.stripe_payment_url}
+              target="_blank" rel="noopener noreferrer"
+              className="mt-2 flex items-center justify-center gap-1.5 text-xs text-humo/40 hover:text-humo/60 transition-colors"
+            >
+              <ExternalLink className="h-3 w-3" />
+              Ver enlace de pago generado
+            </a>
+          )}
+        </div>
+      )}
+
       {/* Historial de actividad */}
       {events.length > 0 && (
         <div className="rounded-xl border border-white/5 bg-pizarra/10 overflow-hidden">
@@ -294,6 +379,92 @@ export default function EditarProyecto() {
                 </span>
               </div>
             ))}
+          </div>
+        </div>
+      )}
+
+      {/* ── Modal de cobro ─────────────────────────────────────────────────── */}
+      {showCobrarModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm">
+          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-grafito shadow-2xl">
+            <div className="px-6 py-5 border-b border-white/10">
+              <h2 className="text-base font-semibold text-humo">Enviar presupuesto y enlace de pago</h2>
+              <p className="text-xs text-humo/40 mt-1">
+                Se enviará un email a <span className="text-humo/60">{form.client_email || '(sin email)'}</span> con el PDF y el enlace de Stripe.
+              </p>
+            </div>
+
+            {cobrarOk ? (
+              <div className="px-6 py-10 text-center">
+                <CheckCircle2 className="h-12 w-12 text-emerald-400 mx-auto mb-4" />
+                <p className="text-sm font-semibold text-humo mb-1">¡Enviado!</p>
+                <p className="text-xs text-humo/40 mb-6">
+                  El cliente ha recibido el presupuesto y el enlace de pago por email.
+                </p>
+                <button
+                  onClick={() => setShowCobrarModal(false)}
+                  className="rounded-lg bg-oro px-6 py-2.5 text-sm font-bold text-grafito hover:bg-oro/80 transition-colors"
+                >
+                  Cerrar
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleCobrar} className="px-6 py-5 space-y-4">
+                <div>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Concepto</label>
+                  <input
+                    type="text" required placeholder="Descripción del servicio"
+                    value={cobrarForm.concepto}
+                    onChange={e => setCobrarForm(f => ({ ...f, concepto: e.target.value }))}
+                    className={inputClass}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Importe (€)</label>
+                  <input
+                    type="number" required placeholder="0.00" step="0.01" min="1"
+                    value={cobrarForm.importe}
+                    onChange={e => setCobrarForm(f => ({ ...f, importe: e.target.value }))}
+                    className={inputClass}
+                  />
+                  {cobrarForm.importe && !isNaN(parseFloat(cobrarForm.importe)) && (
+                    <p className="text-xs text-humo/40 mt-1.5">
+                      Total: <span className="text-humo font-semibold">{parseFloat(cobrarForm.importe).toFixed(2)} €</span>
+                      <span className="ml-1">(sin IVA — Fase 1)</span>
+                    </p>
+                  )}
+                </div>
+
+                {!form.client_email && (
+                  <p className="text-xs text-yellow-400 bg-yellow-900/20 rounded-lg px-3 py-2">
+                    Este proyecto no tiene email de cliente. Guarda el email antes de cobrar.
+                  </p>
+                )}
+
+                {cobrarError && (
+                  <p className="text-xs text-red-400 bg-red-900/20 rounded-lg px-3 py-2">{cobrarError}</p>
+                )}
+
+                <div className="flex gap-3 pt-1">
+                  <button
+                    type="submit"
+                    disabled={enviando || !form.client_email}
+                    className="flex-1 flex items-center justify-center gap-2 rounded-lg bg-oro px-4 py-3 text-sm font-bold text-grafito hover:bg-oro/80 disabled:opacity-60 transition-colors"
+                  >
+                    <Send className="h-3.5 w-3.5" />
+                    {enviando ? 'Enviando...' : 'Enviar presupuesto'}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => setShowCobrarModal(false)}
+                    className="rounded-lg border border-white/10 px-4 py-3 text-sm text-humo/60 hover:text-humo hover:border-white/20 transition-colors"
+                  >
+                    Cancelar
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}

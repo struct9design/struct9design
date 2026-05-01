@@ -87,12 +87,12 @@ const tickerItems = [
 ]
 
 export const metadata: Metadata = {
-  title: { absolute: 'STRUCT9 Design — Agencia IA · La entrega más rápida del mercado' },
-  description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA para PYMEs. Entrega en 48h, precio fijo, sin sorpresas. La agencia digital más rápida de España.',
+  title: { absolute: 'STRUCT9 Design — Presencia digital real para negocios reales.' },
+  description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
   alternates: { canonical: 'https://struct9design.com' },
   openGraph: {
-    title: 'STRUCT9 Design — Agencia IA · La entrega más rápida del mercado',
-    description: 'Webs, SEO, Meta Ads y automatizaciones con IA. Entrega en 48h, precio fijo.',
+    title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
+    description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
     url: 'https://struct9design.com',
     images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
     siteName: 'STRUCT9 Design',

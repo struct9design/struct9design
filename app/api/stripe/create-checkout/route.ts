@@ -121,7 +121,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Stripe no configurado' }, { status: 503 })
     }
 
-    const session = await stripe.checkout.sessions.create({
+    let session
+    try {
+      session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       mode: 'payment',
       line_items: [{
@@ -140,6 +142,10 @@ export async function POST(request: Request) {
       success_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://struct9design.com'}/?pago=ok`,
       cancel_url:  `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://struct9design.com'}/?pago=cancelado`,
     })
+    } catch (stripeErr) {
+      console.error('[STRIPE] Error creando sesión:', stripeErr)
+      return NextResponse.json({ error: `Error Stripe: ${stripeErr instanceof Error ? stripeErr.message : stripeErr}` }, { status: 500 })
+    }
 
     // ── Guardar URL en Supabase ──────────────────────────────────────────────
     if (supabaseAdmin) {
@@ -153,13 +159,19 @@ export async function POST(request: Request) {
     const today = new Date().toLocaleDateString('es-ES', {
       day: 'numeric', month: 'long', year: 'numeric',
     })
-    const pdfBuffer = await generatePresupuestoPDF({
+    let pdfBuffer: Buffer
+    try {
+      pdfBuffer = await generatePresupuestoPDF({
       clientName: client_name,
       clientEmail: client_email,
       service,
       amount: amountNum,
       date: today,
     })
+    } catch (pdfErr) {
+      console.error('[STRIPE] Error generando PDF:', pdfErr)
+      return NextResponse.json({ error: `Error PDF: ${pdfErr instanceof Error ? pdfErr.message : pdfErr}` }, { status: 500 })
+    }
 
     // ── Enviar email con Resend ──────────────────────────────────────────────
     const resendKey = process.env.RESEND_API_KEY

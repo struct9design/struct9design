@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useId, useState } from 'react'
 import { createClient, type RealtimePostgresChangesPayload } from '@supabase/supabase-js'
 import type { ContactSubmission } from '@/lib/types'
 
@@ -13,6 +13,7 @@ function isNew(status: string | null | undefined) {
 }
 
 export default function LeadsNotificationBadge() {
+  const id = useId()
   const [count, setCount] = useState<number | null>(null)
 
   useEffect(() => {
@@ -27,7 +28,7 @@ export default function LeadsNotificationBadge() {
     if (!client) return
 
     const channel = client
-      .channel('leads-notifications')
+      .channel(`leads-notifications-${id}`)
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'contacts' },

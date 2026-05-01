@@ -1,10 +1,13 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import dynamic from 'next/dynamic'
 import Link from 'next/link'
-import { Plus, Trash2, ExternalLink, AlertCircle, Pencil, Download, Search } from 'lucide-react'
+import { Plus, Trash2, ExternalLink, AlertCircle, Pencil, Download, Search, LayoutGrid, List } from 'lucide-react'
 import type { Project } from '@/lib/types'
 import { STATUS_LABELS, STATUS_COLORS } from '@/lib/types'
+
+const KanbanBoard = dynamic(() => import('@/components/KanbanBoard'), { ssr: false })
 
 const ITEMS_PER_PAGE = 25
 
@@ -38,6 +41,8 @@ export default function Proyectos() {
   const [filter, setFilter]     = useState<string>('todos')
   const [search, setSearch]     = useState('')
   const [currentPage, setCurrentPage] = useState(1)
+  const [view, setView]         = useState<'list' | 'kanban'>('list')
+  const [isDesktop, setIsDesktop] = useState(false)
 
   useEffect(() => {
     fetch('/api/proyectos')
@@ -45,16 +50,27 @@ export default function Proyectos() {
       .then(d => { setProjects(Array.isArray(d) ? d : []); setLoading(false) })
   }, [])
 
+  // Detect desktop viewport (≥ 1024px). Kanban only mounts when this is true.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(min-width: 1024px)')
+    setIsDesktop(mq.matches)
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches)
+    mq.addEventListener('change', handler)
+    return () => mq.removeEventListener('change', handler)
+  }, [])
+
   // Reset page when filter or search changes
   useEffect(() => { setCurrentPage(1) }, [filter, search])
 
   async function updateStatus(id: string, status: string) {
+    // Optimistic update for snappy Kanban UX
+    setProjects(prev => prev.map(p => p.id === id ? { ...p, status: status as Project['status'] } : p))
     await fetch('/api/proyectos', {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ id, status }),
     })
-    setProjects(prev => prev.map(p => p.id === id ? { ...p, status: status as Project['status'] } : p))
   }
 
   async function deleteProject(id: string) {
@@ -76,16 +92,45 @@ export default function Proyectos() {
   const paginated      = searched.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-humo">Proyectos</h1>
+    <div className="p-4 md:p-8">
+      <div className="flex items-center justify-between mb-6 gap-3">
+        <h1 className="text-xl md:text-2xl font-bold text-humo">Proyectos</h1>
         <div className="flex items-center gap-2">
+          {isDesktop && (
+            <div className="inline-flex items-center rounded-lg border border-white/10 bg-pizarra/20 p-0.5" role="tablist" aria-label="Vista de proyectos">
+              <button
+                role="tab"
+                aria-selected={view === 'list'}
+                onClick={() => setView('list')}
+                className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                  view === 'list'
+                    ? 'bg-oro text-grafito'
+                    : 'text-humo/50 hover:text-humo'
+                }`}
+              >
+                <List className="h-3.5 w-3.5" /> Lista
+              </button>
+              <button
+                role="tab"
+                aria-selected={view === 'kanban'}
+                onClick={() => setView('kanban')}
+                className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
+                  view === 'kanban'
+                    ? 'bg-oro text-grafito'
+                    : 'text-humo/50 hover:text-humo'
+                }`}
+              >
+                <LayoutGrid className="h-3.5 w-3.5" /> Kanban
+              </button>
+            </div>
+          )}
           <button
             onClick={() => downloadCSV(searched as unknown as Record<string, unknown>[], 'proyectos.csv')}
-            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-xs text-humo/50 hover:text-humo transition-colors"
+            className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-humo/50 hover:text-humo transition-colors"
             title="Exportar CSV"
+            aria-label="Exportar CSV"
           >
-            <Download className="h-3.5 w-3.5" /> CSV
+            <Download className="h-4 w-4" />
           </button>
           <Link
             href="/panel/proyectos/nuevo"
@@ -96,27 +141,29 @@ export default function Proyectos() {
         </div>
       </div>
 
-      {/* Filter tabs */}
-      <div className="flex gap-2 mb-4 flex-wrap">
-        {statuses.map(s => (
-          <button
-            key={s}
-            onClick={() => setFilter(s)}
-            className={`rounded-full px-3 py-1 text-xs font-medium transition-colors capitalize ${
-              filter === s
-                ? 'bg-oro text-grafito'
-                : 'bg-white/5 text-humo/50 hover:text-humo'
-            }`}
-          >
-            {s === 'todos' ? 'Todos' : STATUS_LABELS[s as Project['status']]}
-            {s !== 'todos' && (
-              <span className="ml-1.5 opacity-60">
-                {projects.filter(p => p.status === s).length}
-              </span>
-            )}
-          </button>
-        ))}
-      </div>
+      {/* Filter tabs — solo en vista lista */}
+      {!(isDesktop && view === 'kanban') && (
+        <div className="flex gap-2 mb-4 flex-wrap">
+          {statuses.map(s => (
+            <button
+              key={s}
+              onClick={() => setFilter(s)}
+              className={`rounded-full px-3 py-1 text-xs font-medium transition-colors capitalize ${
+                filter === s
+                  ? 'bg-oro text-grafito'
+                  : 'bg-white/5 text-humo/50 hover:text-humo'
+              }`}
+            >
+              {s === 'todos' ? 'Todos' : STATUS_LABELS[s as Project['status']]}
+              {s !== 'todos' && (
+                <span className="ml-1.5 opacity-60">
+                  {projects.filter(p => p.status === s).length}
+                </span>
+              )}
+            </button>
+          ))}
+        </div>
+      )}
 
       {/* Search */}
       <div className="relative mb-4">
@@ -130,6 +177,17 @@ export default function Proyectos() {
         />
       </div>
 
+      {isDesktop && view === 'kanban' ? (
+        loading ? (
+          <div className="py-12 text-center text-sm text-humo/30">Cargando proyectos...</div>
+        ) : (
+          <KanbanBoard
+            projects={search ? searched : projects}
+            onStatusChange={(id, status) => updateStatus(id, status)}
+            onDelete={deleteProject}
+          />
+        )
+      ) : (
       <div className="rounded-xl border border-white/5 bg-pizarra/10 overflow-hidden">
         {loading ? (
           <div className="py-12 text-center text-sm text-humo/30">Cargando proyectos...</div>
@@ -139,7 +197,8 @@ export default function Proyectos() {
           </div>
         ) : (
           <>
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[720px]">
               <thead>
                 <tr className="border-b border-white/5">
                   {['Fecha', 'Entrega', 'Cliente', 'Servicio', 'Estado', 'Precio', ''].map(h => (
@@ -225,6 +284,7 @@ export default function Proyectos() {
                 })}
               </tbody>
             </table>
+            </div>
 
             {/* Pagination */}
             {totalPages > 1 && (
@@ -253,6 +313,7 @@ export default function Proyectos() {
           </>
         )}
       </div>
+      )}
     </div>
   )
 }

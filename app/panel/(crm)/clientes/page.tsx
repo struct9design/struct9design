@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Plus, Trash2, X, Download, Search } from 'lucide-react'
+import { Plus, Trash2, X, Download, Search, Pencil } from 'lucide-react'
 import type { Client } from '@/lib/types'
 
 const ITEMS_PER_PAGE = 25
@@ -88,16 +88,17 @@ export default function Clientes() {
   const paginated  = searched.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE)
 
   return (
-    <div className="p-8">
-      <div className="flex items-center justify-between mb-6">
-        <h1 className="text-2xl font-bold text-humo">Clientes</h1>
+    <div className="p-4 md:p-8">
+      <div className="flex items-center justify-between mb-6 gap-3">
+        <h1 className="text-xl md:text-2xl font-bold text-humo">Clientes</h1>
         <div className="flex items-center gap-2">
           <button
             onClick={() => downloadCSV(searched as unknown as Record<string, unknown>[], 'clientes.csv')}
-            className="flex items-center gap-1.5 rounded-lg border border-white/10 px-3 py-2 text-xs text-humo/50 hover:text-humo transition-colors"
+            className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-humo/50 hover:text-humo transition-colors"
             title="Exportar CSV"
+            aria-label="Exportar CSV"
           >
-            <Download className="h-3.5 w-3.5" /> CSV
+            <Download className="h-4 w-4" />
           </button>
           <button
             onClick={() => setShowForm(!showForm)}
@@ -190,7 +191,8 @@ export default function Clientes() {
           </div>
         ) : (
           <>
-            <table className="w-full text-sm">
+            <div className="overflow-x-auto">
+            <table className="w-full text-sm min-w-[640px]">
               <thead>
                 <tr className="border-b border-white/5">
                   {['Nombre', 'Empresa', 'Email', 'Teléfono', 'Desde', ''].map(h => (
@@ -216,15 +218,27 @@ export default function Clientes() {
                       {new Date(c.created_at).toLocaleDateString('es-ES')}
                     </td>
                     <td className="px-5 py-3">
-                      <button onClick={() => deleteClient(c.id)}
-                        className="text-humo/20 hover:text-red-400 transition-colors">
-                        <Trash2 className="h-3.5 w-3.5" />
-                      </button>
+                      <div className="flex items-center gap-2.5">
+                        <Link
+                          href={`/panel/clientes/${c.id}`}
+                          className="text-humo/25 hover:text-humo transition-colors"
+                          title="Editar"
+                        >
+                          <Pencil className="h-3.5 w-3.5" />
+                        </Link>
+                        <button onClick={() => deleteClient(c.id)}
+                          className="text-humo/20 hover:text-red-400 transition-colors"
+                          title="Eliminar"
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+            </div>
 
             {/* Pagination */}
             {totalPages > 1 && (

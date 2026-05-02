@@ -338,7 +338,7 @@ export default function EditarProyecto() {
         <div className="mb-10">
           <button
             onClick={() => {
-              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '' })
+              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '', horas: '', tarifa: '100' })
               setCobrarOk(false)
               setCobrarError('')
               setShowCobrarModal(true)

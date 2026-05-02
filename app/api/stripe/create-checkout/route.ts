@@ -5,7 +5,8 @@ import { supabaseAdmin } from '@/lib/supabase'
 
 const GOLD  = '#C9A227'
 const DARK  = '#141414'
-const GRAY  = '#888888'
+const GRAY  = '#444444'
+const MID   = '#666666'
 
 const SERVICE_INCLUDES: Record<string, string[]> = {
   'Diagnóstico SEO': [
@@ -88,121 +89,145 @@ async function generatePresupuestoPDF(opts: {
     doc.on('end',  () => resolve(Buffer.concat(chunks)))
     doc.on('error', reject)
 
-    const W = 595 - 120 // page width minus margins
+    const L = 60          // left margin
+    const R = 535         // right margin (595 - 60)
+    const W = R - L       // content width = 475
+    // Amount column: right edge at R-14 = 521 (14 px breathing room, € never clips)
+    const AMT_W = W - 14
+    // Concept column: width to avoid overlap with amount column
+    const CONCEPT_W = W - 160
 
     // ── Header ──────────────────────────────────────────────────────────────
-    doc.font('Helvetica-Bold').fontSize(22).fillColor(DARK)
-       .text('STRUCT9 DESIGN', 60, 60, { align: 'center', width: W })
+    doc.rect(L, 40, W, 68).fillColor(DARK).fill()
+    doc.font('Helvetica-Bold').fontSize(20).fillColor('#FFFFFF')
+       .text('STRUCT9 DESIGN', L, 54, { align: 'center', width: W })
+    doc.font('Helvetica').fontSize(8).fillColor(GOLD)
+       .text('AGENCIA WEB · SEVILLA', L, 78, { align: 'center', width: W })
+    doc.font('Helvetica').fontSize(7.5).fillColor('#AAAAAA')
+       .text('hola@struct9design.com  ·  struct9design.com', L, 91, { align: 'center', width: W })
 
+    // Gold bar
+    doc.rect(L, 108, W, 3).fillColor(GOLD).fill()
+
+    // ── Document title + meta ────────────────────────────────────────────────
+    doc.font('Helvetica-Bold').fontSize(15).fillColor(DARK)
+       .text('PRESUPUESTO', L, 124)
     doc.font('Helvetica').fontSize(9).fillColor(GRAY)
-       .text('hola@struct9design.com  ·  Sevilla  ·  struct9design.com',
-             60, 88, { align: 'center', width: W })
-
-    // Gold separator
-    doc.moveTo(60, 108).lineTo(535, 108).lineWidth(1.5).strokeColor(GOLD).stroke()
-
-    // ── Document title ───────────────────────────────────────────────────────
-    doc.font('Helvetica-Bold').fontSize(14).fillColor(DARK)
-       .text('PRESUPUESTO', 60, 126, { align: 'left' })
-
-    doc.font('Helvetica').fontSize(9).fillColor(GRAY)
-       .text(`Fecha: ${opts.date}`, 60, 145)
-       .text('Este documento no es una factura fiscal.', 60, 157)
+       .text(`Fecha: ${opts.date}`, L, 147)
+    doc.font('Helvetica').fontSize(8).fillColor(MID)
+       .text('Este documento no constituye una factura fiscal.', L, 159)
 
     // ── Client box ──────────────────────────────────────────────────────────
-    doc.roundedRect(60, 178, W, 52, 4).fillColor('#F7F7F7').fill()
-    doc.font('Helvetica-Bold').fontSize(8).fillColor(GRAY)
-       .text('CLIENTE', 76, 190)
-    doc.font('Helvetica-Bold').fontSize(10).fillColor(DARK)
-       .text(opts.clientName, 76, 202)
+    doc.roundedRect(L, 178, W, 58, 4).fillColor('#F4F4F4').fill()
+    doc.moveTo(L, 178).lineTo(L + 3, 178).lineTo(L + 3, 236).lineTo(L, 236)
+    doc.rect(L, 178, 3, 58).fillColor(GOLD).fill()
+    doc.font('Helvetica-Bold').fontSize(7.5).fillColor(MID)
+       .text('DESTINATARIO', L + 14, 190)
+    doc.font('Helvetica-Bold').fontSize(11).fillColor(DARK)
+       .text(opts.clientName, L + 14, 203)
     doc.font('Helvetica').fontSize(9).fillColor(GRAY)
-       .text(opts.clientEmail, 76, 215)
+       .text(opts.clientEmail, L + 14, 218)
 
-    // ── Services table ───────────────────────────────────────────────────────
-    const tableY = 252
+    // ── Table ────────────────────────────────────────────────────────────────
+    const tableY = 258
+    const includes = SERVICE_INCLUDES[opts.service] ?? []
+    const baseRowH = Math.max(44, 40 + includes.length * 12)
+    const extras   = (opts.extras ?? []).filter(e => e.descripcion && e.importe)
+    const extraRowH = 34
+
+    // Pre-calculate total table height so we can draw outer border
+    const totalTableH = 28 + baseRowH + extras.length * extraRowH + 40
+
+    // Outer table border
+    doc.rect(L, tableY, W, totalTableH).lineWidth(0.5).strokeColor('#D0D0D0').stroke()
 
     // Header row
-    doc.rect(60, tableY, W, 24).fillColor(DARK).fill()
-    doc.font('Helvetica-Bold').fontSize(9).fillColor('#FFFFFF')
-       .text('CONCEPTO', 76, tableY + 7)
-       .text('IMPORTE', 60, tableY + 7, { align: 'right', width: W })
+    doc.rect(L, tableY, W, 28).fillColor(DARK).fill()
+    doc.font('Helvetica-Bold').fontSize(8.5).fillColor('#FFFFFF')
+       .text('CONCEPTO', L + 14, tableY + 9)
+       .text('IMPORTE', L, tableY + 9, { align: 'right', width: AMT_W })
 
-    // Content row — base service
-    const includes = SERVICE_INCLUDES[opts.service] ?? []
-    const rowH = Math.max(40, 35 + includes.length * 11)
-    doc.rect(60, tableY + 24, W, rowH).fillColor('#FAFAFA').fill()
-    doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
-       .text(opts.service, 76, tableY + 33, { width: W - 120 })
-    const baseAmount = opts.extras && opts.extras.length > 0
-      ? opts.amount - opts.extras.reduce((s, e) => s + (parseFloat(e.importe) || 0), 0)
+    // Base service row
+    const rowY = tableY + 28
+    const baseAmount = extras.length > 0
+      ? opts.amount - extras.reduce((s, e) => s + (parseFloat(e.importe) || 0), 0)
       : opts.amount
-    doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
-       .text(`${baseAmount.toFixed(2)} €`, 60, tableY + 33, { align: 'right', width: W })
+    doc.rect(L, rowY, W, baseRowH).fillColor('#FAFAFA').fill()
+    doc.font('Helvetica-Bold').fontSize(9.5).fillColor(DARK)
+       .text(opts.service, L + 14, rowY + 12, { width: CONCEPT_W })
+    doc.font('Helvetica-Bold').fontSize(9.5).fillColor(DARK)
+       .text(`${baseAmount.toFixed(2)} €`, L, rowY + 12, { align: 'right', width: AMT_W })
+
     if (includes.length > 0) {
-      let bY = tableY + 47
+      let bY = rowY + 28
       for (const item of includes) {
-        doc.font('Helvetica').fontSize(8).fillColor(GRAY)
-           .text(`· ${item}`, 84, bY, { width: W - 130 })
-        bY += 11
+        doc.font('Helvetica').fontSize(8).fillColor(MID)
+           .text(`• ${item}`, L + 22, bY, { width: CONCEPT_W - 12 })
+        bY += 12
       }
     }
 
     // Extra rows
     let extraOffset = 0
-    if (opts.extras && opts.extras.length > 0) {
-      for (const extra of opts.extras) {
-        const extraY = tableY + 24 + rowH + extraOffset
-        doc.rect(60, extraY, W, 28).fillColor('#F5F5F5').fill()
-        doc.font('Helvetica').fontSize(9).fillColor(DARK)
-           .text(extra.descripcion, 76, extraY + 9, { width: W - 120 })
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
-           .text(`${parseFloat(extra.importe).toFixed(2)} €`, 60, extraY + 9, { align: 'right', width: W })
-        extraOffset += 28
-      }
+    for (const extra of extras) {
+      const eY = rowY + baseRowH + extraOffset
+      doc.rect(L, eY, W, extraRowH).fillColor('#F6F6F6').fill()
+      // thin divider above each extra row
+      doc.moveTo(L, eY).lineTo(R, eY).lineWidth(0.5).strokeColor('#E0E0E0').stroke()
+      doc.font('Helvetica').fontSize(9).fillColor(DARK)
+         .text(extra.descripcion, L + 14, eY + 12, { width: CONCEPT_W })
+      doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
+         .text(`${parseFloat(extra.importe).toFixed(2)} €`, L, eY + 12, { align: 'right', width: AMT_W })
+      extraOffset += extraRowH
     }
 
-    // ── Total box ────────────────────────────────────────────────────────────
-    const totalY = tableY + 42 + rowH + extraOffset
-    doc.rect(60, totalY, W, 36).fillColor(GOLD).fill()
-    doc.font('Helvetica-Bold').fontSize(11).fillColor('#080808')
-       .text('TOTAL', 76, totalY + 11)
-       .text(`${opts.amount.toFixed(2)} €`, 60, totalY + 11, { align: 'right', width: W })
+    // Total row (gold)
+    const totalRowY = rowY + baseRowH + extraOffset
+    doc.moveTo(L, totalRowY).lineTo(R, totalRowY).lineWidth(1).strokeColor(GOLD).stroke()
+    doc.rect(L, totalRowY, W, 40).fillColor(GOLD).fill()
+    doc.font('Helvetica-Bold').fontSize(11.5).fillColor('#080808')
+       .text('TOTAL', L + 14, totalRowY + 13)
+       .text(`${opts.amount.toFixed(2)} €`, L, totalRowY + 13, { align: 'right', width: AMT_W })
 
-    doc.font('Helvetica').fontSize(8).fillColor(GRAY)
+    // ── Below table ──────────────────────────────────────────────────────────
+    const belowY = tableY + totalTableH
+
+    doc.font('Helvetica').fontSize(8).fillColor(MID)
        .text('* Precio acordado. No incluye IVA.',
-             60, totalY + 48, { align: 'center', width: W })
+             L, belowY + 10, { align: 'center', width: W })
 
-    // ── Deadline alert ───────────────────────────────────────────────────────
-    doc.rect(60, totalY + 62, W, 24).fillColor('#FFFBEB').fill()
-    doc.rect(60, totalY + 62, 3, 24).fillColor(GOLD).fill()
+    // Validity strip
+    const alertY = belowY + 28
+    doc.rect(L, alertY, W, 28).fillColor('#FFFBEB').fill()
+    doc.rect(L, alertY, 3, 28).fillColor(GOLD).fill()
     doc.font('Helvetica-Bold').fontSize(8.5).fillColor('#78350F')
        .text('VALIDEZ 24 H — Este presupuesto caduca 24 horas después de su emisión.',
-             72, totalY + 70, { width: W - 16 })
+             L + 12, alertY + 9, { width: W - 20 })
 
-    // ── Payment note ─────────────────────────────────────────────────────────
-    doc.roundedRect(60, totalY + 98, W, 44, 4).fillColor('#FFF8E7').fill()
-    doc.font('Helvetica-Bold').fontSize(8.5).fillColor(DARK)
-       .text('¿Cómo pagar?', 76, totalY + 107)
-    doc.font('Helvetica').fontSize(8.5).fillColor(DARK)
-       .text('Recibirás un enlace de pago seguro junto a este documento. El pago se procesa en segundos mediante tarjeta.',
-             76, totalY + 120, { width: W - 32 })
+    // Payment note
+    const payY = alertY + 44
+    doc.roundedRect(L, payY, W, 50, 4).fillColor('#FFF8E7').fill()
+    doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
+       .text('¿Cómo pagar?', L + 14, payY + 12)
+    doc.font('Helvetica').fontSize(8.5).fillColor(GRAY)
+       .text('Recibirás un enlace de pago seguro junto a este documento. El pago se procesa en segundos mediante tarjeta de crédito o débito.',
+             L + 14, payY + 26, { width: W - 28 })
 
-    // ── Notas adicionales (opcional) ─────────────────────────────────────────
+    // Additional notes
     if (opts.additionalInfo) {
-      // Use doc.y (actual text cursor) so we never try to render above current position
-      const notesY = doc.y + 16
-      doc.moveTo(60, notesY).lineTo(535, notesY).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
+      const notesY = doc.y + 20
+      doc.moveTo(L, notesY).lineTo(R, notesY).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
       doc.font('Helvetica-Bold').fontSize(8).fillColor(GRAY)
-         .text('NOTAS ADICIONALES', 60, notesY + 10, { width: W })
+         .text('NOTAS ADICIONALES', L, notesY + 12, { width: W })
       doc.font('Helvetica').fontSize(9).fillColor(DARK)
-         .text(opts.additionalInfo, 60, notesY + 22, { width: W })
+         .text(opts.additionalInfo, L, notesY + 26, { width: W })
     }
 
     // ── Footer ───────────────────────────────────────────────────────────────
-    doc.moveTo(60, 750).lineTo(535, 750).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
-    doc.font('Helvetica').fontSize(8).fillColor(GRAY)
+    doc.moveTo(L, 750).lineTo(R, 750).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
+    doc.font('Helvetica').fontSize(8).fillColor(MID)
        .text('Struct9 Design  ·  hola@struct9design.com  ·  struct9design.com',
-             60, 758, { align: 'center', width: W })
+             L, 758, { align: 'center', width: W })
 
     doc.end()
   })

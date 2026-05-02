@@ -7,6 +7,65 @@ const GOLD  = '#C9A227'
 const DARK  = '#141414'
 const GRAY  = '#888888'
 
+const SERVICE_INCLUDES: Record<string, string[]> = {
+  'Diagnóstico SEO': [
+    'Auditoría técnica completa (Core Web Vitals, rastreo, indexación)',
+    'Análisis de keywords y oportunidades de posicionamiento',
+    'Auditoría de contenido y estructura',
+    'Revisión de backlinks y autoridad de dominio',
+    'Plan de acción priorizado por impacto',
+  ],
+  'Diagnóstico Meta Ads': [
+    'Análisis completo de campañas activas e histórico',
+    'Diagnóstico de audiencias (solapamientos, saturación)',
+    'Evaluación de creatividades y copies',
+    'Revisión de estructura de cuenta y objetivos',
+    'Hoja de ruta de optimización con prioridades',
+  ],
+  'Diagnóstico 360° Negocio': [
+    'Auditoría de web y SEO (técnico + contenido)',
+    'Análisis de redes sociales y posicionamiento de marca',
+    'Revisión de oferta, precios y propuesta de valor',
+    'Benchmarking competitivo (hasta 5 competidores)',
+    'Roadmap estratégico priorizado por impacto y coste',
+  ],
+  'Web Express': [
+    'Diseño personalizado con tu identidad de marca',
+    'Responsive y optimizada para móvil, tablet y escritorio',
+    'Velocidad de carga < 2s (optimizada para Core Web Vitals)',
+    'Formulario de contacto o CTA configurado',
+    'Código HTML/CSS limpio entregado y listo para publicar',
+  ],
+  'Web desde Instagram': [
+    'Extracción y adaptación de contenido de Instagram',
+    'Diseño basado en tu estética y paleta de marca',
+    'Secciones de bio, servicios, galería y contacto',
+    'Optimización básica para buscadores (SEO on-page)',
+    'Lista para publicar con dominio personalizado',
+  ],
+  'Dashboard Financiero': [
+    'Procesamiento y categorización automática de facturas PDF',
+    'Dashboard interactivo con filtros por período y categoría',
+    'Gráficos de ingresos, gastos y márgenes por mes',
+    'Ranking de clientes y proveedores por volumen',
+    'Exportación de datos a Excel/CSV',
+  ],
+  'Automatización n8n': [
+    'Análisis y mapeo de procesos a automatizar',
+    'Diseño del flujo en n8n (visual y documentado)',
+    'Implementación, pruebas y puesta en producción',
+    'Integración con tus herramientas actuales',
+    'Documentación completa y formación de uso',
+  ],
+  'Extensión Chrome': [
+    'Definición y diseño de funcionalidad a medida',
+    'Desarrollo de la extensión (JavaScript / Manifest V3)',
+    'Instalación, pruebas y validación en tu entorno',
+    'Compatible con Chrome, Edge y Brave',
+    'Código fuente completo entregado',
+  ],
+}
+
 function escapeHtml(str: string) {
   return str
     .replace(/&/g, '&amp;').replace(/</g, '&lt;')
@@ -34,7 +93,7 @@ async function generatePresupuestoPDF(opts: {
        .text('STRUCT9 DESIGN', 60, 60, { align: 'center', width: W })
 
     doc.font('Helvetica').fontSize(9).fillColor(GRAY)
-       .text('hola@struct9design.com  ·  Sanlúcar la Mayor, Sevilla  ·  struct9design.com',
+       .text('hola@struct9design.com  ·  Sevilla  ·  struct9design.com',
              60, 88, { align: 'center', width: W })
 
     // Gold separator
@@ -66,22 +125,32 @@ async function generatePresupuestoPDF(opts: {
        .text('CONCEPTO', 76, tableY + 7)
        .text('IMPORTE', 60, tableY + 7, { align: 'right', width: W })
 
-    // Content row
-    doc.rect(60, tableY + 24, W, 40).fillColor('#FAFAFA').fill()
-    doc.font('Helvetica').fontSize(9).fillColor(DARK)
+    // Content row (height grows with includes bullets)
+    const includes = SERVICE_INCLUDES[opts.service] ?? []
+    const rowH = Math.max(40, 35 + includes.length * 11)
+    doc.rect(60, tableY + 24, W, rowH).fillColor('#FAFAFA').fill()
+    doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
        .text(opts.service, 76, tableY + 33, { width: W - 120 })
     doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
        .text(`${opts.amount.toFixed(2)} €`, 60, tableY + 33, { align: 'right', width: W })
+    if (includes.length > 0) {
+      let bY = tableY + 47
+      for (const item of includes) {
+        doc.font('Helvetica').fontSize(8).fillColor(GRAY)
+           .text(`· ${item}`, 84, bY, { width: W - 130 })
+        bY += 11
+      }
+    }
 
     // ── Total box ────────────────────────────────────────────────────────────
-    const totalY = tableY + 82
+    const totalY = tableY + 42 + rowH
     doc.rect(60, totalY, W, 36).fillColor(GOLD).fill()
     doc.font('Helvetica-Bold').fontSize(11).fillColor('#080808')
        .text('TOTAL', 76, totalY + 11)
        .text(`${opts.amount.toFixed(2)} €`, 60, totalY + 11, { align: 'right', width: W })
 
     doc.font('Helvetica').fontSize(8).fillColor(GRAY)
-       .text('* Precio acordado. No incluye IVA — pendiente de constitución de entidad fiscal.',
+       .text('* Precio acordado. No incluye IVA.',
              60, totalY + 48, { align: 'center', width: W })
 
     // ── Payment note ─────────────────────────────────────────────────────────
@@ -239,7 +308,7 @@ export async function POST(request: Request) {
         <!-- Footer -->
         <tr><td style="background:#F9F9F9;padding:20px 40px;text-align:center;border-top:1px solid #EEEEEE">
           <p style="margin:0;font-size:11px;color:#AAA">
-            Struct9 Design · Sanlúcar la Mayor, Sevilla<br>
+            Struct9 Design · Sevilla<br>
             <a href="https://struct9design.com" style="color:#AAA">struct9design.com</a>
           </p>
         </td></tr>

@@ -63,8 +63,9 @@ export default function EditarProyecto() {
         deadline_at:     p.deadline_at     ? new Date(p.deadline_at).toISOString().split('T')[0] : '',
       })
       setCobrarForm({
-        concepto: p.service ?? '',
-        importe:  p.price != null ? String(p.price) : '',
+        concepto:        p.service ?? '',
+        importe:         p.price != null ? String(p.price) : '',
+        additional_info: '',
       })
       setLoading(false)
     })

@@ -164,7 +164,8 @@ async function generatePresupuestoPDF(opts: {
 
     // ── Notas adicionales (opcional) ─────────────────────────────────────────
     if (opts.additionalInfo) {
-      const notesY = totalY + 122
+      // Use doc.y (actual text cursor) so we never try to render above current position
+      const notesY = doc.y + 16
       doc.moveTo(60, notesY).lineTo(535, notesY).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
       doc.font('Helvetica-Bold').fontSize(8).fillColor(GRAY)
          .text('NOTAS ADICIONALES', 60, notesY + 10, { width: W })

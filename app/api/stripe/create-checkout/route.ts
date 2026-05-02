@@ -154,13 +154,20 @@ async function generatePresupuestoPDF(opts: {
        .text('* Precio acordado. No incluye IVA.',
              60, totalY + 48, { align: 'center', width: W })
 
+    // ── Deadline alert ───────────────────────────────────────────────────────
+    doc.rect(60, totalY + 62, W, 24).fillColor('#FFFBEB').fill()
+    doc.rect(60, totalY + 62, 3, 24).fillColor(GOLD).fill()
+    doc.font('Helvetica-Bold').fontSize(8.5).fillColor('#78350F')
+       .text('VALIDEZ 24 H — Este presupuesto caduca 24 horas después de su emisión.',
+             72, totalY + 70, { width: W - 16 })
+
     // ── Payment note ─────────────────────────────────────────────────────────
-    doc.roundedRect(60, totalY + 68, W, 44, 4).fillColor('#FFF8E7').fill()
+    doc.roundedRect(60, totalY + 98, W, 44, 4).fillColor('#FFF8E7').fill()
     doc.font('Helvetica-Bold').fontSize(8.5).fillColor(DARK)
-       .text('¿Cómo pagar?', 76, totalY + 77)
+       .text('¿Cómo pagar?', 76, totalY + 107)
     doc.font('Helvetica').fontSize(8.5).fillColor(DARK)
        .text('Recibirás un enlace de pago seguro junto a este documento. El pago se procesa en segundos mediante tarjeta.',
-             76, totalY + 90, { width: W - 32 })
+             76, totalY + 120, { width: W - 32 })
 
     // ── Notas adicionales (opcional) ─────────────────────────────────────────
     if (opts.additionalInfo) {

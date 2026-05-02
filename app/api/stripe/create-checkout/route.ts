@@ -139,8 +139,8 @@ export async function POST(request: Request) {
       }],
       metadata: { project_id },
       customer_email: client_email,
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://struct9design.com'}/?pago=ok`,
-      cancel_url:  `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://struct9design.com'}/?pago=cancelado`,
+      success_url: 'https://struct9design.com/?pago=ok',
+      cancel_url:  'https://struct9design.com/?pago=cancelado',
     })
     } catch (stripeErr) {
       console.error('[STRIPE] Error creando sesión:', stripeErr)

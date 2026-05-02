@@ -38,15 +38,19 @@ export default function EditarProyecto() {
   const [showCobrarModal, setShowCobrarModal] = useState(false)
   const [cobrarForm, setCobrarForm] = useState({
     concepto: '', importe: '', additional_info: '',
-    extras: [] as { descripcion: string; importe: string }[],
+    extras: [] as { descripcion: string; horas: string; tarifa: string }[],
   })
   const [enviando, setEnviando] = useState(false)
   const [cobrarError, setCobrarError] = useState('')
   const [cobrarOk, setCobrarOk] = useState(false)
 
-  function totalCobrar(base: string, extras: { descripcion: string; importe: string }[]) {
+  function extraSubtotal(e: { horas: string; tarifa: string }) {
+    return (parseFloat(e.horas) || 0) * (parseFloat(e.tarifa) || 0)
+  }
+
+  function totalCobrar(base: string, extras: { horas: string; tarifa: string }[]) {
     const b = parseFloat(base) || 0
-    const e = extras.reduce((sum, x) => sum + (parseFloat(x.importe) || 0), 0)
+    const e = extras.reduce((sum, x) => sum + extraSubtotal(x), 0)
     return b + e
   }
 
@@ -75,7 +79,7 @@ export default function EditarProyecto() {
         concepto:        p.service ?? '',
         importe:         p.price != null ? String(p.price) : '',
         additional_info: '',
-        extras:          [],
+        extras:          [] as { descripcion: string; horas: string; tarifa: string }[],
       })
       setLoading(false)
     })
@@ -139,7 +143,12 @@ export default function EditarProyecto() {
           client_name:     form.client_name,
           client_email:    form.client_email,
           additional_info: cobrarForm.additional_info || undefined,
-          extras:          cobrarForm.extras.filter(e => e.descripcion && e.importe),
+          extras:          cobrarForm.extras
+            .filter(e => e.descripcion && parseFloat(e.horas) > 0)
+            .map(e => ({
+              descripcion: `${e.descripcion} (${e.horas}h × ${e.tarifa}€/h)`,
+              importe:     String(extraSubtotal(e)),
+            })),
         }),
       })
       const data = await res.json()
@@ -341,7 +350,7 @@ export default function EditarProyecto() {
         <div className="mb-10">
           <button
             onClick={() => {
-              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '', extras: [] })
+              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '', extras: [] as { descripcion: string; horas: string; tarifa: string }[] })
               setCobrarOk(false)
               setCobrarError('')
               setShowCobrarModal(true)
@@ -447,44 +456,72 @@ export default function EditarProyecto() {
                 {/* Extras */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <label className="text-xs font-medium text-humo/60">Servicios / horas extra <span className="text-humo/30">(opcional)</span></label>
+                    <label className="text-xs font-medium text-humo/60">Horas / servicios extra <span className="text-humo/30">(opcional)</span></label>
                     <button
                       type="button"
-                      onClick={() => setCobrarForm(f => ({ ...f, extras: [...f.extras, { descripcion: '', importe: '' }] }))}
+                      onClick={() => setCobrarForm(f => ({ ...f, extras: [...f.extras, { descripcion: '', horas: '', tarifa: '100' }] }))}
                       className="text-xs text-oro hover:text-oro/70 transition-colors"
                     >
                       + Añadir extra
                     </button>
                   </div>
                   {cobrarForm.extras.map((extra, i) => (
-                    <div key={i} className="flex gap-2 mb-2">
-                      <input
-                        type="text" placeholder="Descripción del extra"
-                        value={extra.descripcion}
-                        onChange={e => setCobrarForm(f => {
-                          const extras = [...f.extras]
-                          extras[i] = { ...extras[i], descripcion: e.target.value }
-                          return { ...f, extras }
-                        })}
-                        className={`${inputClass} flex-1`}
-                      />
-                      <input
-                        type="number" placeholder="€" step="0.01" min="0"
-                        value={extra.importe}
-                        onChange={e => setCobrarForm(f => {
-                          const extras = [...f.extras]
-                          extras[i] = { ...extras[i], importe: e.target.value }
-                          return { ...f, extras }
-                        })}
-                        className={`${inputClass} w-28`}
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setCobrarForm(f => ({ ...f, extras: f.extras.filter((_, j) => j !== i) }))}
-                        className="text-humo/30 hover:text-red-400 transition-colors px-1"
-                      >
-                        ✕
-                      </button>
+                    <div key={i} className="mb-3 rounded-lg border border-white/10 bg-pizarra/10 p-3 space-y-2">
+                      <div className="flex gap-2">
+                        <input
+                          type="text"
+                          placeholder="¿Qué se hizo? (ej: horas de revisión, integración extra...)"
+                          value={extra.descripcion}
+                          onChange={e => setCobrarForm(f => {
+                            const extras = [...f.extras]
+                            extras[i] = { ...extras[i], descripcion: e.target.value }
+                            return { ...f, extras }
+                          })}
+                          className={`${inputClass} flex-1`}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setCobrarForm(f => ({ ...f, extras: f.extras.filter((_, j) => j !== i) }))}
+                          className="text-humo/30 hover:text-red-400 transition-colors px-1 shrink-0"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex-1">
+                          <label className="block text-[10px] text-humo/40 mb-1">Horas</label>
+                          <input
+                            type="number" placeholder="0" min="0" step="0.5"
+                            value={extra.horas}
+                            onChange={e => setCobrarForm(f => {
+                              const extras = [...f.extras]
+                              extras[i] = { ...extras[i], horas: e.target.value }
+                              return { ...f, extras }
+                            })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <span className="text-humo/30 text-sm mt-4">×</span>
+                        <div className="flex-1">
+                          <label className="block text-[10px] text-humo/40 mb-1">€ / hora</label>
+                          <input
+                            type="number" placeholder="100" min="0" step="1"
+                            value={extra.tarifa}
+                            onChange={e => setCobrarForm(f => {
+                              const extras = [...f.extras]
+                              extras[i] = { ...extras[i], tarifa: e.target.value }
+                              return { ...f, extras }
+                            })}
+                            className={inputClass}
+                          />
+                        </div>
+                        <span className="text-humo/30 text-sm mt-4">=</span>
+                        <div className="w-24 mt-4 text-right">
+                          <span className="text-sm font-bold text-oro">
+                            {extraSubtotal(extra).toFixed(2)} €
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   ))}
                 </div>

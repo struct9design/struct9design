@@ -36,10 +36,17 @@ export default function EditarProyecto() {
 
   // Modal de cobro
   const [showCobrarModal, setShowCobrarModal] = useState(false)
-  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '', additional_info: '' })
+  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '', additional_info: '', horas: '', tarifa: '100' })
   const [enviando, setEnviando] = useState(false)
   const [cobrarError, setCobrarError] = useState('')
   const [cobrarOk, setCobrarOk] = useState(false)
+
+  function calcularImporte(horas: string, tarifa: string) {
+    const h = parseFloat(horas)
+    const t = parseFloat(tarifa)
+    if (!isNaN(h) && !isNaN(t) && h > 0 && t > 0) return (h * t).toFixed(2)
+    return ''
+  }
 
   useEffect(() => {
     Promise.all([
@@ -422,8 +429,49 @@ export default function EditarProyecto() {
                   />
                 </div>
 
+                {/* Calculadora interna — no aparece en el PDF del cliente */}
+                <div className="rounded-lg border border-oro/20 bg-oro/5 p-4 space-y-3">
+                  <p className="text-xs font-semibold text-oro/80 uppercase tracking-wide">Calculadora interna</p>
+                  <div className="grid grid-cols-2 gap-3">
+                    <div>
+                      <label className="block text-xs font-medium text-humo/60 mb-1.5">Horas de revisión</label>
+                      <input
+                        type="number" placeholder="0" step="0.5" min="0"
+                        value={cobrarForm.horas}
+                        onChange={e => {
+                          const horas = e.target.value
+                          const importe = calcularImporte(horas, cobrarForm.tarifa)
+                          setCobrarForm(f => ({ ...f, horas, ...(importe ? { importe } : {}) }))
+                        }}
+                        className={inputClass}
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-xs font-medium text-humo/60 mb-1.5">Tarifa €/h</label>
+                      <input
+                        type="number" placeholder="100" step="5" min="70"
+                        value={cobrarForm.tarifa}
+                        onChange={e => {
+                          const tarifa = e.target.value
+                          const importe = calcularImporte(cobrarForm.horas, tarifa)
+                          setCobrarForm(f => ({ ...f, tarifa, ...(importe ? { importe } : {}) }))
+                        }}
+                        className={inputClass}
+                      />
+                    </div>
+                  </div>
+                  {cobrarForm.horas && cobrarForm.tarifa && (
+                    <p className="text-xs text-humo/40">
+                      Margen efectivo: <span className={parseFloat(cobrarForm.tarifa) >= 70 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
+                        {cobrarForm.tarifa} €/h
+                      </span>
+                      {parseFloat(cobrarForm.tarifa) < 70 && <span className="text-red-400 ml-1">— por debajo del mínimo (70 €/h)</span>}
+                    </p>
+                  )}
+                </div>
+
                 <div>
-                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Importe (€)</label>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Importe final (€) — aparece en el PDF</label>
                   <input
                     type="number" required placeholder="0.00" step="0.01" min="1"
                     value={cobrarForm.importe}
@@ -432,8 +480,8 @@ export default function EditarProyecto() {
                   />
                   {cobrarForm.importe && !isNaN(parseFloat(cobrarForm.importe)) && (
                     <p className="text-xs text-humo/40 mt-1.5">
-                      Total: <span className="text-humo font-semibold">{parseFloat(cobrarForm.importe).toFixed(2)} €</span>
-                      <span className="ml-1">(sin IVA — Fase 1)</span>
+                      Total cliente: <span className="text-humo font-semibold">{parseFloat(cobrarForm.importe).toFixed(2)} €</span>
+                      <span className="ml-1">(sin IVA)</span>
                     </p>
                   )}
                 </div>

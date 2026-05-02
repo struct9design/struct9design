@@ -36,7 +36,7 @@ export default function EditarProyecto() {
 
   // Modal de cobro
   const [showCobrarModal, setShowCobrarModal] = useState(false)
-  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '' })
+  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '', additional_info: '' })
   const [enviando, setEnviando] = useState(false)
   const [cobrarError, setCobrarError] = useState('')
   const [cobrarOk, setCobrarOk] = useState(false)
@@ -121,11 +121,12 @@ export default function EditarProyecto() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          project_id:   project.id,
-          amount:       cobrarForm.importe,
-          service:      cobrarForm.concepto,
-          client_name:  form.client_name,
-          client_email: form.client_email,
+          project_id:      project.id,
+          amount:          cobrarForm.importe,
+          service:         cobrarForm.concepto,
+          client_name:     form.client_name,
+          client_email:    form.client_email,
+          additional_info: cobrarForm.additional_info || undefined,
         }),
       })
       const data = await res.json()
@@ -327,7 +328,7 @@ export default function EditarProyecto() {
         <div className="mb-10">
           <button
             onClick={() => {
-              setCobrarForm({ concepto: form.service, importe: form.price })
+              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '' })
               setCobrarOk(false)
               setCobrarError('')
               setShowCobrarModal(true)
@@ -434,6 +435,19 @@ export default function EditarProyecto() {
                       <span className="ml-1">(sin IVA — Fase 1)</span>
                     </p>
                   )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">
+                    Información adicional <span className="text-humo/30">(opcional)</span>
+                  </label>
+                  <textarea
+                    rows={3}
+                    placeholder="Plazo de entrega, condiciones, acuerdos especiales..."
+                    value={cobrarForm.additional_info}
+                    onChange={e => setCobrarForm(f => ({ ...f, additional_info: e.target.value }))}
+                    className={`${inputClass} resize-none`}
+                  />
                 </div>
 
                 {!form.client_email && (

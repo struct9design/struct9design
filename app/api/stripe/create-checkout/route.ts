@@ -78,6 +78,7 @@ async function generatePresupuestoPDF(opts: {
   service: string
   amount: number
   date: string
+  additionalInfo?: string
 }): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 60, info: { Title: 'Presupuesto Struct9 Design' } })
@@ -161,6 +162,16 @@ async function generatePresupuestoPDF(opts: {
        .text('Recibirás un enlace de pago seguro junto a este documento. El pago se procesa en segundos mediante tarjeta.',
              76, totalY + 90, { width: W - 32 })
 
+    // ── Notas adicionales (opcional) ─────────────────────────────────────────
+    if (opts.additionalInfo) {
+      const notesY = totalY + 122
+      doc.moveTo(60, notesY).lineTo(535, notesY).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
+      doc.font('Helvetica-Bold').fontSize(8).fillColor(GRAY)
+         .text('NOTAS ADICIONALES', 60, notesY + 10, { width: W })
+      doc.font('Helvetica').fontSize(9).fillColor(DARK)
+         .text(opts.additionalInfo, 60, notesY + 22, { width: W })
+    }
+
     // ── Footer ───────────────────────────────────────────────────────────────
     doc.moveTo(60, 750).lineTo(535, 750).lineWidth(0.5).strokeColor('#DDDDDD').stroke()
     doc.font('Helvetica').fontSize(8).fillColor(GRAY)
@@ -174,7 +185,7 @@ async function generatePresupuestoPDF(opts: {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { project_id, amount, service, client_name, client_email } = body
+    const { project_id, amount, service, client_name, client_email, additional_info } = body
 
     if (!project_id || !amount || !service || !client_email) {
       return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 })
@@ -231,11 +242,12 @@ export async function POST(request: Request) {
     let pdfBuffer: Buffer
     try {
       pdfBuffer = await generatePresupuestoPDF({
-      clientName: client_name,
-      clientEmail: client_email,
+      clientName:     client_name,
+      clientEmail:    client_email,
       service,
-      amount: amountNum,
-      date: today,
+      amount:         amountNum,
+      date:           today,
+      additionalInfo: additional_info || undefined,
     })
     } catch (pdfErr) {
       console.error('[STRIPE] Error generando PDF:', pdfErr)

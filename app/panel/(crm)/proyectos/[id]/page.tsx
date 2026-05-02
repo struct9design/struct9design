@@ -36,16 +36,18 @@ export default function EditarProyecto() {
 
   // Modal de cobro
   const [showCobrarModal, setShowCobrarModal] = useState(false)
-  const [cobrarForm, setCobrarForm] = useState({ concepto: '', importe: '', additional_info: '', horas: '', tarifa: '100' })
+  const [cobrarForm, setCobrarForm] = useState({
+    concepto: '', importe: '', additional_info: '',
+    extras: [] as { descripcion: string; importe: string }[],
+  })
   const [enviando, setEnviando] = useState(false)
   const [cobrarError, setCobrarError] = useState('')
   const [cobrarOk, setCobrarOk] = useState(false)
 
-  function calcularImporte(horas: string, tarifa: string) {
-    const h = parseFloat(horas)
-    const t = parseFloat(tarifa)
-    if (!isNaN(h) && !isNaN(t) && h > 0 && t > 0) return (h * t).toFixed(2)
-    return ''
+  function totalCobrar(base: string, extras: { descripcion: string; importe: string }[]) {
+    const b = parseFloat(base) || 0
+    const e = extras.reduce((sum, x) => sum + (parseFloat(x.importe) || 0), 0)
+    return b + e
   }
 
   useEffect(() => {
@@ -73,8 +75,7 @@ export default function EditarProyecto() {
         concepto:        p.service ?? '',
         importe:         p.price != null ? String(p.price) : '',
         additional_info: '',
-        horas:           '',
-        tarifa:          '100',
+        extras:          [],
       })
       setLoading(false)
     })
@@ -127,16 +128,18 @@ export default function EditarProyecto() {
     setCobrarError('')
     setEnviando(true)
     try {
+      const total = totalCobrar(cobrarForm.importe, cobrarForm.extras)
       const res = await fetch('/api/stripe/create-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           project_id:      project.id,
-          amount:          cobrarForm.importe,
+          amount:          total,
           service:         cobrarForm.concepto,
           client_name:     form.client_name,
           client_email:    form.client_email,
           additional_info: cobrarForm.additional_info || undefined,
+          extras:          cobrarForm.extras.filter(e => e.descripcion && e.importe),
         }),
       })
       const data = await res.json()
@@ -338,7 +341,7 @@ export default function EditarProyecto() {
         <div className="mb-10">
           <button
             onClick={() => {
-              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '', horas: '', tarifa: '100' })
+              setCobrarForm({ concepto: form.service, importe: form.price, additional_info: '', extras: [] })
               setCobrarOk(false)
               setCobrarError('')
               setShowCobrarModal(true)
@@ -421,8 +424,9 @@ export default function EditarProyecto() {
               </div>
             ) : (
               <form onSubmit={handleCobrar} className="px-6 py-5 space-y-4">
+                {/* Servicio base */}
                 <div>
-                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Concepto</label>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Servicio</label>
                   <input
                     type="text" required placeholder="Descripción del servicio"
                     value={cobrarForm.concepto}
@@ -430,70 +434,75 @@ export default function EditarProyecto() {
                     className={inputClass}
                   />
                 </div>
-
-                {/* Calculadora interna — no aparece en el PDF del cliente */}
-                <div className="rounded-lg border border-oro/20 bg-oro/5 p-4 space-y-3">
-                  <p className="text-xs font-semibold text-oro/80 uppercase tracking-wide">Calculadora interna</p>
-                  <div className="grid grid-cols-2 gap-3">
-                    <div>
-                      <label className="block text-xs font-medium text-humo/60 mb-1.5">Horas de revisión</label>
-                      <input
-                        type="number" placeholder="0" step="0.5" min="0"
-                        value={cobrarForm.horas}
-                        onChange={e => {
-                          const horas = e.target.value
-                          const importe = calcularImporte(horas, cobrarForm.tarifa)
-                          setCobrarForm(f => ({ ...f, horas, ...(importe ? { importe } : {}) }))
-                        }}
-                        className={inputClass}
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-medium text-humo/60 mb-1.5">Tarifa €/h</label>
-                      <input
-                        type="number" placeholder="100" step="5" min="70"
-                        value={cobrarForm.tarifa}
-                        onChange={e => {
-                          const tarifa = e.target.value
-                          const importe = calcularImporte(cobrarForm.horas, tarifa)
-                          setCobrarForm(f => ({ ...f, tarifa, ...(importe ? { importe } : {}) }))
-                        }}
-                        className={inputClass}
-                      />
-                    </div>
-                  </div>
-                  {cobrarForm.horas && cobrarForm.tarifa && (
-                    <p className="text-xs text-humo/40">
-                      Margen efectivo: <span className={parseFloat(cobrarForm.tarifa) >= 70 ? 'text-emerald-400 font-semibold' : 'text-red-400 font-semibold'}>
-                        {cobrarForm.tarifa} €/h
-                      </span>
-                      {parseFloat(cobrarForm.tarifa) < 70 && <span className="text-red-400 ml-1">— por debajo del mínimo (70 €/h)</span>}
-                    </p>
-                  )}
-                </div>
-
                 <div>
-                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Importe final (€) — aparece en el PDF</label>
+                  <label className="block text-xs font-medium text-humo/60 mb-1.5">Precio base (€)</label>
                   <input
-                    type="number" required placeholder="0.00" step="0.01" min="1"
+                    type="number" required placeholder="0.00" step="0.01" min="0"
                     value={cobrarForm.importe}
                     onChange={e => setCobrarForm(f => ({ ...f, importe: e.target.value }))}
                     className={inputClass}
                   />
-                  {cobrarForm.importe && !isNaN(parseFloat(cobrarForm.importe)) && (
-                    <p className="text-xs text-humo/40 mt-1.5">
-                      Total cliente: <span className="text-humo font-semibold">{parseFloat(cobrarForm.importe).toFixed(2)} €</span>
-                      <span className="ml-1">(sin IVA)</span>
-                    </p>
-                  )}
+                </div>
+
+                {/* Extras */}
+                <div>
+                  <div className="flex items-center justify-between mb-2">
+                    <label className="text-xs font-medium text-humo/60">Servicios / horas extra <span className="text-humo/30">(opcional)</span></label>
+                    <button
+                      type="button"
+                      onClick={() => setCobrarForm(f => ({ ...f, extras: [...f.extras, { descripcion: '', importe: '' }] }))}
+                      className="text-xs text-oro hover:text-oro/70 transition-colors"
+                    >
+                      + Añadir extra
+                    </button>
+                  </div>
+                  {cobrarForm.extras.map((extra, i) => (
+                    <div key={i} className="flex gap-2 mb-2">
+                      <input
+                        type="text" placeholder="Descripción del extra"
+                        value={extra.descripcion}
+                        onChange={e => setCobrarForm(f => {
+                          const extras = [...f.extras]
+                          extras[i] = { ...extras[i], descripcion: e.target.value }
+                          return { ...f, extras }
+                        })}
+                        className={`${inputClass} flex-1`}
+                      />
+                      <input
+                        type="number" placeholder="€" step="0.01" min="0"
+                        value={extra.importe}
+                        onChange={e => setCobrarForm(f => {
+                          const extras = [...f.extras]
+                          extras[i] = { ...extras[i], importe: e.target.value }
+                          return { ...f, extras }
+                        })}
+                        className={`${inputClass} w-28`}
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setCobrarForm(f => ({ ...f, extras: f.extras.filter((_, j) => j !== i) }))}
+                        className="text-humo/30 hover:text-red-400 transition-colors px-1"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Total automático */}
+                <div className="rounded-lg bg-oro/10 border border-oro/30 px-4 py-3 flex items-center justify-between">
+                  <span className="text-sm font-semibold text-humo">Total presupuesto</span>
+                  <span className="text-lg font-bold text-oro">
+                    {totalCobrar(cobrarForm.importe, cobrarForm.extras).toFixed(2)} €
+                  </span>
                 </div>
 
                 <div>
                   <label className="block text-xs font-medium text-humo/60 mb-1.5">
-                    Información adicional <span className="text-humo/30">(opcional)</span>
+                    Notas adicionales <span className="text-humo/30">(opcional)</span>
                   </label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     placeholder="Plazo de entrega, condiciones, acuerdos especiales..."
                     value={cobrarForm.additional_info}
                     onChange={e => setCobrarForm(f => ({ ...f, additional_info: e.target.value }))}

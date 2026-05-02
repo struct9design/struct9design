@@ -79,6 +79,7 @@ async function generatePresupuestoPDF(opts: {
   amount: number
   date: string
   additionalInfo?: string
+  extras?: { descripcion: string; importe: string }[]
 }): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const doc = new PDFDocument({ size: 'A4', margin: 60, info: { Title: 'Presupuesto Struct9 Design' } })
@@ -126,14 +127,17 @@ async function generatePresupuestoPDF(opts: {
        .text('CONCEPTO', 76, tableY + 7)
        .text('IMPORTE', 60, tableY + 7, { align: 'right', width: W })
 
-    // Content row (height grows with includes bullets)
+    // Content row — base service
     const includes = SERVICE_INCLUDES[opts.service] ?? []
     const rowH = Math.max(40, 35 + includes.length * 11)
     doc.rect(60, tableY + 24, W, rowH).fillColor('#FAFAFA').fill()
     doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
        .text(opts.service, 76, tableY + 33, { width: W - 120 })
+    const baseAmount = opts.extras && opts.extras.length > 0
+      ? opts.amount - opts.extras.reduce((s, e) => s + (parseFloat(e.importe) || 0), 0)
+      : opts.amount
     doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
-       .text(`${opts.amount.toFixed(2)} €`, 60, tableY + 33, { align: 'right', width: W })
+       .text(`${baseAmount.toFixed(2)} €`, 60, tableY + 33, { align: 'right', width: W })
     if (includes.length > 0) {
       let bY = tableY + 47
       for (const item of includes) {
@@ -143,8 +147,22 @@ async function generatePresupuestoPDF(opts: {
       }
     }
 
+    // Extra rows
+    let extraOffset = 0
+    if (opts.extras && opts.extras.length > 0) {
+      for (const extra of opts.extras) {
+        const extraY = tableY + 24 + rowH + extraOffset
+        doc.rect(60, extraY, W, 28).fillColor('#F5F5F5').fill()
+        doc.font('Helvetica').fontSize(9).fillColor(DARK)
+           .text(extra.descripcion, 76, extraY + 9, { width: W - 120 })
+        doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
+           .text(`${parseFloat(extra.importe).toFixed(2)} €`, 60, extraY + 9, { align: 'right', width: W })
+        extraOffset += 28
+      }
+    }
+
     // ── Total box ────────────────────────────────────────────────────────────
-    const totalY = tableY + 42 + rowH
+    const totalY = tableY + 42 + rowH + extraOffset
     doc.rect(60, totalY, W, 36).fillColor(GOLD).fill()
     doc.font('Helvetica-Bold').fontSize(11).fillColor('#080808')
        .text('TOTAL', 76, totalY + 11)
@@ -193,7 +211,7 @@ async function generatePresupuestoPDF(opts: {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { project_id, amount, service, client_name, client_email, additional_info } = body
+    const { project_id, amount, service, client_name, client_email, additional_info, extras } = body
 
     if (!project_id || !amount || !service || !client_email) {
       return NextResponse.json({ error: 'Faltan campos requeridos' }, { status: 400 })
@@ -256,6 +274,7 @@ export async function POST(request: Request) {
       amount:         amountNum,
       date:           today,
       additionalInfo: additional_info || undefined,
+      extras:         extras || [],
     })
     } catch (pdfErr) {
       console.error('[STRIPE] Error generando PDF:', pdfErr)

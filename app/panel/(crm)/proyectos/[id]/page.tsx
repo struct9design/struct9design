@@ -73,6 +73,8 @@ export default function EditarProyecto() {
         concepto:        p.service ?? '',
         importe:         p.price != null ? String(p.price) : '',
         additional_info: '',
+        horas:           '',
+        tarifa:          '100',
       })
       setLoading(false)
     })

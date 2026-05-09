@@ -210,7 +210,7 @@ async function generatePresupuestoPDF(opts: {
     doc.font('Helvetica-Bold').fontSize(9).fillColor(DARK)
        .text('¿Cómo pagar?', L + 14, payY + 12)
     doc.font('Helvetica').fontSize(8.5).fillColor(GRAY)
-       .text('Recibirás un enlace de pago seguro junto a este documento. El pago se procesa en segundos mediante tarjeta de crédito o débito.',
+       .text('Actualmente aceptamos pago mediante Bizum o en efectivo. Una vez aceptado este presupuesto, te facilitaremos los datos necesarios para completar el pago.',
              L + 14, payY + 26, { width: W - 28 })
 
     // Additional notes

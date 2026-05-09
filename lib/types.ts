@@ -42,14 +42,14 @@ export interface ContactSubmission {
 }
 
 export const SERVICES = [
-  { id: 'seo',           name: 'Diagnóstico SEO',         kit: 'kit-auditoria-seo',         price: 497  },
-  { id: 'meta-ads',      name: 'Diagnóstico Meta Ads',    kit: 'kit-auditoria-meta-ads',    price: 597  },
-  { id: 'negocio',       name: 'Diagnóstico 360° Negocio',kit: 'kit-auditoria-negocio',     price: 897  },
-  { id: 'web-express',   name: 'Web Express',             kit: 'kit-web-scrolling',         price: 997  },
-  { id: 'web-instagram', name: 'Web desde Instagram',     kit: 'kit-instagram-web',         price: 597  },
-  { id: 'dashboard',     name: 'Dashboard Financiero',    kit: 'kit-dashboard-facturas',    price: 797  },
-  { id: 'n8n',           name: 'Automatización n8n',      kit: 'kit-automatizaciones-n8n',  price: 1497 },
-  { id: 'chrome',        name: 'Extensión Chrome',        kit: 'kit-extension-chrome',      price: 1197 },
+  { id: 'seo',           name: 'Diagnóstico SEO',         kit: 'kit-auditoria-seo',         price: 290  },
+  { id: 'meta-ads',      name: 'Diagnóstico Meta Ads',    kit: 'kit-auditoria-meta-ads',    price: 390  },
+  { id: 'negocio',       name: 'Diagnóstico 360° Negocio',kit: 'kit-auditoria-negocio',     price: 890  },
+  { id: 'web-express',   name: 'Web Express',             kit: 'kit-web-scrolling',         price: 390  },
+  { id: 'web-instagram', name: 'Web desde Instagram',     kit: 'kit-instagram-web',         price: 190  },
+  { id: 'dashboard',     name: 'Dashboard Financiero',    kit: 'kit-dashboard-facturas',    price: 490  },
+  { id: 'n8n',           name: 'Automatización n8n',      kit: 'kit-automatizaciones-n8n',  price: 490  },
+  { id: 'chrome',        name: 'Extensión Chrome',        kit: 'kit-extension-chrome',      price: 590  },
 ] as const
 
 export const STATUS_LABELS: Record<ProjectStatus, string> = {

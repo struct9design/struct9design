@@ -7,19 +7,10 @@ import Footer from '@/components/Footer'
 import { Send, CheckCircle2, ChevronDown } from 'lucide-react'
 
 const serviceOptions = [
-  'Diagnóstico SEO',
-  'Diagnóstico Meta Ads',
-  'Diagnóstico 360° Negocio',
-  'Web Express',
-  'Web desde Instagram',
-  'Dashboard Financiero',
-  'Automatización n8n',
-  'Extensión Chrome',
-  'DIAGNÓSTICO TOTAL (pack)',
-  'PRESENCIA DIGITAL (pack)',
-  'AUTOMATIZACIÓN STARTER (pack)',
-  'TRANSFORMACIÓN DIGITAL (pack)',
-  'Retainer mensual',
+  'Diseño & Desarrollo Web',
+  'Chatbot WhatsApp 24/7',
+  'Asistente de Voz IA',
+  'Varios servicios',
   'No lo tengo claro aún',
 ]
 

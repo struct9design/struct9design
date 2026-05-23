@@ -1,10 +1,8 @@
-import Link from 'next/link'  
+import Link from 'next/link'
 import type { Metadata } from 'next'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import ServicesSection from '@/components/ServicesSection'
-import PacksSection from '@/components/PacksSection'
-import RetainerSection from '@/components/RetainerSection'
 import { ArrowRight } from 'lucide-react'
 
 
@@ -69,7 +67,7 @@ const faqs = [
   },
   {
     q: '¿Podéis gestionar varios proyectos o servicios a la vez?',
-    a: 'Sí. Puedes contratar varios servicios simultáneamente —por ejemplo, una web y una auditoría SEO— y los gestionamos en paralelo. Tendrás un único punto de contacto para todo, sin necesidad de coordinar distintos proveedores. De hecho, combinar servicios en un pack te sale más económico que contratarlos por separado.',
+    a: 'Sí. Puedes contratar los dos servicios simultáneamente — una web y un asistente IA, por ejemplo — y los gestionamos en paralelo. Tendrás un único punto de contacto para todo, sin necesidad de coordinar distintos proveedores.',
   },
   {
     q: '¿Trabajáis con cualquier sector?',
@@ -82,17 +80,17 @@ const faqs = [
 ]
 
 const tickerItems = [
-  'Diagnóstico SEO', 'Meta Ads', 'Web Express', 'Automatización n8n',
-  'Dashboard IA', 'Extensión Chrome', 'Diagnóstico 360°', 'Web desde Instagram',
+  'Diseño Web', 'Desarrollo Web', 'Chatbot WhatsApp 24/7', 'Asistente de Voz IA',
+  'Landing Pages', 'CRM a Medida', 'Presencia Digital', 'IA para tu Negocio',
 ]
 
 export const metadata: Metadata = {
   title: { absolute: 'STRUCT9 Design — Presencia digital real para negocios reales.' },
-  description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
+  description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
   alternates: { canonical: 'https://struct9design.com' },
   openGraph: {
     title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
+    description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
     url: 'https://struct9design.com',
     images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
     siteName: 'STRUCT9 Design',
@@ -107,7 +105,7 @@ const organizationSchema = {
   '@id': 'https://struct9design.com/#organization',
   name: 'STRUCT9 Design',
   url: 'https://struct9design.com',
-  description: 'Agencia digital IA para PYMEs. Webs, auditorías SEO, Meta Ads y automatizaciones con entrega en 48h.',
+  description: 'Agencia digital con IA para PYMEs españolas. Diseño web a medida y asistentes de voz y WhatsApp 24/7.',
   address: { '@type': 'PostalAddress', addressCountry: 'ES' },
 }
 
@@ -176,7 +174,7 @@ export default function Home() {
               className="animate-fade-up text-base sm:text-lg text-nieve/35 max-w-lg mx-auto leading-relaxed mb-10"
               style={{ animationDelay: '200ms' }}
             >
-              Webs, auditorías y automatizaciones con la entrega más rápida del mercado.
+              Webs a medida y asistentes IA para que tu negocio nunca pare.
             </p>
 
             {/* CTAs */}
@@ -204,7 +202,7 @@ export default function Home() {
               style={{ animationDelay: '480ms' }}
             >
               {[
-                ['8+',   'Servicios activos'],
+                ['24/7', 'Asistentes IA activos'],
                 ['80%',  'Ahorro vs. agencia'],
                 ['<24h', 'Respuesta garantizada'],
               ].map(([v, l]) => (
@@ -238,25 +236,11 @@ export default function Home() {
             <div className="mb-14">
               <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-oro mb-3">Servicios</p>
               <h2 className="text-3xl sm:text-4xl font-bold text-nieve leading-tight">
-                Todo lo que necesita<br />tu negocio digital
+                Dos servicios.<br />Toda tu presencia digital.
               </h2>
             </div>
 
             <ServicesSection />
-          </div>
-        </section>
-
-        {/* ─── PACKS ─── */}
-        <section className="py-28 px-6 bg-pizarra/30">
-          <div className="mx-auto max-w-7xl">
-            <div className="mb-14">
-              <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-oro mb-3">Paquetes</p>
-              <h2 className="text-3xl sm:text-4xl font-bold text-nieve">
-                Combina y ahorra
-              </h2>
-            </div>
-
-            <PacksSection />
           </div>
         </section>
 
@@ -318,8 +302,6 @@ export default function Home() {
               ))}
             </div>
 
-            {/* Retainer callout */}
-            <RetainerSection />
           </div>
         </section>
 

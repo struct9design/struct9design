@@ -9,61 +9,27 @@ const GRAY  = '#444444'
 const MID   = '#666666'
 
 const SERVICE_INCLUDES: Record<string, string[]> = {
-  'Diagnóstico SEO': [
-    'Auditoría técnica completa (Core Web Vitals, rastreo, indexación)',
-    'Análisis de keywords y oportunidades de posicionamiento',
-    'Auditoría de contenido y estructura',
-    'Revisión de backlinks y autoridad de dominio',
-    'Plan de acción priorizado por impacto',
-  ],
-  'Diagnóstico Meta Ads': [
-    'Análisis completo de campañas activas e histórico',
-    'Diagnóstico de audiencias (solapamientos, saturación)',
-    'Evaluación de creatividades y copies',
-    'Revisión de estructura de cuenta y objetivos',
-    'Hoja de ruta de optimización con prioridades',
-  ],
-  'Diagnóstico 360° Negocio': [
-    'Auditoría de web y SEO (técnico + contenido)',
-    'Análisis de redes sociales y posicionamiento de marca',
-    'Revisión de oferta, precios y propuesta de valor',
-    'Benchmarking competitivo (hasta 5 competidores)',
-    'Roadmap estratégico priorizado por impacto y coste',
-  ],
-  'Web Express': [
+  'Diseño & Desarrollo Web': [
     'Diseño personalizado con tu identidad de marca',
     'Responsive y optimizada para móvil, tablet y escritorio',
-    'Velocidad de carga < 2s (optimizada para Core Web Vitals)',
-    'Formulario de contacto o CTA configurado',
-    'Código HTML/CSS limpio entregado y listo para publicar',
+    'CRM o panel de gestión a medida (si aplica)',
+    'Optimización SEO on-page incluida',
+    'Diseño + desarrollo en un único equipo',
   ],
-  'Web desde Instagram': [
-    'Extracción y adaptación de contenido de Instagram',
-    'Diseño basado en tu estética y paleta de marca',
-    'Secciones de bio, servicios, galería y contacto',
-    'Optimización básica para buscadores (SEO on-page)',
-    'Lista para publicar con dominio personalizado',
+  'Chatbot WhatsApp 24/7': [
+    'Asistente entrenado con la información de tu negocio',
+    'Atención automática 24/7 en WhatsApp',
+    'Gestión de reservas y citas',
+    'Gestión de consultas y preguntas frecuentes',
+    'Derivación a humano cuando sea necesario',
+    'Actualizaciones y mantenimiento incluidos',
   ],
-  'Dashboard Financiero': [
-    'Procesamiento y categorización automática de facturas PDF',
-    'Dashboard interactivo con filtros por período y categoría',
-    'Gráficos de ingresos, gastos y márgenes por mes',
-    'Ranking de clientes y proveedores por volumen',
-    'Exportación de datos a Excel/CSV',
-  ],
-  'Automatización n8n': [
-    'Análisis y mapeo de procesos a automatizar',
-    'Diseño del flujo en n8n (visual y documentado)',
-    'Implementación, pruebas y puesta en producción',
-    'Integración con tus herramientas actuales',
-    'Documentación completa y formación de uso',
-  ],
-  'Extensión Chrome': [
-    'Definición y diseño de funcionalidad a medida',
-    'Desarrollo de la extensión (JavaScript / Manifest V3)',
-    'Instalación, pruebas y validación en tu entorno',
-    'Compatible con Chrome, Edge y Brave',
-    'Código fuente completo entregado',
+  'Asistente de Voz IA': [
+    'Asistente de voz entrenado con tu negocio',
+    'Atención telefónica automática 24/7',
+    'Gestión de reservas y citas',
+    'Registro de solicitudes y mensajes',
+    'Actualizaciones y mantenimiento incluidos',
   ],
 }
 

@@ -1,139 +1,54 @@
 'use client'
 
 import { useState } from 'react'
-import Link from 'next/link'
-import {
-  Search, Target, BarChart3, Globe, Smartphone,
-  PieChart, Zap, Puzzle, ArrowRight, Clock, X, Send, CheckCircle2,
-} from 'lucide-react'
+import { Monitor, MessageSquare, Phone, ArrowRight, X, Send, CheckCircle2 } from 'lucide-react'
 
 const services = [
   {
-    icon: Search,
-    name: 'Diagnóstico SEO',
-    price: 497,
-    deadline: '72h',
-    shortDesc: 'Visibilidad real en Google. Detectamos lo que te hace invisible y el plan exacto para solucionarlo.',
-    headline: 'Tu web existe. Google no lo sabe.',
-    desc: '¿Sabes exactamente por qué tu negocio no aparece en los primeros resultados de búsqueda? La mayoría de las webs tienen entre 20 y 80 errores técnicos que las hacen invisibles para Google — y sus propietarios no lo saben. Nuestro Diagnóstico SEO con IA analiza los factores críticos de posicionamiento: errores de rastreo e indexación, problemas de velocidad de carga, oportunidades de keywords que tu competencia ya está aprovechando y estructura de contenido deficiente. El resultado no es un informe genérico de herramientas automáticas: es un análisis personalizado con las acciones concretas que más impacto van a tener en tu visibilidad.',
+    icon: Monitor,
+    name: 'Diseño & Desarrollo Web',
+    tag: 'Presupuesto a medida',
+    shortDesc: 'Desde una landing page rápida hasta un CRM personalizado. Diseño, desarrollo y SEO en un solo equipo.',
+    headline: 'Tu negocio merece una web que trabaje por ti.',
+    desc: 'Da igual si partes de cero, de tu cuenta de Instagram o tienes una web antigua que necesita renovarse. Diseñamos y desarrollamos webs a medida que convierten visitas en clientes: landing pages de alta conversión, webs corporativas, e-commerce, CRMs personalizados y rediseños que modernizan tu imagen sin perder lo que ya funciona. Código limpio, responsive, optimizado para Google y listo para crecer contigo.',
     includes: [
-      'Auditoría técnica completa (Core Web Vitals, rastreo, indexación)',
-      'Análisis de keywords y oportunidades de posicionamiento',
-      'Auditoría de contenido y estructura',
-      'Revisión de backlinks y autoridad de dominio',
-      'Plan de acción priorizado por impacto',
+      'Webs desde cero o desde tu perfil de Instagram',
+      'Landing pages y webs corporativas',
+      'CRMs y paneles de gestión a medida',
+      'Rediseño de web antigua a diseño moderno',
+      'Optimización SEO incluida en cada proyecto',
+      'Diseño + desarrollo en un único equipo',
     ],
   },
   {
-    icon: Target,
-    name: 'Diagnóstico Meta Ads',
-    price: 597,
-    deadline: '72h',
-    shortDesc: 'Para de quemar presupuesto. Identificamos qué funciona y qué consume tu dinero sin resultado.',
-    headline: 'Para de quemar presupuesto en Meta.',
-    desc: 'Cada día que tus anuncios en Facebook e Instagram funcionan mal es dinero que va directamente al bolsillo de Meta, no al tuyo. El problema casi nunca es el presupuesto: es la estrategia. Nuestro análisis desglosa campañas, conjuntos de anuncios y creatividades activas para identificar exactamente qué está desperdiciando tu inversión: audiencias solapadas que se pujan entre sí, creatividades agotadas que ya no convierten, objetivos de campaña mal configurados y segmentaciones irrelevantes. El diagnóstico te dice exactamente qué parar, qué escalar y qué cambiar para que tu próxima inversión en publicidad trabaje tres veces mejor.',
+    icon: MessageSquare,
+    name: 'Chatbot WhatsApp 24/7',
+    tag: 'Setup + cuota mensual',
+    shortDesc: 'Tu negocio atendiendo clientes mientras duermes. Un asistente entrenado con la información de tu negocio.',
+    headline: 'Tu negocio atendiendo clientes mientras duermes.',
+    desc: 'Un chatbot de WhatsApp entrenado con toda la información de tu negocio: servicios, precios, horarios, ubicación, preguntas frecuentes. Atiende consultas, gestiona reservas y citas, filtra clientes y escala a un humano cuando es necesario — todo de forma automática, las 24 horas del día. Tus clientes obtienen respuesta inmediata, tú recibes solo los contactos cualificados.',
     includes: [
-      'Análisis completo de campañas activas e histórico',
-      'Diagnóstico de audiencias (solapamientos, saturación)',
-      'Evaluación de creatividades y copies',
-      'Revisión de estructura de cuenta y objetivos',
-      'Hoja de ruta de optimización con prioridades',
+      'Asistente entrenado con la información de tu negocio',
+      'Atención automática 24/7 en WhatsApp',
+      'Gestión de reservas y citas',
+      'Gestión de consultas y preguntas frecuentes',
+      'Derivación a humano cuando sea necesario',
+      'Actualizaciones y mantenimiento incluidos',
     ],
   },
   {
-    icon: BarChart3,
-    name: 'Diagnóstico 360°',
-    price: 899,
-    deadline: '72h',
-    shortDesc: 'La radiografía completa de tu negocio digital: web, redes, oferta y competencia.',
-    headline: 'La radiografía completa de tu negocio digital.',
-    desc: 'Antes de invertir un solo euro más en marketing, necesitas saber exactamente dónde estás parado. El Diagnóstico 360° es el análisis más completo del mercado para una PYME: estudiamos tu web (SEO técnico y de contenido), tus redes sociales (engagement, consistencia, posicionamiento de marca), tu oferta de productos o servicios (propuesta de valor, precios, diferenciación frente a la competencia) y hasta cinco competidores directos. El resultado es un informe estratégico que te dice qué está funcionando, qué está fallando y en qué orden exacto debes actuar para maximizar el impacto de cada euro que inviertas.',
+    icon: Phone,
+    name: 'Asistente de Voz IA',
+    tag: 'Setup + cuota mensual',
+    shortDesc: 'Nunca más una llamada sin respuesta. IA que atiende, gestiona reservas y da información las 24h.',
+    headline: 'Nunca más una llamada sin respuesta.',
+    desc: 'Un asistente de voz con IA que atiende las llamadas de tu negocio las 24 horas: responde preguntas, gestiona reservas y citas, toma mensajes y registra solicitudes. Voz natural, formado con tu información, integrado con tu sistema de agenda. Tus clientes siempre tienen a alguien al teléfono — aunque estés ocupado, fuera de horario o de vacaciones.',
     includes: [
-      'Auditoría de web y SEO (técnico + contenido)',
-      'Análisis de redes sociales y posicionamiento de marca',
-      'Revisión de oferta, precios y propuesta de valor',
-      'Benchmarking competitivo (hasta 5 competidores)',
-      'Roadmap estratégico priorizado por impacto y coste',
-    ],
-  },
-  {
-    icon: Globe,
-    name: 'Web Express',
-    price: 997,
-    deadline: '5 días',
-    shortDesc: 'Una landing profesional que convierte visitas en clientes. Lista para publicar, diseñada a tu medida.',
-    headline: 'Una web que convierte, no solo que existe.',
-    desc: 'Una landing page mal diseñada puede estar costándote el 80% de tus clientes potenciales sin que lo sepas. Los visitantes deciden si confían en tu negocio en menos de 3 segundos — y esa decisión la toma el diseño antes que cualquier texto. Web Express es una landing page o web corporativa profesional diseñada a medida: tu identidad de marca, tu propuesta de valor, tu llamada a la acción correctamente estructurada. Código limpio, velocidad de carga optimizada, responsive para cualquier dispositivo y diseñada con los principios de conversión que funcionan. Lista para publicar y empezar a convertir visitantes en clientes desde el primer día.',
-    includes: [
-      'Diseño personalizado con tu identidad de marca',
-      'Responsive y optimizada para móvil, tablet y escritorio',
-      'Velocidad de carga < 2s (optimizada para Core Web Vitals)',
-      'Formulario de contacto o CTA configurado',
-      'Código HTML/CSS limpio entregado y listo para publicar',
-    ],
-  },
-  {
-    icon: Smartphone,
-    name: 'Web desde Instagram',
-    price: 595,
-    deadline: '3 días',
-    shortDesc: 'Tienes audiencia pero no web. La construimos en días a partir de tu perfil de Instagram.',
-    headline: 'Tienes audiencia. Ya es hora de tener web.',
-    desc: 'Tienes cientos o miles de seguidores en Instagram que ya confían en ti, pero sin web estás perdiendo a todos los que te buscan en Google — que son la mayoría de los clientes que tienen intención real de compra. Transformamos tu perfil de Instagram en una web profesional en 3 días: extraemos tu contenido existente, adaptamos tu estética visual y construimos una presencia digital que trabaja para ti mientras duermes. Tu historia, tus servicios, tus resultados, tu galería y tu contacto — todo en una web que convierte visitantes en clientes, indexable por Google, sin que tengas que crear contenido nuevo desde cero.',
-    includes: [
-      'Extracción y adaptación de contenido de Instagram',
-      'Diseño basado en tu estética y paleta de marca',
-      'Secciones de bio, servicios, galería y contacto',
-      'Optimización básica para buscadores (SEO on-page)',
-      'Lista para publicar con dominio personalizado',
-    ],
-  },
-  {
-    icon: PieChart,
-    name: 'Dashboard Financiero',
-    price: 799,
-    deadline: '5 días',
-    shortDesc: 'Por fin sabes exactamente cuánto ganas, en qué gastas y cuál es tu margen real.',
-    headline: 'Por fin, claridad total sobre tu negocio.',
-    desc: '¿Cuánto ganaste exactamente el mes pasado? ¿Cuál es tu margen real después de todos los gastos? ¿Qué cliente te genera más ingresos y cuál más costes? ¿En qué meses creces y en cuáles caes? Si no tienes respuestas claras e inmediatas a estas preguntas, estás gestionando tu negocio a ciegas. Subimos tus facturas en PDF y en 3 días tienes un panel interactivo completo con todos tus números: ingresos desglosados por cliente, proveedor y mes; gastos categorizados automáticamente; márgenes reales y tendencias visualizadas. Por fin, la claridad financiera que necesitas para tomar decisiones con datos, no con intuición.',
-    includes: [
-      'Procesamiento y categorización automática de facturas PDF',
-      'Dashboard interactivo con filtros por período y categoría',
-      'Gráficos de ingresos, gastos y márgenes por mes',
-      'Ranking de clientes y proveedores por volumen',
-      'Exportación de datos a Excel/CSV',
-    ],
-  },
-  {
-    icon: Zap,
-    name: 'Automatización n8n',
-    price: 1499,
-    deadline: '1–2 sem.',
-    shortDesc: 'Elimina las tareas manuales que consumen horas de tu equipo. La IA trabaja mientras tú no.',
-    headline: 'Tu equipo hace trabajo de humanos. Que la IA haga el resto.',
-    desc: '¿Cuántas horas semanales pierde tu equipo haciendo exactamente lo mismo que podría ejecutar un sistema automatizado? Facturación manual. Seguimiento de leads por email. Sincronización entre plataformas. Recopilación y consolidación de datos. Cada tarea repetitiva que realiza un humano es dinero perdido y tiempo que no se puede recuperar. Las automatizaciones con n8n conectan todas tus herramientas — CRM, email, Stripe, Google Sheets, WhatsApp Business, Notion, Slack — y ejecutan flujos completos sin intervención humana, 24 horas al día. Desde la generación automática de presupuestos hasta la notificación de nuevos pedidos o la sincronización de inventario: si se puede automatizar, lo automatizamos y te lo entregamos funcionando.',
-    includes: [
-      'Análisis y mapeo de procesos a automatizar',
-      'Diseño del flujo en n8n (visual y documentado)',
-      'Implementación, pruebas y puesta en producción',
-      'Integración con tus herramientas actuales',
-      'Documentación completa y formación de uso',
-    ],
-  },
-  {
-    icon: Puzzle,
-    name: 'Extensión Chrome',
-    price: 1195,
-    deadline: '1 sem.',
-    shortDesc: 'Si lo necesitas y no existe, lo construimos. Tu herramienta a medida en el navegador.',
-    headline: 'Si no existe la herramienta que necesitas, la construimos.',
-    desc: 'Hay tareas que tu equipo repite decenas de veces al día en el navegador y para las que no existe ninguna solución en el mercado que las haga exactamente como necesitas. ¿Necesitas extraer precios de la competencia de forma automática? ¿Un asistente que rellene formularios repetitivos con un clic? ¿Una herramienta que analice webs de clientes o prospectos al instante? ¿Un scraper de LinkedIn o de cualquier directorio? Si lo puedes imaginar y funciona en Chrome, lo construimos. Te lo entregamos como extensión instalable directamente en el navegador, sin configuraciones complicadas, lista para distribuir a todo tu equipo en menos de una semana.',
-    includes: [
-      'Definición y diseño de funcionalidad a medida',
-      'Desarrollo de la extensión (JavaScript / Manifest V3)',
-      'Instalación, pruebas y validación en tu entorno',
-      'Compatible con Chrome, Edge y Brave',
-      'Código fuente completo entregado',
+      'Asistente de voz entrenado con tu negocio',
+      'Atención telefónica automática 24/7',
+      'Gestión de reservas y citas',
+      'Registro de solicitudes y mensajes',
+      'Actualizaciones y mantenimiento incluidos',
     ],
   },
 ]
@@ -182,9 +97,9 @@ export default function ServicesSection() {
   return (
     <>
       {/* ─── Grid ─── */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
         {services.map((service) => {
-          const { icon: Icon, name, shortDesc, deadline } = service
+          const { icon: Icon, name, shortDesc, tag } = service
           return (
             <button
               key={name}
@@ -210,9 +125,7 @@ export default function ServicesSection() {
                   <span className="flex items-center gap-1 text-xs text-oro/70 font-medium group-hover:text-oro transition-colors duration-300">
                     Ver más <ArrowRight className="h-3 w-3" />
                   </span>
-                  <span className="flex items-center gap-1 text-[10px] text-nieve/25">
-                    <Clock className="h-3 w-3" /> {deadline}
-                  </span>
+                  <span className="text-[10px] text-nieve/25">{tag}</span>
                 </div>
               </div>
             </button>
@@ -220,29 +133,16 @@ export default function ServicesSection() {
         })}
       </div>
 
-      {/* ─── Ver catálogo link ─── */}
-      <div className="mt-8 text-center">
-        <Link
-          href="/servicios"
-          className="inline-flex items-center gap-1.5 text-sm text-nieve/30 hover:text-oro transition-colors duration-200"
-        >
-          Ver catálogo completo con todos los detalles <ArrowRight className="h-3.5 w-3.5" />
-        </Link>
-      </div>
-
       {/* ─── Modal ─── */}
       {active && (
         <>
-          {/* Backdrop */}
           <div
             className="fixed inset-0 z-50 bg-grafito/80 backdrop-blur-sm"
             onClick={closeModal}
           />
 
-          {/* Panel */}
           <div className="fixed inset-y-0 right-0 z-50 w-full max-w-xl bg-pizarra border-l border-white/[0.06] overflow-y-auto flex flex-col">
 
-            {/* Sticky header */}
             <div className="sticky top-0 bg-pizarra/95 backdrop-blur-sm border-b border-white/[0.05] px-8 py-5 flex items-center justify-between shrink-0">
               <div className="flex items-center gap-3">
                 <div className="inline-flex h-8 w-8 items-center justify-center rounded-xl bg-oro/10">
@@ -259,26 +159,15 @@ export default function ServicesSection() {
               </button>
             </div>
 
-            {/* Content */}
             <div className="px-8 py-8 space-y-8 flex-1">
 
-              {/* Headline + price */}
               <div>
-                <h2 className="text-2xl font-bold text-nieve leading-snug mb-4">{active.headline}</h2>
-                <div className="flex items-center gap-5">
-                  <span className="text-xl font-bold text-oro">
-                    Bajo presupuesto
-                  </span>
-                  <span className="flex items-center gap-1.5 text-xs text-nieve/30">
-                    <Clock className="h-3 w-3" /> Entrega en {active.deadline}
-                  </span>
-                </div>
+                <h2 className="text-2xl font-bold text-nieve leading-snug mb-3">{active.headline}</h2>
+                <span className="text-sm font-semibold text-oro/70">{active.tag}</span>
               </div>
 
-              {/* Description */}
               <p className="text-sm text-nieve/55 leading-relaxed">{active.desc}</p>
 
-              {/* Includes */}
               <div>
                 <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-oro mb-4">Incluye</p>
                 <ul className="space-y-3">
@@ -293,10 +182,9 @@ export default function ServicesSection() {
                 </ul>
               </div>
 
-              {/* Form */}
               <div className="border-t border-white/[0.05] pt-8">
                 <p className="text-[11px] font-bold tracking-[0.18em] uppercase text-oro mb-6">
-                  Solicitar presupuesto
+                  Solicitar información
                 </p>
 
                 {status === 'success' ? (
@@ -306,7 +194,7 @@ export default function ServicesSection() {
                     </div>
                     <p className="font-semibold text-nieve mb-2">¡Mensaje recibido!</p>
                     <p className="text-sm text-nieve/40 leading-relaxed">
-                      Te respondemos en menos de 24h con el presupuesto para tu proyecto.
+                      Te respondemos en menos de 24h con toda la información.
                     </p>
                   </div>
                 ) : (
@@ -351,14 +239,13 @@ export default function ServicesSection() {
                       <label className="block text-xs font-medium text-nieve/40 mb-1.5">Cuéntanos más</label>
                       <textarea
                         rows={4}
-                        placeholder="Describe tu proyecto o lo que necesitas..."
+                        placeholder="Describe tu negocio o lo que necesitas..."
                         value={form.message}
                         onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
                         className={`${inputClass} resize-none`}
                       />
                     </div>
 
-                    {/* Legal consent */}
                     <div className="flex items-start gap-3 pt-1">
                       <input
                         id="legal-services"
@@ -402,7 +289,7 @@ export default function ServicesSection() {
                       {status === 'sending' ? (
                         'Enviando...'
                       ) : (
-                        <><Send className="h-4 w-4" /> Solicitar presupuesto</>
+                        <><Send className="h-4 w-4" /> Solicitar información</>
                       )}
                     </button>
                   </form>

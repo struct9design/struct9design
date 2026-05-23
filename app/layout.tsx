@@ -14,8 +14,8 @@ export const metadata: Metadata = {
     default: 'STRUCT9 Design — Presencia digital real para negocios reales.',
     template: '%s | STRUCT9 Design',
   },
-  description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
-  keywords: ['agencia digital', 'agencia IA', 'SEO España', 'diseño web PYME', 'automatización n8n', 'Meta Ads', 'agencia digital Madrid'],
+  description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
+  keywords: ['agencia digital', 'agencia IA', 'diseño web PYME', 'desarrollo web a medida', 'chatbot WhatsApp', 'asistente de voz IA', 'agencia digital España'],
   authors: [{ name: 'STRUCT9 Design', url: SITE_URL }],
   creator: 'STRUCT9 Design',
   icons: {
@@ -34,13 +34,13 @@ export const metadata: Metadata = {
     url: SITE_URL,
     siteName: 'STRUCT9 Design',
     title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
+    description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
     images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
   },
   twitter: {
     card: 'summary',
     title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    description: 'Webs, auditorías SEO, Meta Ads y automatizaciones con IA. Precios bajo presupuesto, entrega en días, sin letra pequeña.',
+    description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
     images: ['/icon.png'],
   },
 }

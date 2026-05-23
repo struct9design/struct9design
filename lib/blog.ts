@@ -43,7 +43,7 @@ export const articles: Article[] = [
       },
       {
         heading: 'Conclusión: la IA es un multiplicador, no un sustituto',
-        content: 'La pregunta ya no es si deberías implementar IA en tu negocio, sino cuándo y por dónde empezar. Cada semana que pasa sin aprovechar estas herramientas es una semana de ventaja que están tomando tus competidores.\n\nLa buena noticia es que el punto de partida no requiere inversión millonaria ni transformaciones radicales. Requiere curiosidad, un buen diagnóstico y el acompañamiento adecuado. Si quieres saber exactamente qué partes de tu negocio pueden beneficiarse de la IA hoy mismo, nuestro Diagnóstico 360° es el primer paso.',
+        content: 'La pregunta ya no es si deberías implementar IA en tu negocio, sino cuándo y por dónde empezar. Cada semana que pasa sin aprovechar estas herramientas es una semana de ventaja que están tomando tus competidores.\n\nLa buena noticia es que el punto de partida no requiere inversión millonaria ni transformaciones radicales. Requiere curiosidad y el acompañamiento adecuado. En STRUCT9 Design diseñamos asistentes de IA por WhatsApp y voz adaptados a tu negocio — escríbenos y vemos juntos por dónde empezar.',
       },
     ],
   },
@@ -76,7 +76,7 @@ export const articles: Article[] = [
       },
       {
         heading: 'Conclusión: automatizar no es opcional, es ventaja competitiva',
-        content: 'Cada tarea repetitiva que sigue haciéndose manualmente es una decisión de negocio —aunque no siempre consciente. El tiempo de tu equipo tiene un coste, y dedicarlo a tareas que una máquina puede ejecutar perfectamente es uno de los costes más evitables en una empresa moderna.\n\nn8n pone esa capacidad al alcance de cualquier negocio, con una inversión inicial medida en horas, no en meses. En struct9design diseñamos e implementamos estas automatizaciones para que tú no tengas que aprender a hacerlo: solo decides qué quieres automatizar, nosotros lo construimos y lo dejamos funcionando. Si quieres ver cuántas horas puede liberar la automatización en tu negocio, el primer diagnóstico es gratuito.',
+        content: 'Cada tarea repetitiva que sigue haciéndose manualmente es una decisión de negocio —aunque no siempre consciente. El tiempo de tu equipo tiene un coste, y dedicarlo a tareas que una máquina puede ejecutar perfectamente es uno de los costes más evitables en una empresa moderna.\n\nn8n pone esa capacidad al alcance de cualquier negocio, con una inversión inicial medida en horas, no en meses. En STRUCT9 Design construimos asistentes IA (chatbot WhatsApp y voz para llamadas) que atienden, gestionan reservas y filtran clientes las 24 horas, integrados con tu sistema. Escríbenos y diseñamos uno a la medida de tu negocio.',
       },
     ],
   },

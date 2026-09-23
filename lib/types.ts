@@ -1,3 +1,5 @@
+import { services } from '@/content/services'
+
 export type ProjectStatus = 'pendiente' | 'en_proceso' | 'entregado' | 'facturado' | 'cobrado'
 
 export type LeadStatus = 'nuevo' | 'contactado' | 'presupuesto_enviado' | 'ganado' | 'perdido'
@@ -41,11 +43,11 @@ export interface ContactSubmission {
   lead_status: LeadStatus
 }
 
-export const SERVICES = [
-  { id: 'web',     name: 'Diseño & Desarrollo Web', kit: 'web-development',  price: 0 },
-  { id: 'chatbot', name: 'Chatbot WhatsApp 24/7',   kit: 'whatsapp-chatbot', price: 0 },
-  { id: 'voz',     name: 'Asistente de Voz IA',     kit: 'voice-assistant',  price: 0 },
-] as const
+/**
+ * Catálogo del CRM: las 4 áreas de la web (content/services.ts).
+ * `kit` guarda el slug del servicio. Los proyectos antiguos conservan su texto original.
+ */
+export const SERVICES = services.map((s) => ({ id: s.area, name: s.name, kit: s.slug, price: 0 }))
 
 export const STATUS_LABELS: Record<ProjectStatus, string> = {
   pendiente:   'Pendiente',
@@ -56,11 +58,11 @@ export const STATUS_LABELS: Record<ProjectStatus, string> = {
 }
 
 export const STATUS_COLORS: Record<ProjectStatus, string> = {
-  pendiente:   'bg-yellow-900/40 text-yellow-300',
-  en_proceso:  'bg-blue-900/40   text-blue-300',
-  entregado:   'bg-green-900/40  text-green-300',
-  facturado:   'bg-oro/20        text-oro',
-  cobrado:     'bg-emerald-900/40 text-emerald-300',
+  pendiente:   'bg-amber-50 text-amber-800',
+  en_proceso:  'bg-blue-50   text-blue-700',
+  entregado:   'bg-green-50  text-green-700',
+  facturado:   'bg-senal/10        text-senal',
+  cobrado:     'bg-emerald-50 text-emerald-700',
 }
 
 export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
@@ -72,9 +74,9 @@ export const LEAD_STATUS_LABELS: Record<LeadStatus, string> = {
 }
 
 export const LEAD_STATUS_COLORS: Record<LeadStatus, string> = {
-  nuevo:                'bg-blue-900/40    text-blue-300',
-  contactado:           'bg-yellow-900/40  text-yellow-300',
-  presupuesto_enviado:  'bg-purple-900/40  text-purple-300',
-  ganado:               'bg-green-900/40   text-green-300',
-  perdido:              'bg-red-900/40     text-red-300',
+  nuevo:                'bg-blue-50    text-blue-700',
+  contactado:           'bg-amber-50  text-amber-800',
+  presupuesto_enviado:  'bg-violet-50  text-violet-700',
+  ganado:               'bg-green-50   text-green-700',
+  perdido:              'bg-red-50     text-red-700',
 }

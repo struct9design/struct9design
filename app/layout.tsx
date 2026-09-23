@@ -1,56 +1,64 @@
-import type { Metadata } from 'next'
-import { Geist, Geist_Mono } from 'next/font/google'
-import './globals.css'
+import type { Metadata, Viewport } from "next";
+import { Inter, Manrope } from "next/font/google";
+import { Tracking } from "@/components/cookies/Tracking";
+import { CookieBanner } from "@/components/cookies/CookieBanner";
+import { RevealObserver } from "@/components/ui/RevealObserver";
+import { site } from "@/content/site";
+import "./globals.css";
 
-const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] })
-const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] })
+const manrope = Manrope({
+  variable: "--font-manrope",
+  subsets: ["latin"],
+  weight: ["600", "700", "800"],
+  display: "swap",
+});
 
-const SITE_URL = 'https://struct9design.com'
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+const description =
+  "Webs que se entienden, procesos que funcionan solos y decisiones con criterio. Nos encargamos de la parte digital para que tú te dediques a tu negocio.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  alternates: { canonical: SITE_URL },
+  metadataBase: new URL(site.url),
   title: {
-    default: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    template: '%s | STRUCT9 Design',
+    default: "struct9 · Del caos al sistema",
+    template: "%s · struct9",
   },
-  description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
-  keywords: ['agencia digital', 'agencia IA', 'diseño web PYME', 'desarrollo web a medida', 'chatbot WhatsApp', 'asistente de voz IA', 'agencia digital España'],
-  authors: [{ name: 'STRUCT9 Design', url: SITE_URL }],
-  creator: 'STRUCT9 Design',
-  icons: {
-    icon: '/icon.png',
-    apple: '/icon.png',
-    shortcut: '/icon.png',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true, 'max-image-preview': 'large' },
-  },
+  description,
+  applicationName: site.name,
   openGraph: {
-    type: 'website',
-    locale: 'es_ES',
-    url: SITE_URL,
-    siteName: 'STRUCT9 Design',
-    title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
-    images: [{ url: '/icon.png', alt: 'STRUCT9 Design' }],
+    type: "website",
+    siteName: site.name,
+    locale: site.locale,
+    title: "struct9 · Del caos al sistema",
+    description,
   },
-  twitter: {
-    card: 'summary',
-    title: 'STRUCT9 Design — Presencia digital real para negocios reales.',
-    description: 'Diseño web a medida y asistentes IA (chatbot WhatsApp y voz) para PYMEs españolas. Presupuesto gratuito, respuesta en menos de 24h.',
-    images: ['/icon.png'],
-  },
-}
+  twitter: { card: "summary_large_image" },
+  alternates: { canonical: "/" },
+};
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export const viewport: Viewport = {
+  themeColor: "#FFFFFF",
+};
+
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="es" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col bg-grafito text-humo">
+    <html lang="es" data-scroll-behavior="smooth" className={`${manrope.variable} ${inter.variable}`}>
+      <body>
+        {/* Sin JavaScript no hay IntersectionObserver: se muestra todo */}
+        <noscript>
+          <style>{"[data-reveal]{opacity:1!important;transform:none!important}[data-draw-x]{width:100%!important}[data-draw-y]{height:100%!important}"}</style>
+        </noscript>
         {children}
+        <RevealObserver />
+        <CookieBanner />
+        <Tracking />
       </body>
     </html>
-  )
+  );
 }

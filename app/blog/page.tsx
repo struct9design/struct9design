@@ -1,69 +1,83 @@
-import Link from 'next/link'
-import Header from '@/components/Header'
-import Footer from '@/components/Footer'
-import { articles } from '@/lib/blog'
-import type { Metadata } from 'next'
+import Link from "next/link";
+import { Footer } from "@/components/layout/Footer";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Eyebrow } from "@/components/ui/Eyebrow";
+import { Reveal } from "@/components/ui/Reveal";
+import { articles } from "@/lib/blog";
+import { pageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: 'Blog — STRUCT9 Design',
-  description: 'Artículos sobre inteligencia artificial, automatización y productividad digital para PYMEs españolas.',
-}
+export const metadata = pageMetadata({
+  title: "Blog",
+  description: "Artículos sobre inteligencia artificial, automatización y productividad digital para pymes españolas.",
+  path: "/blog",
+});
+
+const up = (delay: number) => ({ style: { animationDelay: `${delay}ms` } });
 
 export default function Blog() {
   return (
     <>
-      <Header />
-      <main className="flex-1 pt-24 pb-24 px-6">
-        <div className="mx-auto max-w-3xl">
-
-          <div className="mb-14 pt-4">
-            <p className="text-[11px] font-bold tracking-[0.22em] uppercase text-oro mb-3">Blog</p>
-            <h1 className="text-4xl font-bold text-nieve">
-              Ideas para <span className="text-gradient-oro">crecer más rápido</span>
+      <SiteHeader />
+      <main>
+        <section className="gutter border-b border-niebla bg-nieve pt-[clamp(48px,7vw,92px)] pb-[clamp(40px,5vw,64px)]">
+          <div className="wrap">
+            <div {...up(0)} className="animate-s9-up">
+              <Eyebrow tone="tinta">Blog</Eyebrow>
+            </div>
+            <h1
+              {...up(100)}
+              className="animate-s9-up mt-4 max-w-[20ch] font-display text-[clamp(2.1rem,4.8vw,3.4rem)] leading-[1.06] font-extrabold tracking-[-.03em] text-pretty text-tinta"
+            >
+              Ideas para crecer más rápido.
             </h1>
-            <p className="mt-4 text-nieve/35 leading-relaxed">
+            <p
+              {...up(200)}
+              className="animate-s9-up mt-[18px] max-w-[52ch] text-[clamp(1.02rem,1.4vw,1.15rem)] leading-[1.65] text-pizarra"
+            >
               IA, automatización y productividad digital para empresas que no quieren esperar.
             </p>
           </div>
+        </section>
 
-          <div className="space-y-px">
-            {articles.map((article, i) => (
-              <Link
-                key={article.slug}
-                href={`/blog/${article.slug}`}
-                className="group flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-8 rounded-xl px-0 py-7 border-b border-white/[0.05] hover:bg-white/[0.02] transition-colors -mx-4 px-4 last:border-0"
-              >
-                <div className="shrink-0 text-right hidden sm:block w-20">
-                  <span className="text-xs text-nieve/25">
-                    {new Date(article.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
+        <section className="gutter py-[clamp(48px,7vw,88px)]">
+          <ul className="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-5">
+            {articles.map((a, i) => (
+              <Reveal as="li" key={a.slug} delay={i * 70} className="flex">
+                <Link
+                  href={`/blog/${a.slug}`}
+                  className="group flex flex-1 flex-col rounded-2xl border border-niebla bg-white p-[clamp(24px,2.6vw,32px)] transition-[transform,box-shadow,border-color] duration-[350ms] ease-s9 hover:-translate-y-[5px] hover:border-senal hover:shadow-[0_16px_40px_rgba(19,41,75,.1)]"
+                >
+                  <span className="flex items-center gap-3 text-[13px]">
+                    <span className="font-display font-bold tracking-[.06em] text-senal uppercase">{a.category}</span>
+                    <span aria-hidden="true" className="h-px flex-1 bg-niebla" />
+                    <span aria-hidden="true" className="size-2 rounded-full bg-senal" />
                   </span>
-                </div>
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="inline-block rounded-full bg-oro/10 px-2.5 py-0.5 text-[10px] font-semibold text-oro">
-                      {article.category}
-                    </span>
-                    <span className="text-[10px] text-nieve/20">{article.readTime} min</span>
-                  </div>
-                  <h2 className="text-base font-bold text-nieve group-hover:text-oro transition-colors duration-200 leading-snug mb-2">
-                    {article.title}
+                  <h2 className="mt-5 font-display text-[1.28rem] leading-[1.3] font-bold tracking-[-.01em] text-pretty text-tinta">
+                    {a.title}
                   </h2>
-                  <p className="text-sm text-nieve/40 leading-relaxed line-clamp-2">
-                    {article.excerpt}
-                  </p>
-                  <span className="inline-flex items-center gap-1 mt-3 text-xs text-oro opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    Leer artículo
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M5 12h14" /><path d="m12 5 7 7-7 7" />
-                    </svg>
+                  <p className="mt-3 line-clamp-3 text-[15px] leading-[1.65] text-pizarra">{a.excerpt}</p>
+                  <span className="mt-auto flex items-center justify-between gap-3 pt-[22px] text-[13.5px]">
+                    <span className="text-pizarra">
+                      <time dateTime={a.date}>
+                        {new Date(a.date).toLocaleDateString("es-ES", { day: "numeric", month: "long", year: "numeric" })}
+                      </time>{" "}
+                      · {a.readTime} min
+                    </span>
+                    <span className="font-semibold text-senal">Leer →</span>
                   </span>
-                </div>
-              </Link>
+                </Link>
+              </Reveal>
             ))}
-          </div>
-        </div>
+          </ul>
+        </section>
       </main>
-      <Footer />
+      <Footer
+        agency={[
+          { href: "/", label: "Inicio" },
+          { href: "/blog", label: "Blog" },
+          { href: "/contacto", label: "Contacto" },
+        ]}
+      />
     </>
-  )
+  );
 }

@@ -7,7 +7,7 @@ import { Plus, Trash2, ExternalLink, AlertCircle, Pencil, Download, Search, Layo
 import type { Project } from '@/lib/types'
 import { STATUS_LABELS, STATUS_COLORS } from '@/lib/types'
 
-const KanbanBoard = dynamic(() => import('@/components/KanbanBoard'), { ssr: false })
+const KanbanBoard = dynamic(() => import('@/components/panel/KanbanBoard'), { ssr: false })
 
 const ITEMS_PER_PAGE = 25
 
@@ -94,18 +94,18 @@ export default function Proyectos() {
   return (
     <div className="p-4 md:p-8">
       <div className="flex items-center justify-between mb-6 gap-3">
-        <h1 className="text-xl md:text-2xl font-bold text-humo">Proyectos</h1>
+        <h1 className="font-display text-xl md:text-2xl font-bold text-tinta">Proyectos</h1>
         <div className="flex items-center gap-2">
           {isDesktop && (
-            <div className="inline-flex items-center rounded-lg border border-white/10 bg-pizarra/20 p-0.5" role="tablist" aria-label="Vista de proyectos">
+            <div className="inline-flex items-center rounded-lg border border-niebla bg-white p-0.5" role="tablist" aria-label="Vista de proyectos">
               <button
                 role="tab"
                 aria-selected={view === 'list'}
                 onClick={() => setView('list')}
                 className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
                   view === 'list'
-                    ? 'bg-oro text-grafito'
-                    : 'text-humo/50 hover:text-humo'
+                    ? 'bg-senal text-white'
+                    : 'text-pizarra hover:text-tinta'
                 }`}
               >
                 <List className="h-3.5 w-3.5" /> Lista
@@ -116,8 +116,8 @@ export default function Proyectos() {
                 onClick={() => setView('kanban')}
                 className={`inline-flex items-center gap-1.5 rounded-md px-2.5 py-1.5 text-xs font-medium transition-colors ${
                   view === 'kanban'
-                    ? 'bg-oro text-grafito'
-                    : 'text-humo/50 hover:text-humo'
+                    ? 'bg-senal text-white'
+                    : 'text-pizarra hover:text-tinta'
                 }`}
               >
                 <LayoutGrid className="h-3.5 w-3.5" /> Kanban
@@ -126,7 +126,7 @@ export default function Proyectos() {
           )}
           <button
             onClick={() => downloadCSV(searched as unknown as Record<string, unknown>[], 'proyectos.csv')}
-            className="inline-flex items-center justify-center rounded-lg border border-white/10 p-2 text-humo/50 hover:text-humo transition-colors"
+            className="inline-flex items-center justify-center rounded-lg border border-niebla p-2 text-pizarra hover:text-tinta transition-colors"
             title="Exportar CSV"
             aria-label="Exportar CSV"
           >
@@ -134,7 +134,7 @@ export default function Proyectos() {
           </button>
           <Link
             href="/panel/proyectos/nuevo"
-            className="flex items-center gap-2 rounded-lg bg-oro px-4 py-2 text-sm font-bold text-grafito hover:bg-oro/80 transition-colors"
+            className="flex items-center gap-2 rounded-lg bg-senal px-4 py-2 text-sm font-bold text-white hover:bg-tinta transition-colors"
           >
             <Plus className="h-4 w-4" /> Nuevo proyecto
           </Link>
@@ -150,8 +150,8 @@ export default function Proyectos() {
               onClick={() => setFilter(s)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors capitalize ${
                 filter === s
-                  ? 'bg-oro text-grafito'
-                  : 'bg-white/5 text-humo/50 hover:text-humo'
+                  ? 'bg-senal text-white'
+                  : 'bg-nieve text-pizarra hover:text-tinta'
               }`}
             >
               {s === 'todos' ? 'Todos' : STATUS_LABELS[s as Project['status']]}
@@ -167,19 +167,19 @@ export default function Proyectos() {
 
       {/* Search */}
       <div className="relative mb-4">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-humo/30 pointer-events-none" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-pizarra/70 pointer-events-none" />
         <input
           type="text"
           placeholder="Buscar por cliente, email o servicio..."
           value={search}
           onChange={e => setSearch(e.target.value)}
-          className="w-full rounded-lg border border-white/10 bg-pizarra/10 pl-9 pr-4 py-2 text-sm text-humo placeholder-humo/30 focus:border-oro/40 focus:outline-none transition-colors"
+          className="w-full rounded-lg border border-niebla bg-white pl-9 pr-4 py-2 text-sm text-tinta placeholder-pizarra/70 focus:border-senal focus:outline-none transition-colors"
         />
       </div>
 
       {isDesktop && view === 'kanban' ? (
         loading ? (
-          <div className="py-12 text-center text-sm text-humo/30">Cargando proyectos...</div>
+          <div className="py-12 text-center text-sm text-pizarra/70">Cargando proyectos...</div>
         ) : (
           <KanbanBoard
             projects={search ? searched : projects}
@@ -188,21 +188,21 @@ export default function Proyectos() {
           />
         )
       ) : (
-      <div className="rounded-xl border border-white/5 bg-pizarra/10 overflow-hidden">
+      <div className="rounded-xl border border-niebla bg-white overflow-hidden">
         {loading ? (
-          <div className="py-12 text-center text-sm text-humo/30">Cargando proyectos...</div>
+          <div className="py-12 text-center text-sm text-pizarra/70">Cargando proyectos...</div>
         ) : searched.length === 0 ? (
           <div className="py-12 text-center">
-            <p className="text-sm text-humo/30">No hay proyectos que coincidan.</p>
+            <p className="text-sm text-pizarra/70">No hay proyectos que coincidan.</p>
           </div>
         ) : (
           <>
             <div className="overflow-x-auto">
             <table className="w-full text-sm min-w-[720px]">
               <thead>
-                <tr className="border-b border-white/5">
+                <tr className="border-b border-niebla">
                   {['Fecha', 'Entrega', 'Cliente', 'Servicio', 'Estado', 'Precio', ''].map(h => (
-                    <th key={h} className="px-5 py-3 text-left text-xs font-medium text-humo/40">{h}</th>
+                    <th key={h} className="px-5 py-3 text-left text-xs font-medium text-pizarra">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -215,27 +215,27 @@ export default function Proyectos() {
                     p.status !== 'cobrado'
 
                   return (
-                    <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
-                      <td className="px-5 py-3 text-xs text-humo/40 whitespace-nowrap">
+                    <tr key={p.id} className="border-b border-niebla hover:bg-nieve/70 transition-colors">
+                      <td className="px-5 py-3 text-xs text-pizarra whitespace-nowrap">
                         {new Date(p.created_at).toLocaleDateString('es-ES', { day: '2-digit', month: 'short' })}
                       </td>
                       <td className="px-5 py-3 whitespace-nowrap">
                         {p.deadline_at ? (
-                          <span className={`flex items-center gap-1 text-xs ${overdue ? 'text-red-400 font-medium' : 'text-humo/40'}`}>
+                          <span className={`flex items-center gap-1 text-xs ${overdue ? 'text-red-700 font-medium' : 'text-pizarra'}`}>
                             {overdue && <AlertCircle className="h-3 w-3 shrink-0" />}
                             {new Date(p.deadline_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
                           </span>
                         ) : (
-                          <span className="text-humo/20 text-xs">—</span>
+                          <span className="text-pizarra/70 text-xs">—</span>
                         )}
                       </td>
                       <td className="px-5 py-3">
-                        <div className="font-medium text-humo text-xs">{p.client_name}</div>
+                        <div className="font-medium text-tinta text-xs">{p.client_name}</div>
                         {p.client_email && (
-                          <div className="text-[10px] text-humo/35">{p.client_email}</div>
+                          <div className="text-[10px] text-pizarra">{p.client_email}</div>
                         )}
                       </td>
-                      <td className="px-5 py-3 text-humo/60 text-xs">{p.service}</td>
+                      <td className="px-5 py-3 text-pizarra text-xs">{p.service}</td>
                       <td className="px-5 py-3">
                         <select
                           value={p.status}
@@ -247,7 +247,7 @@ export default function Proyectos() {
                           ))}
                         </select>
                       </td>
-                      <td className="px-5 py-3 text-oro font-medium text-xs">
+                      <td className="px-5 py-3 text-senal font-medium text-xs">
                         {p.price ? `€${p.price.toLocaleString('es')}` : '—'}
                       </td>
                       <td className="px-5 py-3">
@@ -257,7 +257,7 @@ export default function Proyectos() {
                               href={p.deliverable_url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-humo/25 hover:text-oro transition-colors"
+                              className="text-pizarra/70 hover:text-tinta transition-colors"
                               title="Ver entregable"
                             >
                               <ExternalLink className="h-3.5 w-3.5" />
@@ -265,14 +265,14 @@ export default function Proyectos() {
                           )}
                           <Link
                             href={`/panel/proyectos/${p.id}`}
-                            className="text-humo/25 hover:text-humo transition-colors"
+                            className="text-pizarra/70 hover:text-tinta transition-colors"
                             title="Editar"
                           >
                             <Pencil className="h-3.5 w-3.5" />
                           </Link>
                           <button
                             onClick={() => deleteProject(p.id)}
-                            className="text-humo/20 hover:text-red-400 transition-colors"
+                            className="text-pizarra/70 hover:text-red-700 transition-colors"
                             title="Eliminar"
                           >
                             <Trash2 className="h-3.5 w-3.5" />
@@ -288,22 +288,22 @@ export default function Proyectos() {
 
             {/* Pagination */}
             {totalPages > 1 && (
-              <div className="flex items-center justify-between px-5 py-3 border-t border-white/5">
-                <span className="text-xs text-humo/30">
+              <div className="flex items-center justify-between px-5 py-3 border-t border-niebla">
+                <span className="text-xs text-pizarra/70">
                   {searched.length} proyectos · página {currentPage} de {totalPages}
                 </span>
                 <div className="flex gap-2">
                   <button
                     onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
                     disabled={currentPage === 1}
-                    className="rounded px-3 py-1 text-xs text-humo/50 hover:text-humo disabled:opacity-30 transition-colors"
+                    className="rounded px-3 py-1 text-xs text-pizarra hover:text-tinta disabled:opacity-30 transition-colors"
                   >
                     ← Anterior
                   </button>
                   <button
                     onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                     disabled={currentPage === totalPages}
-                    className="rounded px-3 py-1 text-xs text-humo/50 hover:text-humo disabled:opacity-30 transition-colors"
+                    className="rounded px-3 py-1 text-xs text-pizarra hover:text-tinta disabled:opacity-30 transition-colors"
                   >
                     Siguiente →
                   </button>

@@ -26,7 +26,7 @@ import {
 } from '@dnd-kit/core'
 import type { Project, Client, ContactSubmission } from '@/lib/types'
 import { STATUS_LABELS, STATUS_COLORS, LEAD_STATUS_LABELS, LEAD_STATUS_COLORS } from '@/lib/types'
-import NewProjectModal from '@/components/NewProjectModal'
+import NewProjectModal from '@/components/panel/NewProjectModal'
 
 type Period = 'mes' | 'trimestre' | 'año' | 'todo'
 
@@ -50,7 +50,7 @@ function DraggableLeadRow({ lead, children }: { lead: ContactSubmission; childre
       {...attributes}
       {...listeners}
       style={{ touchAction: 'none', WebkitUserSelect: 'none', userSelect: 'none' }}
-      className={`border-b border-white/5 hover:bg-white/[0.02] transition-colors ${isDragging ? 'opacity-30 cursor-grabbing' : 'cursor-grab'}`}
+      className={`border-b border-niebla hover:bg-nieve/70 transition-colors ${isDragging ? 'opacity-30 cursor-grabbing' : 'cursor-grab'}`}
     >
       {children}
     </tr>
@@ -64,8 +64,8 @@ function ProjectsDropZone({ children }: { children: React.ReactNode }) {
       ref={setNodeRef}
       className={`rounded-xl border overflow-hidden transition-all ${
         isOver
-          ? 'border-oro/60 bg-oro/5 ring-2 ring-oro/30'
-          : 'border-white/5 bg-pizarra/10'
+          ? 'border-senal/60 bg-senal/5 ring-2 ring-senal/20'
+          : 'border-niebla bg-white'
       }`}
     >
       {children}
@@ -180,23 +180,23 @@ export default function PanelDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6 gap-3">
           <div className="min-w-0">
-            <h1 className="text-xl md:text-2xl font-bold text-humo">Dashboard</h1>
-            <p className="text-xs md:text-sm text-humo/40 mt-1 truncate">
+            <h1 className="font-display text-xl md:text-2xl font-bold text-tinta">Dashboard</h1>
+            <p className="text-xs md:text-sm text-pizarra mt-1 truncate">
               {now.toLocaleDateString('es-ES', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
             </p>
           </div>
           <Link
             href="/panel/proyectos/nuevo"
-            className="flex items-center gap-2 rounded-lg bg-oro px-3 md:px-4 py-2 text-xs md:text-sm font-bold text-grafito hover:bg-oro/80 transition-colors shrink-0"
+            className="flex items-center gap-2 rounded-lg bg-senal px-3 md:px-4 py-2 text-xs md:text-sm font-bold text-white hover:bg-tinta transition-colors shrink-0"
           >
             <Plus className="h-4 w-4" /> <span className="hidden sm:inline">Nuevo proyecto</span><span className="sm:hidden">Nuevo</span>
           </Link>
         </div>
 
         {noSupabase && (
-          <div className="mb-6 flex items-start gap-3 rounded-lg border border-yellow-500/30 bg-yellow-900/10 px-4 py-3">
-            <AlertCircle className="h-4 w-4 text-yellow-400 shrink-0 mt-0.5" />
-            <p className="text-xs text-yellow-300">
+          <div className="mb-6 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3">
+            <AlertCircle className="h-4 w-4 text-amber-800 shrink-0 mt-0.5" />
+            <p className="text-xs text-amber-800">
               Supabase no configurado. Los datos se mostrarán vacíos hasta que configures las variables de entorno en{' '}
               <code className="font-mono">.env.local</code>.
             </p>
@@ -211,8 +211,8 @@ export default function PanelDashboard() {
               onClick={() => setPeriod(p)}
               className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${
                 period === p
-                  ? 'bg-oro text-grafito'
-                  : 'bg-white/5 text-humo/50 hover:text-humo'
+                  ? 'bg-senal text-white'
+                  : 'bg-nieve text-pizarra hover:text-tinta'
               }`}
             >
               {PERIOD_LABELS[p]}
@@ -227,39 +227,39 @@ export default function PanelDashboard() {
               icon:  FolderKanban,
               label: 'Proyectos activos',
               value: loading ? '—' : activeProjects.length,
-              color: 'text-blue-300',
+              color: 'text-tinta',
               href:  '/panel/proyectos',
             },
             {
               icon:  TrendingUp,
               label: 'Pipeline (€)',
               value: loading ? '—' : `€${pipelineValue.toLocaleString('es')}`,
-              color: 'text-purple-300',
+              color: 'text-tinta',
               href:  '/panel/proyectos',
             },
             {
               icon:  TrendingUp,
               label: `Facturado · ${PERIOD_LABELS[period].toLowerCase()}`,
               value: loading ? '—' : `€${periodRevenue.toLocaleString('es')}`,
-              color: 'text-oro',
+              color: 'text-tinta',
               href:  '/panel/proyectos',
             },
             {
               icon:  Users,
               label: 'Total acumulado',
               value: loading ? '—' : `€${totalRevenue.toLocaleString('es')}`,
-              color: 'text-emerald-300',
+              color: 'text-tinta',
               href:  '/panel/proyectos',
             },
           ].map(({ icon: Icon, label, value, color, href }) => (
             <Link
               key={label}
               href={href}
-              className="rounded-xl border border-white/5 bg-pizarra/20 p-4 md:p-6 hover:bg-pizarra/30 transition-colors group"
+              className="rounded-xl border border-niebla bg-white p-4 md:p-6 hover:border-senal transition-colors group"
             >
               <div className="flex items-center gap-2 md:gap-3 mb-2 md:mb-3">
                 <Icon className={`h-4 w-4 ${color}`} />
-                <span className="text-[10px] md:text-xs text-humo/50 truncate">{label}</span>
+                <span className="text-[10px] md:text-xs text-pizarra truncate">{label}</span>
               </div>
               <div className={`text-xl md:text-3xl font-bold ${color}`}>{value}</div>
             </Link>
@@ -270,22 +270,22 @@ export default function PanelDashboard() {
 
           {/* Recent projects — drop zone */}
           <ProjectsDropZone>
-            <div className="flex items-center justify-between px-5 md:px-6 py-4 border-b border-white/5">
-              <h2 className="text-sm font-semibold text-humo">Proyectos recientes</h2>
-              <Link href="/panel/proyectos" className="text-xs text-oro hover:text-oro/70 transition-colors flex items-center gap-1">
+            <div className="flex items-center justify-between px-5 md:px-6 py-4 border-b border-niebla">
+              <h2 className="font-display text-sm font-semibold text-tinta">Proyectos recientes</h2>
+              <Link href="/panel/proyectos" className="text-xs text-senal hover:text-tinta transition-colors flex items-center gap-1">
                 Ver todos <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
 
             {loading ? (
-              <div className="px-6 py-8 text-center text-sm text-humo/30">Cargando...</div>
+              <div className="px-6 py-8 text-center text-sm text-pizarra/70">Cargando...</div>
             ) : recentProjects.length === 0 ? (
               <div className="px-6 py-8 text-center">
-                <p className="text-sm text-humo/30">No hay proyectos todavía.</p>
-                <Link href="/panel/proyectos/nuevo" className="mt-3 inline-block text-xs text-oro hover:text-oro/70">
+                <p className="text-sm text-pizarra/70">No hay proyectos todavía.</p>
+                <Link href="/panel/proyectos/nuevo" className="mt-3 inline-block text-xs text-senal hover:text-tinta">
                   Crear el primero
                 </Link>
-                <p className="mt-4 text-[10px] text-humo/30">
+                <p className="mt-4 text-[10px] text-pizarra/70">
                   Tip: arrastra un lead aquí para convertirlo en proyecto.
                 </p>
               </div>
@@ -293,31 +293,31 @@ export default function PanelDashboard() {
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[480px]">
                   <thead>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-niebla">
                       {['Cliente', 'Servicio', 'Estado', 'Precio'].map(h => (
-                        <th key={h} className="px-5 py-3 text-left text-xs font-medium text-humo/40">{h}</th>
+                        <th key={h} className="px-5 py-3 text-left text-xs font-medium text-pizarra">{h}</th>
                       ))}
                     </tr>
                   </thead>
                   <tbody>
                     {recentProjects.map(p => (
-                      <tr key={p.id} className="border-b border-white/5 hover:bg-white/[0.02] transition-colors">
+                      <tr key={p.id} className="border-b border-niebla hover:bg-nieve/70 transition-colors">
                         <td className="px-5 py-3">
-                          <div className="font-medium text-humo text-xs">{p.client_name}</div>
+                          <div className="font-medium text-tinta text-xs">{p.client_name}</div>
                           {p.deadline_at && (
-                            <div className="flex items-center gap-1 text-[10px] text-humo/30 mt-0.5">
+                            <div className="flex items-center gap-1 text-[10px] text-pizarra/70 mt-0.5">
                               <Clock className="h-2.5 w-2.5" />
                               {new Date(p.deadline_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
                             </div>
                           )}
                         </td>
-                        <td className="px-5 py-3 text-humo/50 text-xs">{p.service}</td>
+                        <td className="px-5 py-3 text-pizarra text-xs">{p.service}</td>
                         <td className="px-5 py-3">
                           <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${STATUS_COLORS[p.status]}`}>
                             {STATUS_LABELS[p.status]}
                           </span>
                         </td>
-                        <td className="px-5 py-3 text-oro text-xs font-medium whitespace-nowrap">
+                        <td className="px-5 py-3 text-senal text-xs font-medium whitespace-nowrap">
                           {p.price ? `€${p.price.toLocaleString('es')}` : '—'}
                         </td>
                       </tr>
@@ -329,35 +329,35 @@ export default function PanelDashboard() {
           </ProjectsDropZone>
 
           {/* Recent leads */}
-          <div className="rounded-xl border border-white/5 bg-pizarra/10 overflow-hidden">
-            <div className="flex items-center justify-between px-5 md:px-6 py-4 border-b border-white/5">
+          <div className="rounded-xl border border-niebla bg-white overflow-hidden">
+            <div className="flex items-center justify-between px-5 md:px-6 py-4 border-b border-niebla">
               <div className="flex items-center gap-2">
-                <h2 className="text-sm font-semibold text-humo">Leads recientes</h2>
+                <h2 className="font-display text-sm font-semibold text-tinta">Leads recientes</h2>
                 {!loading && newLeads.length > 0 && (
-                  <span className="inline-flex items-center justify-center h-4 min-w-4 px-1 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold">
+                  <span className="inline-flex items-center justify-center h-4 min-w-4 px-1 rounded-full bg-blue-100 text-blue-700 text-[10px] font-bold">
                     {newLeads.length}
                   </span>
                 )}
               </div>
-              <Link href="/panel/leads" className="text-xs text-oro hover:text-oro/70 transition-colors flex items-center gap-1">
+              <Link href="/panel/leads" className="text-xs text-senal hover:text-tinta transition-colors flex items-center gap-1">
                 Ver todos <ArrowRight className="h-3 w-3" />
               </Link>
             </div>
 
             {loading ? (
-              <div className="px-6 py-8 text-center text-sm text-humo/30">Cargando...</div>
+              <div className="px-6 py-8 text-center text-sm text-pizarra/70">Cargando...</div>
             ) : recentLeads.length === 0 ? (
               <div className="px-6 py-8 text-center">
-                <Inbox className="h-6 w-6 text-humo/20 mx-auto mb-2" />
-                <p className="text-sm text-humo/30">Sin leads todavía.</p>
+                <Inbox className="h-6 w-6 text-pizarra/70 mx-auto mb-2" />
+                <p className="text-sm text-pizarra/70">Sin leads todavía.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full text-sm min-w-[520px]">
                   <thead>
-                    <tr className="border-b border-white/5">
+                    <tr className="border-b border-niebla">
                       {['', 'Nombre', 'Servicio', 'Estado', 'Fecha'].map((h, i) => (
-                        <th key={i} className="px-3 py-3 text-left text-xs font-medium text-humo/40 first:pl-5 last:pr-5">{h}</th>
+                        <th key={i} className="px-3 py-3 text-left text-xs font-medium text-pizarra first:pl-5 last:pr-5">{h}</th>
                       ))}
                     </tr>
                   </thead>
@@ -367,19 +367,19 @@ export default function PanelDashboard() {
                       return (
                         <DraggableLeadRow key={l.id} lead={l}>
                           <td className="px-3 py-3 pl-5 w-6">
-                            <GripVertical className="h-3.5 w-3.5 text-humo/25" />
+                            <GripVertical className="h-3.5 w-3.5 text-pizarra/70" />
                           </td>
                           <td className="px-3 py-3">
-                            <div className="font-medium text-humo text-xs">{l.name}</div>
-                            <div className="text-[10px] text-humo/40">{l.email}</div>
+                            <div className="font-medium text-tinta text-xs">{l.name}</div>
+                            <div className="text-[10px] text-pizarra">{l.email}</div>
                           </td>
-                          <td className="px-3 py-3 text-humo/50 text-xs">{l.service ?? '—'}</td>
+                          <td className="px-3 py-3 text-pizarra text-xs">{l.service ?? '—'}</td>
                           <td className="px-3 py-3">
-                            <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${LEAD_STATUS_COLORS[status as keyof typeof LEAD_STATUS_COLORS] ?? 'bg-blue-900/40 text-blue-300'}`}>
+                            <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${LEAD_STATUS_COLORS[status as keyof typeof LEAD_STATUS_COLORS] ?? 'bg-blue-50 text-blue-700'}`}>
                               {LEAD_STATUS_LABELS[status as keyof typeof LEAD_STATUS_LABELS] ?? 'Nuevo'}
                             </span>
                           </td>
-                          <td className="px-3 py-3 pr-5 text-xs text-humo/40 whitespace-nowrap">
+                          <td className="px-3 py-3 pr-5 text-xs text-pizarra whitespace-nowrap">
                             {new Date(l.created_at).toLocaleDateString('es-ES', { day: 'numeric', month: 'short' })}
                           </td>
                         </DraggableLeadRow>
@@ -390,7 +390,7 @@ export default function PanelDashboard() {
               </div>
             )}
             {!loading && recentLeads.length > 0 && (
-              <p className="px-5 md:px-6 py-2 text-[10px] text-humo/30 border-t border-white/5">
+              <p className="px-5 md:px-6 py-2 text-[10px] text-pizarra/70 border-t border-niebla">
                 Tip: arrastra un lead a “Proyectos recientes” para convertirlo.
               </p>
             )}
@@ -400,11 +400,11 @@ export default function PanelDashboard() {
 
       <DragOverlay dropAnimation={null}>
         {activeLead ? (
-          <div className="rounded-lg border border-oro/40 bg-tinta px-4 py-3 shadow-2xl pointer-events-none">
-            <div className="text-xs font-medium text-humo">{activeLead.name}</div>
-            <div className="text-[10px] text-humo/50">{activeLead.email}</div>
+          <div className="rounded-lg border border-senal/40 bg-white px-4 py-3 shadow-2xl pointer-events-none">
+            <div className="text-xs font-medium text-tinta">{activeLead.name}</div>
+            <div className="text-[10px] text-pizarra">{activeLead.email}</div>
             {activeLead.service && (
-              <div className="text-[10px] text-oro mt-0.5">{activeLead.service}</div>
+              <div className="text-[10px] text-senal mt-0.5">{activeLead.service}</div>
             )}
           </div>
         ) : null}

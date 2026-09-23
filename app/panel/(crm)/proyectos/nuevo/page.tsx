@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft } from 'lucide-react'
 import { SERVICES } from '@/lib/types'
 
-const inputClass = 'w-full rounded-lg border border-white/10 bg-pizarra/20 px-4 py-3 text-sm text-humo placeholder-humo/30 focus:border-oro/50 focus:outline-none focus:ring-1 focus:ring-oro/30 transition-colors'
+const inputClass = 'w-full rounded-lg border border-niebla bg-white px-4 py-3 text-sm text-tinta placeholder-pizarra/70 focus:border-senal focus:outline-none focus:ring-1 focus:ring-senal/20 transition-colors'
 
 function NuevoProyectoForm() {
   const router = useRouter()
@@ -85,15 +85,15 @@ function NuevoProyectoForm() {
   return (
     <div className="p-8 max-w-2xl">
       <div className="flex items-center gap-3 mb-8">
-        <Link href="/panel/proyectos" className="text-humo/40 hover:text-humo transition-colors">
+        <Link href="/panel/proyectos" className="text-pizarra hover:text-tinta transition-colors">
           <ArrowLeft className="h-5 w-5" />
         </Link>
-        <h1 className="text-2xl font-bold text-humo">Nuevo proyecto</h1>
+        <h1 className="font-display text-2xl font-bold text-tinta">Nuevo proyecto</h1>
       </div>
 
       <form onSubmit={handleSubmit} className="space-y-5">
         <div>
-          <label className="block text-xs font-medium text-humo/60 mb-1.5">Servicio *</label>
+          <label className="block text-xs font-medium text-pizarra mb-1.5">Servicio *</label>
           <select
             required
             value={selectedServiceId}
@@ -109,14 +109,14 @@ function NuevoProyectoForm() {
         </div>
 
         {form.kit && (
-          <div className="rounded-lg bg-oro/5 border border-oro/20 px-4 py-2 text-xs text-oro">
+          <div className="rounded-lg bg-senal/5 border border-senal/20 px-4 py-2 text-xs text-senal">
             Kit: <span className="font-mono">{form.kit}</span>
           </div>
         )}
 
         <div className="grid grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs font-medium text-humo/60 mb-1.5">Nombre del cliente *</label>
+            <label className="block text-xs font-medium text-pizarra mb-1.5">Nombre del cliente *</label>
             <input
               type="text" required placeholder="Empresa o persona"
               value={form.client_name}
@@ -125,7 +125,7 @@ function NuevoProyectoForm() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-humo/60 mb-1.5">Email del cliente</label>
+            <label className="block text-xs font-medium text-pizarra mb-1.5">Email del cliente</label>
             <input
               type="email" placeholder="cliente@email.com"
               value={form.client_email}
@@ -137,7 +137,7 @@ function NuevoProyectoForm() {
 
         <div className="grid grid-cols-2 gap-5">
           <div>
-            <label className="block text-xs font-medium text-humo/60 mb-1.5">Precio (€)</label>
+            <label className="block text-xs font-medium text-pizarra mb-1.5">Precio (€)</label>
             <input
               type="number" placeholder="0.00" step="0.01"
               value={form.price}
@@ -146,7 +146,7 @@ function NuevoProyectoForm() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-humo/60 mb-1.5">Fecha de entrega</label>
+            <label className="block text-xs font-medium text-pizarra mb-1.5">Fecha de entrega</label>
             <input
               type="date"
               value={form.deadline_at}
@@ -157,7 +157,7 @@ function NuevoProyectoForm() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-humo/60 mb-1.5">Estado</label>
+          <label className="block text-xs font-medium text-pizarra mb-1.5">Estado</label>
           <select
             value={form.status}
             onChange={e => setForm(f => ({ ...f, status: e.target.value }))}
@@ -172,7 +172,7 @@ function NuevoProyectoForm() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-humo/60 mb-1.5">URL del entregable</label>
+          <label className="block text-xs font-medium text-pizarra mb-1.5">URL del entregable</label>
           <input
             type="url" placeholder="https://..."
             value={form.deliverable_url}
@@ -182,7 +182,7 @@ function NuevoProyectoForm() {
         </div>
 
         <div>
-          <label className="block text-xs font-medium text-humo/60 mb-1.5">Notas internas</label>
+          <label className="block text-xs font-medium text-pizarra mb-1.5">Notas internas</label>
           <textarea
             rows={3} placeholder="Notas sobre el proyecto..."
             value={form.notes}
@@ -192,19 +192,19 @@ function NuevoProyectoForm() {
         </div>
 
         {error && (
-          <p className="text-xs text-red-400 bg-red-900/20 rounded-lg px-4 py-3">{error}</p>
+          <p className="text-xs text-red-700 bg-red-50 rounded-lg px-4 py-3">{error}</p>
         )}
 
         <div className="flex gap-3">
           <button
             type="submit" disabled={saving}
-            className="flex-1 rounded-lg bg-oro px-4 py-3 text-sm font-bold text-grafito hover:bg-oro/80 disabled:opacity-60 transition-colors"
+            className="flex-1 rounded-lg bg-senal px-4 py-3 text-sm font-bold text-white hover:bg-tinta disabled:opacity-60 transition-colors"
           >
             {saving ? 'Guardando...' : 'Crear proyecto'}
           </button>
           <Link
             href="/panel/proyectos"
-            className="rounded-lg border border-white/10 px-4 py-3 text-sm text-humo/60 hover:text-humo hover:border-white/20 transition-colors"
+            className="rounded-lg border border-niebla px-4 py-3 text-sm text-pizarra hover:text-tinta hover:border-pizarra/50 transition-colors"
           >
             Cancelar
           </Link>
@@ -216,7 +216,7 @@ function NuevoProyectoForm() {
 
 export default function NuevoProyecto() {
   return (
-    <Suspense fallback={<div className="p-8 text-sm text-humo/30">Cargando...</div>}>
+    <Suspense fallback={<div className="p-8 text-sm text-pizarra/70">Cargando...</div>}>
       <NuevoProyectoForm />
     </Suspense>
   )

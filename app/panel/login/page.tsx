@@ -2,7 +2,8 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Lock } from 'lucide-react'
+import { Logo } from '@/components/layout/Logo'
+import { NodeTick } from '@/components/motif/NodeLine'
 
 export default function PanelLogin() {
   const router = useRouter()
@@ -34,38 +35,54 @@ export default function PanelLogin() {
   }
 
   return (
-    <div className="min-h-screen bg-tinta flex items-center justify-center px-6">
+    <main className="gutter flex min-h-screen items-center justify-center bg-nieve">
       <div className="w-full max-w-sm">
-        <div className="text-center mb-8">
-          <div className="inline-flex h-12 w-12 items-center justify-center rounded-xl bg-oro/10 mb-4">
-            <Lock className="h-5 w-5 text-oro" />
-          </div>
-          <h1 className="text-xl font-bold text-humo">
-            STRUCT<span className="text-oro">9</span> Panel
-          </h1>
-          <p className="text-xs text-humo/40 mt-1">Acceso restringido</p>
+        <div className="mb-7 flex justify-center">
+          <Logo className="w-[120px]" />
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="password"
-            required
-            placeholder="Contraseña"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
-            autoFocus
-            className="w-full rounded-lg border border-white/10 bg-pizarra/20 px-4 py-3 text-sm text-humo placeholder-humo/30 focus:border-oro/50 focus:outline-none focus:ring-1 focus:ring-oro/30 transition-colors"
-          />
-          {error && <p className="text-xs text-red-400">{error}</p>}
+        <form
+          onSubmit={handleSubmit}
+          className="grid gap-4 rounded-[18px] border border-niebla bg-white p-7 shadow-[0_24px_60px_rgba(19,41,75,.08)]"
+        >
+          <div className="flex items-center gap-2.5">
+            <NodeTick />
+            <h1 className="font-display text-[1.1rem] font-bold text-tinta">Panel de gestión</h1>
+          </div>
+          <p className="-mt-2 text-sm text-pizarra">Acceso restringido.</p>
+
+          <div className="grid gap-[7px]">
+            <label htmlFor="password" className="text-[13.5px] font-semibold text-tinta">
+              Contraseña
+            </label>
+            <input
+              id="password"
+              type="password"
+              required
+              autoComplete="current-password"
+              value={password}
+              onChange={e => setPassword(e.target.value)}
+              autoFocus
+              aria-invalid={error ? true : undefined}
+              aria-describedby={error ? 'password-error' : undefined}
+              className="w-full rounded-[9px] border border-niebla bg-white px-3.5 py-3 text-[15px] text-grafito transition-[border-color,box-shadow] duration-[250ms] focus:border-senal focus:shadow-[0_0_0_3px_rgba(47,107,255,.14)] focus:outline-none aria-[invalid=true]:border-error"
+            />
+            {error && (
+              <p id="password-error" role="alert" className="text-[13px] font-medium text-error">
+                {error}
+              </p>
+            )}
+          </div>
+
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-lg bg-oro px-4 py-3 text-sm font-bold text-grafito hover:bg-oro/80 disabled:opacity-60 transition-colors"
+            className="rounded-[10px] bg-senal px-[22px] py-3.5 text-[15px] font-semibold text-white shadow-[0_10px_24px_rgba(47,107,255,.26)] transition-[transform,background-color] duration-[250ms] hover:-translate-y-0.5 hover:bg-tinta disabled:cursor-wait disabled:opacity-80"
           >
-            {loading ? 'Entrando...' : 'Entrar al panel'}
+            {loading ? 'Entrando…' : 'Entrar al panel'}
           </button>
         </form>
       </div>
-    </div>
+    </main>
   )
 }

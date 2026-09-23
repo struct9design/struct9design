@@ -1,30 +1,17 @@
-import type { MetadataRoute } from 'next'
+import type { MetadataRoute } from "next";
+import { legalDocs } from "@/content/legal";
+import { services } from "@/content/services";
+import { site } from "@/content/site";
+import { articles } from "@/lib/blog";
 
 export default function sitemap(): MetadataRoute.Sitemap {
+  const url = (path: string) => `${site.url}${path}`;
   return [
-    {
-      url: 'https://struct9design.com',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 1,
-    },
-    {
-      url: 'https://struct9design.com/servicios',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.9,
-    },
-    {
-      url: 'https://struct9design.com/contacto',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.7,
-    },
-    {
-      url: 'https://struct9design.com/blog',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.6,
-    },
-  ]
+    { url: url("/"), changeFrequency: "monthly", priority: 1 },
+    ...services.map((s) => ({ url: url(`/servicios/${s.slug}`), changeFrequency: "monthly" as const, priority: 0.9 })),
+    { url: url("/contacto"), changeFrequency: "yearly", priority: 0.8 },
+    { url: url("/blog"), changeFrequency: "weekly", priority: 0.7 },
+    ...articles.map((a) => ({ url: url(`/blog/${a.slug}`), lastModified: a.date, changeFrequency: "yearly" as const, priority: 0.6 })),
+    ...legalDocs.map((d) => ({ url: url(`/${d.slug}`), changeFrequency: "yearly" as const, priority: 0.2 })),
+  ];
 }

@@ -33,8 +33,8 @@ export default function ContactoPage() {
         navAlways
       />
 
-      <main id="top" className="gutter bg-nieve pt-[clamp(48px,7vw,92px)] pb-[clamp(64px,8vw,104px)]">
-        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-start gap-[clamp(36px,5vw,72px)]">
+      <main id="top" className="gutter bg-nieve pt-[clamp(28px,7vw,92px)] pb-[clamp(44px,8vw,104px)]">
+        <div className="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-start gap-[clamp(24px,5vw,72px)]">
           <div>
             <div {...up(0)} className="animate-s9-up">
               <Eyebrow tone="tinta">Contacto</Eyebrow>

@@ -29,10 +29,10 @@ type FooterProps = {
 export function Footer({ variant = "full", agency, cookieSettings = true }: FooterProps) {
   if (variant === "full") {
     return (
-      <footer className="gutter bg-white pt-[clamp(44px,6vw,72px)] pb-[34px]">
+      <footer className="gutter bg-white pt-[clamp(36px,6vw,72px)] pb-[34px]">
         <div className="wrap">
-          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] items-start gap-[34px]">
-            <div>
+          <div className="grid grid-cols-2 items-start gap-x-5 gap-y-8 nav:grid-cols-[repeat(auto-fit,minmax(min(100%,210px),1fr))] nav:gap-[34px]">
+            <div className="col-span-2 nav:col-span-1">
               <Logo className="w-[88px]" />
               <p className="mt-3.5 max-w-[30ch] text-[14.5px] leading-[1.6] text-pizarra">{site.tagline}</p>
             </div>
@@ -52,8 +52,11 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
                 </Link>
               ))}
             </nav>
-            <nav aria-label="Legal" className="grid content-start gap-2.5">
-              <p className={colTitle}>Legal</p>
+            <nav
+              aria-label="Legal"
+              className="col-span-2 flex flex-wrap content-start gap-x-5 gap-y-2.5 nav:col-span-1 nav:grid"
+            >
+              <p className={cn(colTitle, "w-full")}>Legal</p>
               {legalLinks.map((l) => (
                 <Link key={l.href} href={l.href} className={cn("text-[14.5px]", muted)}>
                   {l.long}
@@ -62,7 +65,7 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
               <CookieSettingsButton className="text-left text-[14.5px]" />
             </nav>
           </div>
-          <div className="mt-[38px] flex flex-wrap justify-between gap-3 border-t border-niebla pt-[22px] text-[13.5px] text-pizarra">
+          <div className="mt-8 flex flex-wrap justify-between gap-3 border-t border-niebla pt-[22px] text-[13.5px] text-pizarra">
             <p>© 2026 struct9. Todos los derechos reservados.</p>
             <p>Hecho en España</p>
           </div>

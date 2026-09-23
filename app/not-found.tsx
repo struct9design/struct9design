@@ -22,8 +22,8 @@ export default function NotFound() {
     <>
       <Header minimal cta={{ href: "/contacto", label: "Pide tu presupuesto" }} />
 
-      <main className="gutter flex min-h-[calc(100vh-150px)] items-center py-[clamp(48px,8vw,96px)]">
-        <div className="wrap grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-[clamp(36px,5vw,72px)]">
+      <main className="gutter flex min-h-[calc(100vh-150px)] items-center py-[clamp(36px,8vw,96px)]">
+        <div className="wrap grid w-full grid-cols-[repeat(auto-fit,minmax(min(100%,380px),1fr))] items-center gap-[clamp(24px,5vw,72px)]">
           <div>
             <div {...up(0)} className="animate-s9-up">
               <Eyebrow>Error 404</Eyebrow>

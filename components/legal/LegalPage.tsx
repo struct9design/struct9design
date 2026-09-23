@@ -19,7 +19,7 @@ export function LegalPage({ slug }: { slug: LegalSlug }) {
       <SiteHeader />
 
       <main className="overflow-clip">
-        <section className="gutter border-b border-niebla bg-nieve pt-[clamp(44px,6vw,72px)]">
+        <section className="gutter border-b border-niebla bg-nieve pt-[clamp(36px,6vw,72px)]">
           <div className="wrap">
             <Eyebrow tone="tinta">Información legal</Eyebrow>
             <h1 className="mt-3.5 font-display text-[clamp(2rem,4.2vw,3rem)] leading-[1.08] font-extrabold tracking-[-.025em] text-tinta">
@@ -50,8 +50,8 @@ export function LegalPage({ slug }: { slug: LegalSlug }) {
           </div>
         </section>
 
-        <section className="gutter pt-[clamp(40px,6vw,72px)] pb-[clamp(64px,8vw,100px)]">
-          <div className="wrap grid items-start gap-[clamp(32px,5vw,72px)] min-[900px]:grid-cols-[240px_minmax(0,1fr)]">
+        <section className="gutter pt-[clamp(40px,6vw,72px)] pb-[clamp(44px,8vw,100px)]">
+          <div className="wrap grid items-start gap-[clamp(24px,5vw,72px)] min-[900px]:grid-cols-[240px_minmax(0,1fr)]">
             <aside className="sticky top-[100px] hidden min-[900px]:block">
               <p className="mb-3.5 font-display text-[12.5px] font-bold tracking-[.1em] text-tinta uppercase">
                 En este documento

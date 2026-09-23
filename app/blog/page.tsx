@@ -19,7 +19,7 @@ export default function Blog() {
     <>
       <SiteHeader />
       <main>
-        <section className="gutter border-b border-niebla bg-nieve pt-[clamp(48px,7vw,92px)] pb-[clamp(40px,5vw,64px)]">
+        <section className="gutter border-b border-niebla bg-nieve pt-[clamp(28px,7vw,92px)] pb-[clamp(40px,5vw,64px)]">
           <div className="wrap">
             <div {...up(0)} className="animate-s9-up">
               <Eyebrow tone="tinta">Blog</Eyebrow>
@@ -39,7 +39,7 @@ export default function Blog() {
           </div>
         </section>
 
-        <section className="gutter py-[clamp(48px,7vw,88px)]">
+        <section className="gutter py-[clamp(36px,7vw,88px)]">
           <ul className="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-5">
             {articles.map((a, i) => (
               <Reveal as="li" key={a.slug} delay={i * 70} className="flex">

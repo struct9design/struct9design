@@ -25,10 +25,10 @@ export function ContactCta({
     <section
       id="contacto"
       aria-labelledby="contacto-titulo"
-      className="gutter scroll-mt-[110px] bg-tinta py-[clamp(64px,9vw,112px)] text-white"
+      className="gutter scroll-mt-[110px] bg-tinta py-[clamp(44px,9vw,112px)] text-white"
     >
       <div
-        className="wrap grid items-start gap-[clamp(36px,5vw,72px)]"
+        className="wrap grid items-start gap-[clamp(24px,5vw,72px)]"
         style={{ gridTemplateColumns: `repeat(auto-fit, minmax(min(100%, ${minCol}px), 1fr))` }}
       >
         <Reveal>

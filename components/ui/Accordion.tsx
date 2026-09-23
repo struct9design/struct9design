@@ -26,7 +26,7 @@ export function Accordion({ items, defaultOpen = 0 }: { items: Faq[]; defaultOpe
                 aria-expanded={isOpen}
                 aria-controls={panelId}
                 onClick={() => setOpen(isOpen ? -1 : i)}
-                className="flex w-full items-center gap-4 bg-transparent px-[22px] py-[19px] text-left font-display text-[1.02rem] font-bold text-tinta"
+                className="flex w-full items-center gap-4 bg-transparent px-[22px] py-[19px] text-left max-nav:px-[18px] max-nav:py-4 font-display text-[1.02rem] font-bold text-tinta"
               >
                 <span className="flex-1">{item.q}</span>
                 <span
@@ -38,8 +38,8 @@ export function Accordion({ items, defaultOpen = 0 }: { items: Faq[]; defaultOpe
               </button>
             </h3>
             <div id={panelId} role="region" aria-labelledby={btnId} hidden={!isOpen}>
-              <div className="max-w-[62ch] px-[22px] pb-[21px]">
-                <p className="text-[15.5px] leading-[1.68] text-pizarra">{item.a}</p>
+              <div className="max-w-[62ch] px-[22px] pb-[21px] max-nav:px-[18px] max-nav:pb-[18px]">
+                <p className="text-[15.5px] leading-[1.68] text-pizarra max-nav:text-[15px] max-nav:leading-[1.55]">{item.a}</p>
               </div>
             </div>
           </div>

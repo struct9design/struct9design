@@ -26,7 +26,7 @@ export default function GraciasPage() {
       <TrackLead />
       <Header minimal />
 
-      <main className="gutter flex min-h-[calc(100vh-140px)] items-center py-[clamp(48px,8vw,96px)]">
+      <main className="gutter flex min-h-[calc(100vh-140px)] items-center py-[clamp(36px,8vw,96px)]">
         <div className="mx-auto w-full max-w-[720px]">
           {/* Línea que termina en nodo con la marca de verificación */}
           <svg viewBox="0 0 240 48" aria-hidden="true" className="block h-auto w-[200px] overflow-visible">

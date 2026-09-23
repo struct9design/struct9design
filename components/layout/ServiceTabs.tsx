@@ -7,16 +7,34 @@ import { cn } from "@/lib/utils";
 
 /** Pestañas de servicios bajo la cabecera. Cada pestaña es una ruta real. */
 export function ServiceTabs({ current }: { current: ServiceSlug }) {
+  const navRef = useRef<HTMLElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
 
   // En móvil la barra se desplaza en horizontal: dejamos visible la pestaña activa
   useEffect(() => {
     activeRef.current?.scrollIntoView({ block: "nearest", inline: "center" });
+    updateFade();
   }, [current]);
+
+  /** Degradado en el borde por el que quedan pestañas ocultas, para que se vea que se puede deslizar. */
+  function updateFade() {
+    const el = navRef.current;
+    if (!el) return;
+    const start = el.scrollLeft > 4;
+    const end = el.scrollLeft + el.clientWidth < el.scrollWidth - 4;
+    const mask =
+      start || end
+        ? `linear-gradient(to right, ${start ? "transparent, #000 40px" : "#000"}, ${end ? "#000 calc(100% - 40px), transparent" : "#000"})`
+        : "";
+    el.style.maskImage = mask;
+    el.style.webkitMaskImage = mask;
+  }
 
   return (
     <div className="border-t border-nieve">
       <nav
+        ref={navRef}
+        onScroll={updateFade}
         aria-label="Servicios"
         className="wrap gutter flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >

@@ -32,14 +32,19 @@ export function SectionHeading({
       <Eyebrow tone={tone}>{eyebrow}</Eyebrow>
       <h2
         className={cn(
-          "mt-3.5 font-display leading-[1.12] font-extrabold tracking-[-.02em] text-pretty text-tinta",
+          // Interlineado como propiedad arbitraria: tailwind-merge descarta `leading-*` si después va un `text-[…]`
+          "mt-3.5 font-display [line-height:1.12] font-extrabold tracking-[-.02em] text-pretty text-tinta",
           titleSizes[size],
           titleClassName,
         )}
       >
         {title}
       </h2>
-      {intro && <p className="mt-4 text-[1.02rem] leading-[1.68] text-pizarra">{intro}</p>}
+      {intro && (
+        <p className="mt-4 text-[1.02rem] leading-[1.68] text-pizarra max-nav:mt-3 max-nav:text-base max-nav:leading-[1.55]">
+          {intro}
+        </p>
+      )}
     </>
   );
 }

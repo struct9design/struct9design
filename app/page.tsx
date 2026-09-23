@@ -56,7 +56,7 @@ export default function Home() {
         ]}
         cta={{ href: "/#contacto", label: "Pide tu presupuesto", short: "Presupuesto" }}
         menu={[
-          { href: "/#servicios", label: "Servicios" },
+          { href: "/servicios", label: "Servicios" },
           { href: "/#proceso", label: "Cómo trabajamos" },
           { href: "/#faq", label: "Preguntas frecuentes" },
           { href: "/contacto", label: "Contacto" },

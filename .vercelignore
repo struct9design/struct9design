@@ -1,0 +1,10 @@
+# Lo que nunca debe subirse con `vercel deploy` (la CLI no lee .gitignore)
+.env
+.env.*
+!.env.local.example
+.claude
+.agents
+.mcp.json
+node_modules
+.next
+tsconfig.tsbuildinfo

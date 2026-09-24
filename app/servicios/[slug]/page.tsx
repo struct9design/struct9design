@@ -18,6 +18,7 @@ import { SwipeRow } from "@/components/ui/SwipeRow";
 import { commitments, getService, services } from "@/content/services";
 import { site } from "@/content/site";
 import { faqLd, JsonLd, organizationLd, pageMetadata } from "@/lib/seo";
+import { WhatsAppFloat } from "@/components/ui/WhatsAppLink";
 
 export const dynamicParams = false;
 
@@ -29,9 +30,10 @@ export async function generateMetadata({ params }: PageProps<"/servicios/[slug]"
   const s = getService((await params).slug);
   if (!s) return {};
   return pageMetadata({
-    title: s.brand ? `${s.name} (${s.brand})` : s.name,
+    title: s.name,
     description: s.sub,
     path: `/servicios/${s.slug}`,
+    ownImage: true,
   });
 }
 
@@ -54,7 +56,7 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
         data={{
           "@context": "https://schema.org",
           "@type": "Service",
-          name: s.brand ? `${s.name} ${s.brand}` : s.name,
+          name: s.name,
           serviceType: s.name,
           description: s.sub,
           url,
@@ -78,7 +80,7 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
           { href: "/contacto", label: "Contacto" },
         ]}
       >
-        <ServiceTabs current={s.slug} />
+        <ServiceTabs current={s.slug} tabs={services.map(({ slug, n, name }) => ({ slug, n, name }))} />
       </Header>
 
       <main id="top" className="overflow-clip">
@@ -89,7 +91,6 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
               <div {...up(60)}>
                 <Pill pulse>
                   {s.n} · {s.name}
-                  {s.brand && <span className="text-pizarra">· {s.brand}</span>}
                 </Pill>
               </div>
               <h1
@@ -115,10 +116,13 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
                   Ver qué incluye ↓
                 </a>
               </div>
-              <p {...up(300)} className="animate-s9-up mt-5 text-sm text-pizarra max-nav:text-center nav:mt-6">
-                Presupuesto cerrado por escrito · Plazo orientativo:{" "}
-                <strong className="font-semibold text-tinta">{s.time}</strong>
-              </p>
+              <div {...up(300)} className="animate-s9-up mt-5 text-sm text-pizarra max-nav:text-center nav:mt-6">
+                <p>
+                  Precio: <strong className="font-semibold text-tinta">{s.price}</strong> · Plazo:{" "}
+                  <strong className="font-semibold text-tinta">{s.time}</strong>
+                </p>
+                <p className="mt-1.5 max-w-[60ch] text-[13px] leading-[1.55]">{s.priceNote}</p>
+              </div>
             </div>
 
             {/* Antes / después */}
@@ -452,6 +456,7 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
 
       <MobileActionBar />
 
+      <WhatsAppFloat />
       <Footer
         agency={[
           { href: "/", label: "Inicio" },

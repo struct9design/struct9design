@@ -3,7 +3,9 @@ import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { Eyebrow } from "@/components/ui/Eyebrow";
 import { contactSteps } from "@/content/contact";
+import { services } from "@/content/services";
 import { site, telHref } from "@/content/site";
+import { WhatsAppFloat, WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { pageMetadata } from "@/lib/seo";
 
 const intro =
@@ -94,16 +96,23 @@ export default function ContactoPage() {
                   </a>
                 </p>
               )}
+              {site.whatsapp && (
+                <p>
+                  WhatsApp:{" "}
+                  <WhatsAppLink className={link}>{site.whatsapp}</WhatsAppLink>
+                </p>
+              )}
               {site.horario && <p>Horario: {site.horario}</p>}
             </div>
           </div>
 
           <div {...up(200)} className="animate-s9-up">
-            <ContactPageForm />
+            <ContactPageForm placeholders={Object.fromEntries(services.map((s) => [s.area, s.placeholder]))} />
           </div>
         </div>
       </main>
 
+      <WhatsAppFloat mobile />
       <Footer variant="compact" />
     </>
   );

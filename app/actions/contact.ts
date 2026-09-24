@@ -6,12 +6,11 @@ import { Resend } from "resend";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import {
-  contactSchema,
-  flattenErrors,
   formDataToObject,
   HONEYPOT_FIELD,
   type ContactInput,
   type ContactState,
+  validateContact,
 } from "@/lib/contact-schema";
 import { supabase, supabaseAdmin } from "@/lib/supabase";
 
@@ -35,8 +34,8 @@ export async function sendContact(_prev: ContactState, formData: FormData): Prom
 
   const raw = formDataToObject(formData);
   const values = { ...raw, privacidad: raw.privacidad ?? "" };
-  const parsed = contactSchema.safeParse(raw);
-  if (!parsed.success) return { errors: flattenErrors(parsed.error), values };
+  const parsed = validateContact(raw);
+  if (!parsed.success) return { errors: parsed.errors, values };
 
   const ip = (await headers()).get("x-forwarded-for")?.split(",")[0].trim() ?? "local";
   if (!allowed(ip)) {
@@ -107,12 +106,12 @@ async function notify(data: ContactInput) {
         <p style="margin:0;font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#2F6BFF">Nuevo lead</p>
         <h2 style="margin:8px 0 18px;font-size:20px;color:#13294B">${esc(data.nombre)} · ${esc(data.negocio)}</h2>
         <table style="width:100%;border-collapse:collapse;font-size:14px">
-          ${row("Correo", `<a href="mailto:${esc(data.email)}" style="color:#2F6BFF">${esc(data.email)}</a>`)}
+          ${row("Correo", `<a href="mailto:${esc(data.email)}" style="color:#2A62F0">${esc(data.email)}</a>`)}
           ${data.telefono ? row("Teléfono", esc(data.telefono)) : ""}
           ${row("Área", esc(service))}
         </table>
         <div style="margin-top:16px;padding:14px 16px;background:#F5F7FA;border-radius:10px;font-size:14px;line-height:1.6;white-space:pre-wrap">${esc(data.mensaje)}</div>
-        <a href="${site.url}/panel/leads" style="display:inline-block;margin-top:20px;background:#2F6BFF;color:#FFFFFF;padding:11px 20px;border-radius:9px;font-weight:600;text-decoration:none;font-size:14px">Ver lead en el panel →</a>
+        <a href="${site.url}/panel/leads" style="display:inline-block;margin-top:20px;background:#2A62F0;color:#FFFFFF;padding:11px 20px;border-radius:9px;font-weight:600;text-decoration:none;font-size:14px">Ver lead en el panel →</a>
       </div>`,
     text: [
       `Nombre: ${data.nombre}`,

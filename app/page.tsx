@@ -18,6 +18,7 @@ import { homeFaqs } from "@/content/faqs";
 import { cta, faqIntro, hero, problem, process, servicesIntro } from "@/content/home";
 import { services } from "@/content/services";
 import { site, telHref } from "@/content/site";
+import { WhatsAppFloat, WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { faqLd, JsonLd, organizationLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
@@ -165,7 +166,6 @@ export default function Home() {
                     <NodeLine n={s.n} fill />
                     <h3 className="mt-5 font-display text-[1.32rem] font-bold tracking-[-.01em] text-tinta">
                       {s.name}
-                      {s.brand && <span className="text-[.78em] font-semibold text-pizarra"> {s.brand}</span>}
                     </h3>
                     <p className="mt-3 text-[15.5px] leading-[1.65] text-pizarra max-nav:text-[15px] max-nav:leading-[1.55]">
                       {s.home.summary}
@@ -181,7 +181,11 @@ export default function Home() {
                       ))}
                     </ul>
                     <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-[22px] max-nav:pt-5">
-                      <p className="text-[13.5px] font-semibold text-tinta">Beneficio: {s.home.homeBenefit}</p>
+                      <p className="text-[13.5px] text-pizarra">
+                        <span className="font-semibold text-tinta">Beneficio: {s.home.homeBenefit}</span>
+                        <br />
+                        Precio: {s.price}
+                      </p>
                       <Link
                         href={`/servicios/${s.slug}`}
                         aria-label={`Ver servicio: ${s.name}`}
@@ -228,6 +232,12 @@ export default function Home() {
 
         <ContactCta title={cta.title} intro={cta.intro}>
           <div className="mt-8 grid gap-3 text-[15px] text-niebla">
+            {site.whatsapp && (
+              <p>
+                Por WhatsApp:{" "}
+                <WhatsAppLink className={ctaLink}>{site.whatsapp}</WhatsAppLink>
+              </p>
+            )}
             {site.telefono && (
               <p>
                 Prefieres hablar:{" "}
@@ -248,6 +258,7 @@ export default function Home() {
 
       <MobileActionBar />
 
+      <WhatsAppFloat />
       <Footer
         agency={[
           { href: "/#proceso", label: "Cómo trabajamos" },

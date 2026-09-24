@@ -56,15 +56,16 @@ No hace falta ninguna variable nueva: las que ya hay en Vercel sirven tal cual.
 
 | Qué | Archivo |
 |---|---|
-| Datos de contacto, titular, teléfono, horario | `content/site.ts` |
+| Datos de contacto, titular, teléfono, WhatsApp, horario | `content/site.ts` |
 | Textos de la home | `content/home.ts` |
-| Los 4 servicios (todo su contenido) y compromisos | `content/services.ts` |
+| Los 4 servicios (todo su contenido, precios orientativos incluidos) y compromisos | `content/services.ts` |
 | Preguntas frecuentes de la home | `content/faqs.ts` |
 | Opciones del formulario y "Qué pasa después" | `content/contact.ts` |
 | Aviso legal, privacidad y cookies | `content/legal.ts` |
 | Artículos del blog | `lib/blog.ts` |
 | Casos de éxito (preparado, aún sin mostrar) | `content/cases.ts` |
 | Colores, tipografías y animaciones | `app/globals.css` (`@theme`) |
+| Imagen al compartir en redes (general, servicios, artículos) | `lib/og.tsx` |
 
 ## Para publicarlo
 
@@ -81,8 +82,8 @@ No hace falta ninguna variable nueva: las que ya hay en Vercel sirven tal cual.
 
 ## Stack
 
-Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS v4 · Framer Motion (solo el hero) ·
+Next.js 16 (App Router) · React 19 · TypeScript estricto · Tailwind CSS v4 ·
 Supabase · Stripe · Resend · Zod · dnd-kit (Kanban del panel).
 
 El circuito del hero parte de [`@componentry/circuit-board`](https://componentry.dev) (licencia MIT, © Harsh Jadhav),
-adaptado a la marca.
+adaptado a la marca y animado solo con CSS.

@@ -16,6 +16,10 @@ export const site = {
   domicilio: "",
   email: "hola@struct9design.com",
   telefono: "+34 644 32 66 25", // formato visible; el enlace tel: se genera solo
+  /** Número con WhatsApp. Si se deja vacío, desaparecen todos los botones de WhatsApp. */
+  whatsapp: "+34 644 32 66 25",
+  /** Mensaje con el que se abre la conversación. */
+  whatsappMensaje: "Hola, vengo de la web de struct9 y me gustaría información.",
 
   horario: "lunes a viernes, de 9:00 a 18:00",
 
@@ -29,6 +33,11 @@ export const site = {
 /** Convierte "+34 600 000 000" en "tel:+34600000000". */
 export function telHref(tel: string) {
   return `tel:${tel.replace(/[^\d+]/g, "")}`;
+}
+
+/** Enlace que abre una conversación de WhatsApp con el mensaje inicial ya escrito. */
+export function waHref(text: string = site.whatsappMensaje) {
+  return `https://wa.me/${site.whatsapp.replace(/\D/g, "")}?text=${encodeURIComponent(text)}`;
 }
 
 /**

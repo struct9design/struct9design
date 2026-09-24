@@ -102,3 +102,16 @@ function deleteCookies(match: (name: string) => boolean) {
     }
   }
 }
+
+/** Clic en un botón de WhatsApp: cuenta como contacto, solo en las categorías aceptadas. */
+export function trackWhatsApp() {
+  const consent = readConsent();
+  if (consent?.analytics && gaEnabled) {
+    loadGA();
+    window.gtag?.("event", "contact", { method: "whatsapp" });
+  }
+  if (consent?.marketing && metaEnabled) {
+    loadMeta();
+    window.fbq?.("track", "Contact");
+  }
+}

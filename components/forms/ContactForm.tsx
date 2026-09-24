@@ -5,13 +5,12 @@ import { useActionState, useEffect, useId, useRef, useState, type FormEvent, typ
 import { sendContact } from "@/app/actions/contact";
 import { areaOptions, defaultPlaceholder, type ContactArea } from "@/content/contact";
 import {
-  contactSchema,
-  flattenErrors,
   formDataToObject,
   HONEYPOT_FIELD,
   type ContactErrors,
   type ContactField,
   type ContactState,
+  validateContact,
 } from "@/lib/contact-schema";
 import { cn } from "@/lib/utils";
 
@@ -43,10 +42,10 @@ export function ContactForm({ variant = "embedded", defaultArea = "nolose", plac
   }, [state]);
 
   const onSubmit = (e: FormEvent<HTMLFormElement>) => {
-    const parsed = contactSchema.safeParse(formDataToObject(new FormData(e.currentTarget)));
+    const parsed = validateContact(formDataToObject(new FormData(e.currentTarget)));
     if (!parsed.success) {
       e.preventDefault();
-      const errs = flattenErrors(parsed.error);
+      const errs = parsed.errors;
       setClientErrors(errs);
       focusFirstError(e.currentTarget, errs);
       return;
@@ -166,7 +165,7 @@ export function ContactForm({ variant = "embedded", defaultArea = "nolose", plac
             className="mt-[3px] size-[17px] flex-none accent-senal"
           />
           <span className="text-[13px] leading-[1.55] text-pizarra">
-            He leído y acepto la <Link href="/privacidad">política de privacidad</Link>. Usaremos tus datos solo
+            He leído y acepto la <Link href="/privacidad" className="underline underline-offset-2">política de privacidad</Link>. Usaremos tus datos solo
             para responderte.
           </span>
         </label>

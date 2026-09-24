@@ -8,6 +8,7 @@ import { ButtonLink } from "@/components/ui/Button";
 import { site } from "@/content/site";
 import { articles, getArticle } from "@/lib/blog";
 import { JsonLd, organizationLd, pageMetadata } from "@/lib/seo";
+import { WhatsAppFloat } from "@/components/ui/WhatsAppLink";
 
 export const dynamicParams = false;
 
@@ -119,6 +120,7 @@ export default async function ArticlePage({ params }: PageProps<"/blog/[slug]">)
           </article>
         </div>
       </main>
+      <WhatsAppFloat mobile />
       <Footer
         agency={[
           { href: "/", label: "Inicio" },

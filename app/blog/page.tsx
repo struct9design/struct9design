@@ -5,10 +5,11 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { articles } from "@/lib/blog";
 import { pageMetadata } from "@/lib/seo";
+import { WhatsAppFloat } from "@/components/ui/WhatsAppLink";
 
 export const metadata = pageMetadata({
   title: "Blog",
-  description: "Artículos sobre inteligencia artificial, automatización y productividad digital para pymes españolas.",
+  description: "Guías prácticas para negocios locales: vídeo para vender mejor, reservas y atención por WhatsApp, y presencia en Google.",
   path: "/blog",
 });
 
@@ -34,14 +35,14 @@ export default function Blog() {
               {...up(200)}
               className="animate-s9-up mt-[18px] max-w-[52ch] text-[clamp(1.02rem,1.4vw,1.15rem)] leading-[1.65] text-pizarra"
             >
-              IA, automatización y productividad digital para empresas que no quieren esperar.
+              Guías prácticas para negocios locales: vídeo para vender mejor, reservas por WhatsApp y cómo aparecer en Google.
             </p>
           </div>
         </section>
 
         <section className="gutter py-[clamp(36px,7vw,88px)]">
           <ul className="wrap grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-5">
-            {articles.map((a, i) => (
+            {[...articles].sort((a, b) => b.date.localeCompare(a.date)).map((a, i) => (
               <Reveal as="li" key={a.slug} delay={i * 70} className="flex">
                 <Link
                   href={`/blog/${a.slug}`}
@@ -71,6 +72,7 @@ export default function Blog() {
           </ul>
         </section>
       </main>
+      <WhatsAppFloat mobile />
       <Footer
         agency={[
           { href: "/", label: "Inicio" },

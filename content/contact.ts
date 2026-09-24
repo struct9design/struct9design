@@ -1,4 +1,4 @@
-import { services, type ServiceArea } from "./services";
+import type { ServiceArea } from "./services";
 
 export type ContactArea = ServiceArea | "nolose";
 
@@ -13,12 +13,14 @@ export const areaOptions: { value: ContactArea; label: string }[] = [
 
 export const defaultPlaceholder = "A qué te dedicas, qué te gustaría mejorar y en qué plazo.";
 
-/** Acepta tanto el valor del select ("presencia") como el slug del servicio ("presencia-digital"). */
+/**
+ * Acepta tanto el valor del select ("presencia") como el slug del servicio ("presencia-digital"):
+ * cada slug empieza por el nombre de su área. No importa services.ts para que el formulario
+ * no cargue en el navegador todos los textos de los servicios.
+ */
 export function normalizeArea(value: string | string[] | undefined): ContactArea {
-  const v = Array.isArray(value) ? value[0] : value;
-  if (!v) return "nolose";
-  if (areaOptions.some((o) => o.value === v)) return v as ContactArea;
-  return services.find((s) => s.slug === v)?.area ?? "nolose";
+  const v = (Array.isArray(value) ? value[0] : value)?.split("-")[0];
+  return areaOptions.find((o) => o.value === v)?.value ?? "nolose";
 }
 
 /** Textos de "Qué pasa después" en la página de contacto. */

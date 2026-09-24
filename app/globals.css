@@ -2,7 +2,9 @@
 
 @theme {
   --color-tinta: #13294b;
-  --color-senal: #2f6bff;
+  /* Azul señal. La marca es #2F6BFF (logo e ilustraciones); en botones y enlaces se usa
+     esta versión apenas más oscura para que el texto blanco pase el contraste AA (5,1:1). */
+  --color-senal: #2a62f0;
   --color-blanco: #ffffff;
   --color-nieve: #f5f7fa;
   --color-niebla: #d9dee5;
@@ -146,6 +148,42 @@
   height: 100%;
 }
 
+/*
+ * Circuito del hero (components/hero/HeroCircuit). Cada elemento está en su estado final y la
+ * animación describe solo la llegada; el retraso de cada uno va en su `animation-delay`.
+ */
+.hero-trace {
+  stroke-dasharray: 1;
+  animation: hero-trace 1.4s var(--ease-s9) both;
+}
+.hero-node {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-node 1.1s var(--ease-s9) both;
+}
+.hero-center {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: hero-center 0.7s var(--ease-pop) both;
+}
+@keyframes hero-trace {
+  from {
+    stroke-dashoffset: 1;
+  }
+}
+@keyframes hero-node {
+  from {
+    opacity: 0;
+    transform: translate(var(--sx), var(--sy)) rotate(var(--sr));
+  }
+}
+@keyframes hero-center {
+  from {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -166,15 +204,7 @@
   [data-draw-y] {
     height: 100%;
   }
-  /* Hero: ordenado, con las líneas trazadas y sin pulsos */
-  .hero-circuit [data-anim] {
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  .hero-circuit [data-anim-trace] {
-    stroke-dasharray: none !important;
-    stroke-dashoffset: 0 !important;
-  }
+  /* Hero: sin animación ya está ordenado y con las líneas trazadas; solo faltan quitar los pulsos */
   .hero-pulses {
     display: none;
   }

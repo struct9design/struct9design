@@ -8,12 +8,14 @@ export type Service = {
   area: ServiceArea;
   n: string;
   name: string;
-  /** Marca secundaria que acompaña al nombre (p. ej. "AIMA"). */
-  brand: string;
   teaser: string;
   h1: string;
   sub: string;
   time: string;
+  /** Precio orientativo (p. ej. "desde 890 €"). */
+  price: string;
+  /** Aclaración del precio: qué incluye, cuotas o descuentos. */
+  priceNote: string;
   benefit: string;
   before: string[];
   after: string[];
@@ -38,11 +40,12 @@ export const services: Service[] = [
     "area": "presencia",
     "n": "01",
     "name": "Presencia digital",
-    "brand": "",
     "teaser": "Una web clara que te hace visible en Google y convierte visitas en clientes.",
     "h1": "Una web que trabaja por ti las 24 horas y te trae clientes nuevos.",
     "sub": "Diseñamos tu web, la preparamos para que Google te encuentre y la pensamos para que quien entra acabe llamando, reservando o pidiendo presupuesto.",
     "time": "3 a 5 semanas",
+    "price": "desde 890 €",
+    "priceNote": "Web completa de 4 a 6 páginas. Una página única de captación, desde 490 €. Dominio y alojamiento aparte.",
     "benefit": "más clientes nuevos, cada mes",
     "before": [
       "Web antigua o ninguna",
@@ -210,11 +213,12 @@ export const services: Service[] = [
     "area": "automatizacion",
     "n": "02",
     "name": "Automatización",
-    "brand": "AIMA",
     "teaser": "Respuestas, reservas y seguimiento que funcionan solos, también fuera de horario.",
     "h1": "Tu negocio responde, agenda y hace seguimiento aunque tú no estés.",
     "sub": "Automatizamos las tareas que te roban horas cada semana: contestar lo mismo por WhatsApp, apuntar reservas, recordar citas o perseguir presupuestos.",
     "time": "2 a 4 semanas",
+    "price": "desde 690 €",
+    "priceNote": "Puesta en marcha desde 690 €, más una cuota de mantenimiento y herramientas desde 49 €/mes. Los mensajes de WhatsApp que cobra Meta van según el uso.",
     "benefit": "horas libres cada semana",
     "before": [
       "WhatsApp lleno de preguntas repetidas",
@@ -362,7 +366,7 @@ export const services: Service[] = [
       },
       {
         "q": "¿Tiene algún coste mensual?",
-        "a": "Algunas herramientas tienen una cuota según el uso. Te la detallamos en el presupuesto antes de empezar, sin sorpresas."
+        "a": "Sí: desde 49 €/mes por el mantenimiento y las herramientas, más los mensajes de WhatsApp que cobra Meta según el uso. Te lo detallamos en el presupuesto antes de empezar, sin sorpresas."
       }
     ],
     "ctaTitle": "¿Cuántas horas quieres recuperar cada semana?",
@@ -382,11 +386,12 @@ export const services: Service[] = [
     "area": "diagnostico",
     "n": "03",
     "name": "Diagnóstico",
-    "brand": "AI Ciber",
     "teaser": "Descubre dónde te conviene invertir y qué puntos débiles proteger antes de gastar.",
     "h1": "Antes de invertir un euro, descubre exactamente dónde te conviene hacerlo.",
     "sub": "Revisamos tu negocio con ojos de fuera: dónde la inteligencia artificial te ahorra tiempo y dinero, y qué puntos débiles pueden ponerte en riesgo. Te lo entregamos por escrito, claro y ordenado por prioridad.",
     "time": "unas 2 semanas",
+    "price": "390 €",
+    "priceNote": "Precio cerrado. Si después nos encargas lo que recomendamos, te descontamos el diagnóstico.",
     "benefit": "decidir con criterio y menos riesgo",
     "before": [
       "Oyes hablar de IA pero no sabes si es para ti",
@@ -554,11 +559,12 @@ export const services: Service[] = [
     "area": "contenido",
     "n": "04",
     "name": "Contenido visual",
-    "brand": "",
     "teaser": "Vídeos creados a partir de tus fotos para inmuebles, restaurantes y productos.",
     "h1": "Tus fotos convertidas en vídeos que hacen que quieran verlo en persona.",
     "sub": "A partir de las fotografías que ya tienes creamos vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje, sin equipo de grabación y listos para publicar.",
     "time": "5 a 7 días",
+    "price": "desde 120 €/vídeo",
+    "priceNote": "Pack de 5 vídeos por 500 €. Antes de encargar nada, te enviamos gratis una muestra de 5 segundos hecha con tus fotos.",
     "benefit": "más visitas y consultas de calidad",
     "before": [
       "Fotos sueltas que nadie mira",
@@ -684,6 +690,10 @@ export const services: Service[] = [
       "Derechos de uso para tus canales"
     ],
     "faqs": [
+      {
+        "q": "¿Puedo ver cómo quedaría antes de pagar?",
+        "a": "Sí. Nos mandas unas fotos y te enviamos gratis una muestra de 5 segundos. Si te convence, hacemos el vídeo completo."
+      },
       {
         "q": "¿Sirven fotos hechas con el móvil?",
         "a": "Sí, si tienen buena luz y resolución. Antes de empezar te enviamos unas pautas sencillas para sacarles el máximo partido."

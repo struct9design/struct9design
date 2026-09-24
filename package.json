@@ -17,7 +17,6 @@
     "@supabase/supabase-js": "2.104.1",
     "@types/pdfkit": "0.17.6",
     "clsx": "^2.1.1",
-    "framer-motion": "^13.4.0",
     "lucide-react": "1.9.0",
     "next": "16.3.5",
     "pdfkit": "0.18.0",
@@ -25,8 +24,7 @@
     "react-dom": "19.2.8",
     "resend": "^6.28.1",
     "stripe": "22.1.0",
-    "tailwind-merge": "^3.7.0",
-    "zod": "^4.6.5"
+    "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

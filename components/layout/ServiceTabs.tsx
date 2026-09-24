@@ -2,11 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import { services, type ServiceSlug } from "@/content/services";
+import type { ServiceSlug } from "@/content/services";
 import { cn } from "@/lib/utils";
 
-/** Pestañas de servicios bajo la cabecera. Cada pestaña es una ruta real. */
-export function ServiceTabs({ current }: { current: ServiceSlug }) {
+type Tab = { slug: ServiceSlug; n: string; name: string };
+
+/**
+ * Pestañas de servicios bajo la cabecera. Cada pestaña es una ruta real.
+ * Recibe solo número y nombre de cada servicio para no cargar sus textos en el navegador.
+ */
+export function ServiceTabs({ current, tabs }: { current: ServiceSlug; tabs: Tab[] }) {
   const navRef = useRef<HTMLElement>(null);
   const activeRef = useRef<HTMLAnchorElement>(null);
 
@@ -38,7 +43,7 @@ export function ServiceTabs({ current }: { current: ServiceSlug }) {
         aria-label="Servicios"
         className="wrap gutter flex gap-1.5 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
       >
-        {services.map((s) => {
+        {tabs.map((s) => {
           const active = s.slug === current;
           return (
             <Link

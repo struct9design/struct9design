@@ -11,6 +11,8 @@ export type Service = {
   teaser: string;
   h1: string;
   sub: string;
+  /** Meta description si `sub` supera los ~160 caracteres que muestra Google. */
+  metaDescription?: string;
   time: string;
   /** Precio orientativo (p. ej. "desde 890 €"). */
   price: string;
@@ -388,6 +390,7 @@ export const services: Service[] = [
     "name": "Diagnóstico",
     "teaser": "Descubre dónde te conviene invertir y qué puntos débiles proteger antes de gastar.",
     "h1": "Antes de invertir un euro, descubre exactamente dónde te conviene hacerlo.",
+    "metaDescription": "Revisamos tu negocio con ojos de fuera: dónde la IA te ahorra tiempo y dinero y qué puntos débiles te ponen en riesgo. Informe claro y priorizado.",
     "sub": "Revisamos tu negocio con ojos de fuera: dónde la inteligencia artificial te ahorra tiempo y dinero, y qué puntos débiles pueden ponerte en riesgo. Te lo entregamos por escrito, claro y ordenado por prioridad.",
     "time": "unas 2 semanas",
     "price": "390 €",
@@ -561,6 +564,7 @@ export const services: Service[] = [
     "name": "Contenido visual",
     "teaser": "Vídeos creados a partir de tus fotos para inmuebles, restaurantes y productos.",
     "h1": "Tus fotos convertidas en vídeos que hacen que quieran verlo en persona.",
+    "metaDescription": "Convertimos las fotos que ya tienes en vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje y listos para publicar.",
     "sub": "A partir de las fotografías que ya tienes creamos vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje, sin equipo de grabación y listos para publicar.",
     "time": "5 a 7 días",
     "price": "desde 120 €/vídeo",
@@ -751,8 +755,6 @@ export const commitments: { t: string; d: string }[] = [
     "d": "Te formamos para usarlo y seguimos a tu lado después de la entrega."
   }
 ];
-
-export const DEFAULT_SERVICE: ServiceSlug = "presencia-digital";
 
 export function getService(slug: string) {
   return services.find((s) => s.slug === slug);

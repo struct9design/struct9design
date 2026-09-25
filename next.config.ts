@@ -1,5 +1,4 @@
 import type { NextConfig } from "next";
-import { DEFAULT_SERVICE } from "./content/services";
 
 const securityHeaders = [
   // Prevent clickjacking — disallow embedding in iframes
@@ -22,8 +21,6 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     return [
-      // /servicios no tiene página propia: abre el servicio por defecto (el 01)
-      { source: "/servicios", destination: `/servicios/${DEFAULT_SERVICE}`, permanent: false },
       // Artículos retirados: sus visitas van a los que los sustituyen
       { source: "/blog/automatizacion-n8n-trabajo-repetitivo", destination: "/blog/reservas-whatsapp-restaurante", permanent: true },
       { source: "/blog/ia-rendimiento-trabajadores", destination: "/blog/videos-inmobiliaria-a-partir-de-fotos", permanent: true },

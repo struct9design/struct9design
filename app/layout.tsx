@@ -26,7 +26,7 @@ const description =
 export const metadata: Metadata = {
   metadataBase: new URL(site.url),
   title: {
-    default: "struct9 · Del caos al sistema",
+    default: "Diseño web y automatización para negocios · struct9",
     template: "%s · struct9",
   },
   description,
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
     type: "website",
     siteName: site.name,
     locale: site.locale,
-    title: "struct9 · Del caos al sistema",
+    title: "Diseño web y automatización para negocios · struct9",
     description,
   },
   twitter: { card: "summary_large_image" },

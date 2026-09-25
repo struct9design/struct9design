@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: PageProps<"/servicios/[slug]"
   if (!s) return {};
   return pageMetadata({
     title: s.name,
-    description: s.sub,
+    description: s.metaDescription ?? s.sub,
     path: `/servicios/${s.slug}`,
     ownImage: true,
   });

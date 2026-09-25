@@ -19,9 +19,11 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: PageProps<"/blog/[slug]">): Promise<Metadata> {
   const article = getArticle((await params).slug);
   if (!article) return {};
+  const title = article.seoTitle ?? article.title;
+  const description = article.metaDescription ?? article.excerpt;
   return {
-    ...pageMetadata({ title: article.title, description: article.excerpt, path: `/blog/${article.slug}` }),
-    openGraph: { type: "article", title: article.title, description: article.excerpt, publishedTime: article.date },
+    ...pageMetadata({ title, description, path: `/blog/${article.slug}` }),
+    openGraph: { type: "article", title, description, publishedTime: article.date },
   };
 }
 

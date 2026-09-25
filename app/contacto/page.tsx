@@ -13,7 +13,8 @@ const intro =
 
 export const metadata = pageMetadata({
   title: "Contacto",
-  description: `Cuéntanos tu caso y te respondemos en 24 horas. ${intro}`,
+  description:
+    "Cuéntanos tu caso y te respondemos en 24 horas. Sin compromiso y sin tecnicismos: te damos una primera orientación y te decimos si podemos ayudarte.",
   path: "/contacto",
 });
 

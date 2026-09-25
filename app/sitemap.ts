@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const url = (path: string) => `${site.url}${path}`;
   return [
     { url: url("/"), changeFrequency: "monthly", priority: 1 },
+    { url: url("/servicios"), changeFrequency: "monthly", priority: 0.9 },
     ...services.map((s) => ({ url: url(`/servicios/${s.slug}`), changeFrequency: "monthly" as const, priority: 0.9 })),
     { url: url("/contacto"), changeFrequency: "yearly", priority: 0.8 },
     { url: url("/blog"), changeFrequency: "weekly", priority: 0.7 },

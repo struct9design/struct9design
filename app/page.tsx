@@ -4,16 +4,15 @@ import { HeroCircuit } from "@/components/hero/HeroCircuit";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { MobileActionBar } from "@/components/layout/MobileActionBar";
-import { NodeLine } from "@/components/motif/NodeLine";
 import { ProcessTimelineHorizontal } from "@/components/motif/ProcessTimeline";
 import { ContactCta } from "@/components/sections/ContactCta";
+import { ServiceCards } from "@/components/sections/ServiceCards";
 import { Accordion } from "@/components/ui/Accordion";
 import { ButtonLink } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Pill } from "@/components/ui/Eyebrow";
 import { Reveal } from "@/components/ui/Reveal";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { SwipeRow } from "@/components/ui/SwipeRow";
 import { homeFaqs } from "@/content/faqs";
 import { cta, faqIntro, hero, problem, process, servicesIntro } from "@/content/home";
 import { services } from "@/content/services";
@@ -22,7 +21,7 @@ import { WhatsAppFloat, WhatsAppLink } from "@/components/ui/WhatsAppLink";
 import { faqLd, JsonLd, organizationLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "struct9 · Del caos al sistema" },
+  title: { absolute: "Diseño web y automatización para negocios · struct9" },
   description: hero.sub,
   alternates: { canonical: "/" },
 };
@@ -152,52 +151,7 @@ export default function Home() {
             <Reveal className="max-w-[62ch]">
               <SectionHeading {...servicesIntro} />
             </Reveal>
-            <SwipeRow
-              label="Nuestras cuatro áreas"
-              className="mt-[clamp(24px,4vw,54px)] grid grid-cols-[repeat(auto-fit,minmax(min(100%,420px),1fr))] gap-5"
-            >
-              {services.map((s, i) => (
-                <Reveal key={s.slug} delay={[60, 130, 200, 270][i]} className="flex">
-                  <Card
-                    as="article"
-                    hover="lift"
-                    className="flex flex-1 flex-col rounded-2xl p-[clamp(22px,2.6vw,32px)]"
-                  >
-                    <NodeLine n={s.n} fill />
-                    <h3 className="mt-5 font-display text-[1.32rem] font-bold tracking-[-.01em] text-tinta">
-                      {s.name}
-                    </h3>
-                    <p className="mt-3 text-[15.5px] leading-[1.65] text-pizarra max-nav:text-[15px] max-nav:leading-[1.55]">
-                      {s.home.summary}
-                    </p>
-                    <ul className="mt-5 grid gap-[9px] max-nav:hidden">
-                      {s.home.bullets.map((b) => (
-                        <li key={b} className="flex gap-2.5 text-[14.5px] text-grafito">
-                          <span aria-hidden="true" className="text-senal">
-                            ·
-                          </span>
-                          {b}
-                        </li>
-                      ))}
-                    </ul>
-                    <div className="mt-auto flex flex-wrap items-center justify-between gap-3 pt-[22px] max-nav:pt-5">
-                      <p className="text-[13.5px] text-pizarra">
-                        <span className="font-semibold text-tinta">Beneficio: {s.home.homeBenefit}</span>
-                        <br />
-                        Precio: {s.price}
-                      </p>
-                      <Link
-                        href={`/servicios/${s.slug}`}
-                        aria-label={`Ver servicio: ${s.name}`}
-                        className="text-sm font-semibold"
-                      >
-                        Ver servicio →
-                      </Link>
-                    </div>
-                  </Card>
-                </Reveal>
-              ))}
-            </SwipeRow>
+            <ServiceCards className="mt-[clamp(24px,4vw,54px)]" />
           </div>
         </section>
 

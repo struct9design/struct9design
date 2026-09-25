@@ -6,7 +6,11 @@ export interface BlogSection {
 export interface Article {
   slug: string
   title: string
+  /** Título para Google si `title` es demasiado largo (~50 caracteres, sin contar " · struct9"). */
+  seoTitle?: string
   excerpt: string
+  /** Meta description si `excerpt` supera los ~160 caracteres. */
+  metaDescription?: string
   date: string
   readTime: number
   category: string
@@ -17,6 +21,8 @@ export const articles: Article[] = [
   {
     slug: 'videos-inmobiliaria-a-partir-de-fotos',
     title: 'Vídeos para inmobiliarias a partir de fotos: cómo destacar tus pisos sin grabar',
+    seoTitle: 'Vídeos para inmobiliarias hechos con fotos',
+    metaDescription: 'Convierte las fotos de tus pisos en vídeos que destacan en los portales y filtran visitas, sin grabar nada. Cómo funciona, precio y muestra gratis.',
     excerpt: 'En un portal inmobiliario, tu anuncio compite con decenas de pisos con fotos parecidas. Un vídeo hecho con las fotos que ya tienes ayuda a que se detengan en el tuyo y a que quien pide visita llegue con interés real. Te contamos cómo funciona.',
     date: '2026-09-24',
     readTime: 6,
@@ -58,6 +64,8 @@ export const articles: Article[] = [
   {
     slug: 'reservas-whatsapp-restaurante',
     title: 'Cómo automatizar las reservas por WhatsApp en un restaurante',
+    seoTitle: 'Reservas automáticas por WhatsApp en restaurantes',
+    metaDescription: 'Automatiza las reservas de tu restaurante por WhatsApp: cómo funciona, qué necesitas y qué errores evitar para no perder mesas en las horas punta.',
     excerpt: 'Si tus clientes ya te escriben por WhatsApp para reservar, no hace falta que les obligues a llamar ni a descargarse nada. Te contamos cómo funciona una reserva automática, qué necesitas y qué errores evitar.',
     date: '2026-09-24',
     readTime: 6,

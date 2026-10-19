@@ -80,12 +80,8 @@ export function loadGA() {
     // eslint-disable-next-line prefer-rest-params
     window.dataLayer!.push(arguments);
   };
-  window.gtag("consent", "default", {
-    analytics_storage: "granted",
-    ad_storage: "denied",
-    ad_user_data: "denied",
-    ad_personalization: "denied",
-  });
+  // Mismo estado que GTM: si no, este "default" volvería a denegar la publicidad ya aceptada
+  window.gtag("consent", "default", consentState(readConsent()));
   window.gtag("js", new Date());
   window.gtag("config", tracking.gaId);
   addScript(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(tracking.gaId)}`);

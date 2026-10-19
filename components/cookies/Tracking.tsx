@@ -2,11 +2,11 @@
 
 import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
-import { consentRequired } from "@/content/site";
+import { consentRequired, tracking } from "@/content/site";
 import { CONSENT_CHANGE_EVENT, readConsent, type Consent } from "@/lib/consent";
-import { loadGA, loadMeta, revokeGA, revokeMeta } from "@/lib/tracking";
+import { applyGTM, loadGA, loadMeta, revokeGA, revokeMeta } from "@/lib/tracking";
 
-/** Aplica el consentimiento: carga o retira GA (análisis) y el píxel de Meta (publicidad). */
+/** Aplica el consentimiento: carga GTM y carga o retira GA (análisis) y el píxel de Meta (publicidad). */
 export function Tracking() {
   const pathname = usePathname();
   const first = useRef(true);
@@ -14,6 +14,7 @@ export function Tracking() {
   useEffect(() => {
     if (!consentRequired) return;
     const apply = (c: Consent | null) => {
+      applyGTM(c);
       if (c?.analytics) loadGA();
       else revokeGA();
       if (c?.marketing) loadMeta();
@@ -31,7 +32,8 @@ export function Tracking() {
       first.current = false;
       return;
     }
-    if (readConsent()?.marketing) window.fbq?.("track", "PageView");
+    // Con GTM, el píxel cuenta estas páginas con un activador "Cambio de historial" dentro del contenedor
+    if (tracking.metaPixelId && readConsent()?.marketing) window.fbq?.("track", "PageView");
   }, [pathname]);
 
   return null;

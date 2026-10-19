@@ -14,9 +14,7 @@ export type Service = {
   /** Meta description si `sub` supera los ~160 caracteres que muestra Google. */
   metaDescription?: string;
   time: string;
-  /** Precio orientativo (p. ej. "desde 890 €"). */
-  price: string;
-  /** Aclaración del precio: qué incluye, cuotas o descuentos. */
+  /** De qué depende el precio y qué incluye. Sin cifras: todo se trabaja bajo presupuesto. */
   priceNote: string;
   benefit: string;
   before: string[];
@@ -46,8 +44,7 @@ export const services: Service[] = [
     "h1": "Una web que trabaja por ti las 24 horas y te trae clientes nuevos.",
     "sub": "Diseñamos tu web, la preparamos para que Google te encuentre y la pensamos para que quien entra acabe llamando, reservando o pidiendo presupuesto.",
     "time": "3 a 5 semanas",
-    "price": "desde 890 €",
-    "priceNote": "Web completa de 4 a 6 páginas. Una página única de captación, desde 490 €. Dominio y alojamiento aparte.",
+    "priceNote": "Depende del número de páginas, de si necesitas textos y fotos, y de las integraciones (reservas, formularios, tienda). Dominio y alojamiento aparte.",
     "benefit": "más clientes nuevos, cada mes",
     "before": [
       "Web antigua o ninguna",
@@ -219,8 +216,7 @@ export const services: Service[] = [
     "h1": "Tu negocio responde, agenda y hace seguimiento aunque tú no estés.",
     "sub": "Automatizamos las tareas que te roban horas cada semana: contestar lo mismo por WhatsApp, apuntar reservas, recordar citas o perseguir presupuestos.",
     "time": "2 a 4 semanas",
-    "price": "desde 690 €",
-    "priceNote": "Puesta en marcha desde 690 €, más una cuota de mantenimiento y herramientas desde 49 €/mes. Los mensajes de WhatsApp que cobra Meta van según el uso.",
+    "priceNote": "Depende de cuántas tareas automaticemos y de las herramientas que haya que conectar. Incluye una cuota mensual de mantenimiento; los mensajes de WhatsApp que cobra Meta van según el uso.",
     "benefit": "horas libres cada semana",
     "before": [
       "WhatsApp lleno de preguntas repetidas",
@@ -368,7 +364,7 @@ export const services: Service[] = [
       },
       {
         "q": "¿Tiene algún coste mensual?",
-        "a": "Sí: desde 49 €/mes por el mantenimiento y las herramientas, más los mensajes de WhatsApp que cobra Meta según el uso. Te lo detallamos en el presupuesto antes de empezar, sin sorpresas."
+        "a": "Sí: una cuota mensual por el mantenimiento y las herramientas, más los mensajes de WhatsApp que cobra Meta según el uso. Su importe depende de lo que automaticemos y te lo detallamos en el presupuesto antes de empezar, sin sorpresas."
       }
     ],
     "ctaTitle": "¿Cuántas horas quieres recuperar cada semana?",
@@ -393,8 +389,7 @@ export const services: Service[] = [
     "metaDescription": "Revisamos tu negocio con ojos de fuera: dónde la IA te ahorra tiempo y dinero y qué puntos débiles te ponen en riesgo. Informe claro y priorizado.",
     "sub": "Revisamos tu negocio con ojos de fuera: dónde la inteligencia artificial te ahorra tiempo y dinero, y qué puntos débiles pueden ponerte en riesgo. Te lo entregamos por escrito, claro y ordenado por prioridad.",
     "time": "unas 2 semanas",
-    "price": "390 €",
-    "priceNote": "Precio cerrado. Si después nos encargas lo que recomendamos, te descontamos el diagnóstico.",
+    "priceNote": "Depende del tamaño del negocio y de cuántas áreas revisemos. Si después nos encargas lo que recomendamos, te descontamos el diagnóstico.",
     "benefit": "decidir con criterio y menos riesgo",
     "before": [
       "Oyes hablar de IA pero no sabes si es para ti",
@@ -567,8 +562,7 @@ export const services: Service[] = [
     "metaDescription": "Convertimos las fotos que ya tienes en vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje y listos para publicar.",
     "sub": "A partir de las fotografías que ya tienes creamos vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje, sin equipo de grabación y listos para publicar.",
     "time": "5 a 7 días",
-    "price": "desde 120 €/vídeo",
-    "priceNote": "Pack de 5 vídeos por 500 €. Antes de encargar nada, te enviamos gratis una muestra de 5 segundos hecha con tus fotos.",
+    "priceNote": "Depende de cuántos vídeos necesites: por volumen, cada vídeo sale más barato. Antes de encargar nada, te enviamos gratis una muestra de 5 segundos hecha con tus fotos.",
     "benefit": "más visitas y consultas de calidad",
     "before": [
       "Fotos sueltas que nadie mira",

@@ -4,7 +4,7 @@ export type Faq = { q: string; a: string };
 export const homeFaqs: Faq[] = [
   {
     q: "¿Cuánto cuesta?",
-    a: "Como orientación: una web completa desde 890 €, una automatización desde 690 € (más una cuota desde 49 €/mes), el diagnóstico 390 € y los vídeos desde 120 € cada uno. Como ninguna panadería necesita lo mismo que una inmobiliaria, tras la primera conversación recibes un presupuesto cerrado con el alcance, el plazo y el precio por escrito. Sin letra pequeña.",
+    a: "Depende de lo que necesites, y por eso no publicamos tarifas: ninguna panadería necesita lo mismo que una inmobiliaria. Tras una primera conversación gratuita recibes un presupuesto cerrado y por escrito, con el alcance, el plazo y el precio. Si algo no lo necesitas, lo quitamos y el precio baja. Sin letra pequeña.",
   },
   {
     q: "No entiendo de tecnología. ¿Es un problema?",

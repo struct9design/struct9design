@@ -118,8 +118,8 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
               </div>
               <div {...up(300)} className="animate-s9-up mt-5 text-sm text-pizarra max-nav:text-center nav:mt-6">
                 <p>
-                  Precio: <strong className="font-semibold text-tinta">{s.price}</strong> · Plazo:{" "}
-                  <strong className="font-semibold text-tinta">{s.time}</strong>
+                  Plazo: <strong className="font-semibold text-tinta">{s.time}</strong> · Precio:{" "}
+                  <strong className="font-semibold text-tinta">presupuesto cerrado y gratuito</strong>
                 </p>
                 <p className="mt-1.5 max-w-[60ch] text-[13px] leading-[1.55]">{s.priceNote}</p>
               </div>

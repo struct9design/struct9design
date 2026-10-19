@@ -22,7 +22,7 @@ export const articles: Article[] = [
     slug: 'videos-inmobiliaria-a-partir-de-fotos',
     title: 'Vídeos para inmobiliarias a partir de fotos: cómo destacar tus pisos sin grabar',
     seoTitle: 'Vídeos para inmobiliarias hechos con fotos',
-    metaDescription: 'Convierte las fotos de tus pisos en vídeos que destacan en los portales y filtran visitas, sin grabar nada. Cómo funciona, precio y muestra gratis.',
+    metaDescription: 'Convierte las fotos de tus pisos en vídeos que destacan en los portales y filtran visitas, sin grabar nada. Cómo funciona y cómo pedir una muestra gratis.',
     excerpt: 'En un portal inmobiliario, tu anuncio compite con decenas de pisos con fotos parecidas. Un vídeo hecho con las fotos que ya tienes ayuda a que se detengan en el tuyo y a que quien pide visita llegue con interés real. Te contamos cómo funciona.',
     date: '2026-09-24',
     readTime: 6,
@@ -52,8 +52,8 @@ export const articles: Article[] = [
         content: 'No hacen falta fotos profesionales, pero sí unas pautas básicas:\n\n— Haz las fotos de día, con persianas subidas y todas las luces encendidas.\n\n— Ordena y despeja: fuera objetos personales, cables y cosas en las encimeras.\n\n— Sujeta el móvil en horizontal y a la altura del pecho, sin inclinarlo hacia arriba ni hacia abajo.\n\n— Dispara desde las esquinas para que se vea la estancia entera.\n\n— Haz varias fotos de cada espacio: nos da más opciones para el recorrido.\n\nAntes de empezar te enviamos estas pautas por escrito para que cualquiera de tu equipo pueda hacerlo.',
       },
       {
-        heading: 'Precio y muestra gratis',
-        content: 'Cada vídeo cuesta desde 120 €. Si trabajas con varios inmuebles, el pack de 5 vídeos sale por 500 € y todos mantienen el mismo estilo, así tus anuncios se reconocen de un vistazo.\n\nY antes de encargar nada, puedes verlo con tus propios inmuebles: mándanos unas fotos y te enviamos gratis una muestra de 5 segundos. Si te convence, hacemos el vídeo completo.',
+        heading: 'Presupuesto y muestra gratis',
+        content: 'Cada encargo se presupuesta según el número de vídeos: si trabajas con varios inmuebles, cada vídeo sale más barato y todos mantienen el mismo estilo, así tus anuncios se reconocen de un vistazo.\n\nY antes de encargar nada, puedes verlo con tus propios inmuebles: mándanos unas fotos y te enviamos gratis una muestra de 5 segundos. Si te convence, hacemos el vídeo completo.',
       },
       {
         heading: 'No solo para inmobiliarias',

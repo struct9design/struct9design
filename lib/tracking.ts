@@ -1,9 +1,9 @@
 /**
- * Carga de Google Analytics 4 y del píxel de Meta.
+ * Carga de Google Tag Manager, Google Analytics 4 y el píxel de Meta.
  * Nada de esto se ejecuta sin el consentimiento de su categoría (ver components/cookies/Tracking.tsx).
  */
-import { gaEnabled, metaEnabled, tracking } from "@/content/site";
-import { readConsent } from "./consent";
+import { gaEnabled, gtmEnabled, metaEnabled, tracking } from "@/content/site";
+import { readConsent, type Consent } from "./consent";
 
 type Fn = (...args: unknown[]) => void;
 
@@ -23,9 +23,54 @@ function addScript(src: string) {
   document.head.appendChild(s);
 }
 
-/** Google Analytics 4 — categoría "Análisis". */
+/** Comando de Consent Mode para GTM. Tiene que llegar al dataLayer como `arguments`, igual que gtag(). */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars -- la firma es solo para TypeScript; se usa `arguments`
+function consentCommand(..._args: unknown[]) {
+  window.dataLayer = window.dataLayer || [];
+  // eslint-disable-next-line prefer-rest-params
+  window.dataLayer.push(arguments);
+}
+
+function consentState(c: Consent | null) {
+  const ads = c?.marketing ? "granted" : "denied";
+  return {
+    analytics_storage: c?.analytics ? "granted" : "denied",
+    ad_storage: ads,
+    ad_user_data: ads,
+    ad_personalization: ads,
+  };
+}
+
+let gtmLoaded = false;
+
+/**
+ * Google Tag Manager: se carga en cuanto la persona acepta alguna categoría y recibe el consentimiento
+ * de cada una (Consent Mode v2). Las etiquetas del contenedor deben respetarlo: GA4 lo hace solo;
+ * para el píxel de Meta, exigir "ad_storage" en la configuración de consentimiento de la etiqueta.
+ */
+export function applyGTM(c: Consent | null) {
+  if (!gtmEnabled) return;
+  if (gtmLoaded) {
+    consentCommand("consent", "update", consentState(c));
+    window.dataLayer!.push({ event: "s9_consent_update" });
+    return;
+  }
+  if (!c?.analytics && !c?.marketing) return;
+  gtmLoaded = true;
+  consentCommand("consent", "default", consentState(c));
+  window.dataLayer!.push({ "gtm.start": Date.now(), event: "gtm.js" });
+  addScript(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(tracking.gtmId)}`);
+}
+
+/** Evento para GTM (activador "Evento personalizado"), solo si GTM se ha cargado con consentimiento. */
+function gtmEvent(event: string, data: Record<string, unknown> = {}) {
+  applyGTM(readConsent());
+  if (gtmLoaded) window.dataLayer!.push({ event, ...data });
+}
+
+/** Google Analytics 4 directo (sin GTM) — categoría "Análisis". */
 export function loadGA() {
-  if (!gaEnabled) return;
+  if (!tracking.gaId) return;
   if (window.gtag) {
     window.gtag("consent", "update", { analytics_storage: "granted" });
     return;
@@ -51,9 +96,9 @@ export function revokeGA() {
   deleteCookies((name) => name.startsWith("_ga"));
 }
 
-/** Píxel de Meta — categoría "Publicidad". Mismo arranque que el snippet oficial. */
+/** Píxel de Meta directo (sin GTM) — categoría "Publicidad". Mismo arranque que el snippet oficial. */
 export function loadMeta() {
-  if (!metaEnabled) return;
+  if (!tracking.metaPixelId) return;
   if (window.fbq) {
     window.fbq("consent", "grant");
     return;
@@ -81,6 +126,7 @@ export function revokeMeta() {
 
 /** Conversión tras enviar el formulario (/gracias), solo en las categorías aceptadas. */
 export function trackLead() {
+  gtmEvent("generate_lead");
   const consent = readConsent();
   if (consent?.analytics && gaEnabled) {
     loadGA();
@@ -105,6 +151,7 @@ function deleteCookies(match: (name: string) => boolean) {
 
 /** Clic en un botón de WhatsApp: cuenta como contacto, solo en las categorías aceptadas. */
 export function trackWhatsApp() {
+  gtmEvent("whatsapp_click");
   const consent = readConsent();
   if (consent?.analytics && gaEnabled) {
     loadGA();

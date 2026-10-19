@@ -43,7 +43,7 @@ export function ServiceCards({ heading: Heading = "h3", className }: { heading?:
               <p className="text-[13.5px] text-pizarra">
                 <span className="font-semibold text-tinta">Beneficio: {s.home.homeBenefit}</span>
                 <br />
-                Precio: {s.price}
+                Plazo: {s.time} · Presupuesto a medida
               </p>
               <Link
                 href={`/servicios/${s.slug}`}

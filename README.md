@@ -49,6 +49,7 @@ No hace falta ninguna variable nueva: las que ya hay en Vercel sirven tal cual.
 | `NEXT_PUBLIC_SITE_URL` | Canonical, sitemap y enlaces de los correos | No |
 | `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET` | Cobros desde el panel | No |
 | `CONTACT_FROM_EMAIL` | Remitente de los avisos (por defecto `noreply@struct9design.com`) | Sí, opcional |
+| `NEXT_PUBLIC_GTM_ID` | Google Tag Manager (`GTM-…`). GA4 y el píxel de Meta se configuran dentro del contenedor; solo se carga tras aceptar cookies y recibe el consentimiento (Consent Mode v2). GA4 va con el ID de abajo (no crees otra etiqueta GA4 en GTM) y el píxel de Meta puede ir en GTM | Sí, opcional |
 | `NEXT_PUBLIC_GA_ID` | Google Analytics. Si está vacío no se carga ni aparece el aviso de cookies | Sí, opcional |
 | `NEXT_PUBLIC_META_PIXEL_ID` | Píxel de Meta. Igual: solo con ID y tras consentimiento | Sí, opcional |
 

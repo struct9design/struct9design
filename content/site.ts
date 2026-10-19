@@ -41,7 +41,8 @@ export function waHref(text: string = site.whatsappMensaje) {
 }
 
 /**
- * Herramientas de medición. Cada una se activa solo si tiene su ID en las variables de entorno,
+ * Herramientas de medición. Los IDs son públicos: van aquí por defecto y las variables de entorno los sustituyen.
+ * Cada una se activa solo si tiene ID,
  * y solo se carga después de que la persona la acepte en el aviso de cookies.
  */
 export const tracking = {
@@ -49,9 +50,9 @@ export const tracking = {
    * Google Tag Manager, p. ej. "GTM-XXXXXXX". Si GA4 se carga con NEXT_PUBLIC_GA_ID, no crees otra etiqueta GA4 en el contenedor
    * (se mediría dos veces). El píxel de Meta sí puede ir en GTM en lugar de NEXT_PUBLIC_META_PIXEL_ID.
    */
-  gtmId: process.env.NEXT_PUBLIC_GTM_ID || "",
+  gtmId: process.env.NEXT_PUBLIC_GTM_ID || "GTM-MKWQTTMT",
   /** Google Analytics 4 (categoría "Análisis"), p. ej. "G-XXXXXXX". */
-  gaId: process.env.NEXT_PUBLIC_GA_ID || "",
+  gaId: process.env.NEXT_PUBLIC_GA_ID || "G-M5BPKT6R5D",
   /** Píxel de Meta (categoría "Publicidad"), p. ej. "123456789012345". */
   metaPixelId: process.env.NEXT_PUBLIC_META_PIXEL_ID || "",
 };

@@ -212,33 +212,33 @@ export const services: Service[] = [
     "area": "automatizacion",
     "n": "02",
     "name": "Automatización",
-    "teaser": "Respuestas, reservas y seguimiento que funcionan solos, también fuera de horario.",
+    "teaser": "Contactos, citas y seguimiento que se gestionan solos, también fuera de horario.",
     "h1": "Tu negocio responde, agenda y hace seguimiento aunque tú no estés.",
-    "sub": "Automatizamos las tareas que te roban horas cada semana: contestar lo mismo por WhatsApp, apuntar reservas, recordar citas o perseguir presupuestos.",
+    "sub": "Automatizamos las tareas que te roban horas cada semana: recoger los contactos que llegan por la web, el correo o los portales, responder al momento, agendar citas y perseguir presupuestos.",
     "time": "2 a 4 semanas",
-    "priceNote": "Depende de cuántas tareas automaticemos y de las herramientas que haya que conectar. Incluye una cuota mensual de mantenimiento; los mensajes de WhatsApp que cobra Meta van según el uso.",
+    "priceNote": "Depende de cuántas tareas automaticemos y de las herramientas que haya que conectar. Si alguna herramienta tiene cuota o necesitas mantenimiento, te lo detallamos en el presupuesto.",
     "benefit": "horas libres cada semana",
     "before": [
-      "WhatsApp lleno de preguntas repetidas",
-      "Reservas en libreta y llamadas perdidas",
+      "Contactos que llegan por mil sitios y se pierden",
+      "Citas en libreta y llamadas perdidas",
       "Clientes que no vuelven porque nadie les avisa",
       "Datos repartidos en mil sitios"
     ],
     "after": [
-      "Respuesta al momento, de día y de noche",
-      "Reservas que se apuntan solas",
+      "Cada contacto recogido y respondido al momento",
+      "Citas que se agendan solas",
       "Recordatorios y seguimiento automáticos",
       "Todos tus clientes en un mismo lugar"
     ],
     "painTitle": "Tu negocio funciona, pero a costa de tu tiempo.",
     "pains": [
       {
-        "t": "Contestas lo mismo veinte veces al día.",
-        "d": "Horarios, precios, disponibilidad. Cada mensaje te interrumpe y ninguno es para cerrar una venta."
+        "t": "Los contactos llegan por todas partes.",
+        "d": "La web, el correo, Instagram, los portales. Cada uno va por su lado y siempre hay alguno que se queda sin respuesta."
       },
       {
-        "t": "Pierdes reservas fuera de horario.",
-        "d": "Te escriben a las once de la noche, contestas a la mañana siguiente y ya han reservado en otro sitio."
+        "t": "Pierdes clientes fuera de horario.",
+        "d": "Te escriben a las once de la noche, contestas a la mañana siguiente y ya se han ido a otro sitio."
       },
       {
         "t": "Los presupuestos se quedan en el aire.",
@@ -247,8 +247,8 @@ export const services: Service[] = [
     ],
     "includes": [
       {
-        "t": "Asistente de WhatsApp",
-        "d": "Responde a las preguntas habituales con tu tono, a cualquier hora, y pasa la conversación a una persona cuando hace falta."
+        "t": "Contactos en un solo sitio",
+        "d": "Lo que llega por tu web, tu correo, tus redes o los portales entra solo en un único lugar, y quien te escribe recibe respuesta al momento."
       },
       {
         "t": "Reservas y citas",
@@ -275,7 +275,7 @@ export const services: Service[] = [
       {
         "s": "Restaurantes",
         "a": "Teléfono sonando en pleno servicio para reservar mesa.",
-        "b": "Reservas por WhatsApp confirmadas solas, con recordatorio el mismo día."
+        "b": "Reservas online confirmadas solas, con recordatorio el mismo día."
       },
       {
         "s": "Clínicas, estética y peluquerías",
@@ -285,7 +285,7 @@ export const services: Service[] = [
       {
         "s": "Inmobiliarias",
         "a": "Interesados sin atender a tiempo.",
-        "b": "Respuesta inmediata, datos recogidos y visita agendada."
+        "b": "Contactos de los portales respondidos al momento y visita agendada."
       },
       {
         "s": "Talleres y servicios técnicos",
@@ -331,28 +331,28 @@ export const services: Service[] = [
     ],
     "need": [
       "Las preguntas que más te hacen y cómo las respondes",
-      "Tu número de WhatsApp Business o ayuda para crearlo",
+      "Por dónde te llegan hoy los clientes (web, correo, redes, portales)",
       "Cómo gestionas hoy reservas y clientes",
       "Una persona de referencia en tu equipo"
     ],
     "get": [
       "Automatizaciones funcionando en tu negocio",
-      "Un panel para ver conversaciones y reservas",
+      "Un panel para ver contactos, citas y seguimiento",
       "Formación para ti y tu equipo",
       "Ajustes incluidos durante el primer mes"
     ],
     "faqs": [
       {
-        "q": "¿Mis clientes sabrán que hablan con un asistente?",
-        "a": "Sí, siempre de forma transparente. Y en cualquier momento pueden pedir hablar con una persona de tu equipo."
+        "q": "¿Mis clientes notarán que es automático?",
+        "a": "Las respuestas automáticas son claras y útiles, y siempre llevan a una persona de tu equipo cuando hace falta. Nada de robots haciéndose pasar por ti."
       },
       {
-        "q": "¿Tengo que cambiar mi número de teléfono?",
-        "a": "Normalmente no. Trabajamos con tu número de WhatsApp Business. Si hace falta algún cambio, te lo explicamos antes."
+        "q": "¿Y WhatsApp?",
+        "a": "No instalamos bots en tu WhatsApp: Meta tiene normas muy estrictas y una conexión que no las cumpla puede acabar con tu número bloqueado. Lo que sí hacemos es dejarte bien configuradas las herramientas oficiales y gratuitas de WhatsApp Business (respuestas rápidas, mensajes de ausencia, etiquetas y catálogo), sin poner tu número en riesgo."
       },
       {
-        "q": "¿Qué pasa si el asistente no sabe responder?",
-        "a": "Te pasa la conversación a ti o a quien decidas, con todo el contexto, para que el cliente no tenga que repetir nada."
+        "q": "¿Qué pasa si un caso se sale de lo habitual?",
+        "a": "Te llega un aviso a ti o a quien decidas, con todo el contexto, para que el cliente no tenga que repetir nada."
       },
       {
         "q": "¿Funciona con el programa que ya uso?",
@@ -364,15 +364,15 @@ export const services: Service[] = [
       },
       {
         "q": "¿Tiene algún coste mensual?",
-        "a": "Sí: una cuota mensual por el mantenimiento y las herramientas, más los mensajes de WhatsApp que cobra Meta según el uso. Su importe depende de lo que automaticemos y te lo detallamos en el presupuesto antes de empezar, sin sorpresas."
+        "a": "Depende de lo que montemos. Si alguna herramienta tiene cuota o quieres mantenimiento, te detallamos el importe mensual en el presupuesto antes de empezar, sin sorpresas."
       }
     ],
     "ctaTitle": "¿Cuántas horas quieres recuperar cada semana?",
-    "placeholder": "Qué tareas te quitan más tiempo y cómo gestionas hoy reservas y mensajes.",
+    "placeholder": "Qué tareas te quitan más tiempo y por dónde te llegan hoy los clientes.",
     "home": {
       "summary": "Las tareas que repites cada día pasan a hacerse solas. Tus clientes reciben respuesta al momento, también un domingo por la noche.",
       "bullets": [
-        "Atención automática por WhatsApp",
+        "Contactos recogidos y respondidos al momento",
         "Reservas, citas y avisos sin llamadas",
         "Todos tus contactos en un mismo sitio"
       ],

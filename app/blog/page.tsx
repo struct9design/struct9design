@@ -9,7 +9,7 @@ import { WhatsAppFloat } from "@/components/ui/WhatsAppLink";
 
 export const metadata = pageMetadata({
   title: "Blog",
-  description: "Guías prácticas para negocios locales: vídeo para vender mejor, reservas y atención por WhatsApp, y presencia en Google.",
+  description: "Guías prácticas para negocios locales: vídeo para vender mejor, contactos que no se pierden y presencia en Google.",
   path: "/blog",
 });
 
@@ -35,7 +35,7 @@ export default function Blog() {
               {...up(200)}
               className="animate-s9-up mt-[18px] max-w-[52ch] text-[clamp(1.02rem,1.4vw,1.15rem)] leading-[1.65] text-pizarra"
             >
-              Guías prácticas para negocios locales: vídeo para vender mejor, reservas por WhatsApp y cómo aparecer en Google.
+              Guías prácticas para negocios locales: vídeo para vender mejor, contactos que no se pierden y cómo aparecer en Google.
             </p>
           </div>
         </section>

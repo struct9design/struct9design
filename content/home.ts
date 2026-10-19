@@ -16,7 +16,7 @@ export const problem = {
     "Cada herramienta va por su lado, la información se pierde y el día se llena de tareas repetidas. Se trabaja mucho y se aprovecha poco.",
   items: [
     { t: "Te encuentran de milagro.", d: "Una web antigua, o ninguna, y todo dependiendo del boca a boca." },
-    { t: "Consultas sin responder.", d: "Mensajes en WhatsApp, llamadas y correos que se acumulan fuera de horario." },
+    { t: "Consultas sin responder.", d: "Mensajes, llamadas y correos que se acumulan fuera de horario." },
     {
       t: "Datos en cuadernos y hojas de cálculo.",
       d: "Nadie sabe con certeza qué cliente vino de dónde ni qué funcionó.",

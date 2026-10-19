@@ -5,7 +5,7 @@ export type ContactArea = ServiceArea | "nolose";
 /** Opciones del select "¿Qué te interesa?". */
 export const areaOptions: { value: ContactArea; label: string }[] = [
   { value: "presencia", label: "Presencia digital: web y captación" },
-  { value: "automatizacion", label: "Automatización: WhatsApp, reservas, CRM" },
+  { value: "automatizacion", label: "Automatización: contactos, citas, CRM" },
   { value: "diagnostico", label: "Diagnóstico: oportunidades y seguridad" },
   { value: "contenido", label: "Contenido visual: vídeos a partir de fotos" },
   { value: "nolose", label: "Todavía no lo sé, necesito orientación" },

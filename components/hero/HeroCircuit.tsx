@@ -25,7 +25,7 @@ type Node = { label: string; x: number; y: number; side: "left" | "right" };
 const NODES: Node[] = [
   { label: "Web", x: 26, y: 70, side: "left" },
   { label: "Google", x: 26, y: 200, side: "left" },
-  { label: "WhatsApp", x: 26, y: 330, side: "left" },
+  { label: "Email", x: 26, y: 330, side: "left" },
   { label: "Reservas", x: 390, y: 70, side: "right" },
   { label: "Clientes", x: 390, y: 200, side: "right" },
   { label: "Facturas", x: 390, y: 330, side: "right" },
@@ -67,7 +67,7 @@ export function HeroCircuit() {
     <svg
       viewBox="0 0 520 440"
       role="img"
-      aria-label="Web, Google, WhatsApp, reservas, clientes y facturas conectados en un único sistema"
+      aria-label="Web, Google, email, reservas, clientes y facturas conectados en un único sistema"
       className="hero-circuit block h-auto w-full overflow-visible"
     >
       <defs>

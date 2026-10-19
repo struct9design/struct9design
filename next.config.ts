@@ -22,7 +22,8 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       // Artículos retirados: sus visitas van a los que los sustituyen
-      { source: "/blog/automatizacion-n8n-trabajo-repetitivo", destination: "/blog/reservas-whatsapp-restaurante", permanent: true },
+      { source: "/blog/automatizacion-n8n-trabajo-repetitivo", destination: "/blog/responder-contactos-inmobiliaria", permanent: true },
+      { source: "/blog/reservas-whatsapp-restaurante", destination: "/blog/responder-contactos-inmobiliaria", permanent: true },
       { source: "/blog/ia-rendimiento-trabajadores", destination: "/blog/videos-inmobiliaria-a-partir-de-fotos", permanent: true },
     ];
   },

@@ -66,7 +66,7 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
             </nav>
           </div>
           <div className="mt-8 flex flex-wrap justify-between gap-3 border-t border-niebla pt-[22px] text-[13.5px] text-pizarra">
-            <p>© 2026 struct9. Todos los derechos reservados.</p>
+            <p>© 2026 struct9design. Todos los derechos reservados.</p>
             <p>Hecho en España</p>
           </div>
         </div>
@@ -91,7 +91,7 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
         <div className="wrap flex flex-wrap items-center justify-between gap-x-8 gap-y-[18px]">
           <Logo className="w-[78px]" />
           {links}
-          <p className="text-[13.5px] text-pizarra">© 2026 struct9</p>
+          <p className="text-[13.5px] text-pizarra">© 2026 struct9design</p>
         </div>
       </footer>
     );
@@ -101,7 +101,7 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
     <footer className="gutter border-t border-niebla py-7">
       <div className="wrap flex flex-wrap items-center justify-between gap-x-6 gap-y-3">
         {links}
-        <p className="text-[13.5px] text-pizarra">© 2026 struct9</p>
+        <p className="text-[13.5px] text-pizarra">© 2026 struct9design</p>
       </div>
     </footer>
   );

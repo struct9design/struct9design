@@ -45,6 +45,7 @@ export function organizationLd() {
     "@type": "ProfessionalService",
     "@id": `${site.url}/#organizacion`,
     name: site.name,
+    alternateName: site.alternateNames,
     url: site.url,
     logo: `${site.url}/logo.svg`,
     description: site.tagline,
@@ -52,6 +53,20 @@ export function organizationLd() {
     knowsLanguage: "es",
     ...(site.email ? { email: site.email } : {}),
     ...(site.telefono ? { telephone: site.telefono } : {}),
+  };
+}
+
+/** Nombre del sitio para Google: nombre preferido y variantes de la marca. */
+export function websiteLd() {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${site.url}/#web`,
+    name: site.name,
+    alternateName: site.alternateNames,
+    url: site.url,
+    inLanguage: "es",
+    publisher: { "@id": `${site.url}/#organizacion` },
   };
 }
 

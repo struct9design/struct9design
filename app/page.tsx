@@ -18,10 +18,10 @@ import { cta, faqIntro, hero, problem, process, servicesIntro } from "@/content/
 import { services } from "@/content/services";
 import { site, telHref } from "@/content/site";
 import { WhatsAppFloat, WhatsAppLink } from "@/components/ui/WhatsAppLink";
-import { faqLd, JsonLd, organizationLd } from "@/lib/seo";
+import { faqLd, JsonLd, organizationLd, websiteLd } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: { absolute: "Diseño web y automatización para negocios · struct9" },
+  title: { absolute: "struct9design · Diseño web y automatización para negocios" },
   description: hero.sub,
   alternates: { canonical: "/" },
 };
@@ -45,6 +45,7 @@ export default function Home() {
           })),
         }}
       />
+      <JsonLd data={websiteLd()} />
       <JsonLd data={faqLd(homeFaqs)} />
 
       <Header

@@ -6,6 +6,8 @@
  */
 export const site = {
   name: "struct9",
+  /** Otras formas de escribir la marca, para que Google relacione las búsquedas con la web. */
+  alternateNames: ["struct9design", "Struct9 Design", "struct 9 design"],
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://struct9design.com").replace(/\/$/, ""),
   tagline: "Del caos al sistema. Digitalización con orden para negocios que quieren crecer.",
   locale: "es_ES",

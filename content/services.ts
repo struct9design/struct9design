@@ -356,7 +356,7 @@ export const services: Service[] = [
       },
       {
         "q": "¿Y WhatsApp?",
-        "a": "No instalamos bots en tu WhatsApp: Meta tiene normas muy estrictas y una conexión que no las cumpla puede acabar con tu número bloqueado. Lo que sí hacemos es dejarte bien configuradas las herramientas oficiales y gratuitas de WhatsApp Business (respuestas rápidas, mensajes de ausencia, etiquetas y catálogo), sin poner tu número en riesgo."
+        "a": "No conectamos nada no oficial a tu WhatsApp: Meta tiene normas muy estrictas y una conexión que no las cumpla puede acabar con tu número bloqueado. Lo que sí hacemos es dejarte bien configuradas las herramientas oficiales y gratuitas de WhatsApp Business (respuestas rápidas, mensajes de ausencia, etiquetas y catálogo), sin poner tu número en riesgo."
       },
       {
         "q": "¿Qué pasa si un caso se sale de lo habitual?",

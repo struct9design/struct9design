@@ -93,11 +93,11 @@ export const landings: Landing[] = [
   {
     slug: "automatizacion-inmobiliarias",
     label: "Automatización para inmobiliarias",
-    seoTitle: "Automatización para inmobiliarias, sin bots",
+    seoTitle: "Automatización para inmobiliarias, sin riesgos",
     metaDescription:
-      "Responde al momento a los contactos de los portales, agenda visitas y haz seguimiento sin estar pegado al móvil. Sin bots en tu WhatsApp. Sevilla y toda España.",
+      "Responde al momento a los contactos de los portales, agenda visitas y haz seguimiento sin estar pegado al móvil. Sin conexiones no oficiales en tu WhatsApp. Sevilla y toda España.",
     eyebrow: "Para inmobiliarias",
-    h1: "Automatización para inmobiliarias: ningún contacto sin respuesta, y sin bots",
+    h1: "Automatización para inmobiliarias: ningún contacto sin respuesta, y sin riesgos para tu WhatsApp",
     intro:
       "Quien pregunta por un piso escribe a varias inmobiliarias a la vez, y la primera que responde se lleva la visita. Montamos el sistema que responde al momento, agenda la visita y te avisa, mientras tú sigues enseñando pisos.",
     sections: [
@@ -112,9 +112,9 @@ export const landings: Landing[] = [
           "Todos los contactos en un solo sitio. Lo que llega de los portales, tu web, el correo o Instagram entra solo en un único lugar, con el inmueble por el que pregunta, su nombre, teléfono y mensaje.\n\nRespuesta al momento. El interesado recibe enseguida un mensaje con lo básico del inmueble y un enlace para elegir día y hora de visita.\n\nVisitas que se agendan solas. Solo puede elegir horas en las que de verdad puedes ir, y le llega un recordatorio antes de la cita.\n\nAvisos para tu equipo. El agente adecuado recibe un aviso en el móvil con todo el contexto para llamar cuando pueda.\n\nSeguimiento automático. Si nadie le ha atendido en 24 horas, el sistema te lo recuerda. Si visitó el piso y no se decide, se le escribe unos días después.",
       },
       {
-        heading: "Por qué sin bots en tu WhatsApp",
+        heading: "Por qué solo vías oficiales en tu WhatsApp",
         content:
-          "Muchas soluciones conectan un bot a tu WhatsApp para que «hable» con los clientes. El riesgo es serio: Meta tiene normas muy estrictas y una conexión que no las cumple puede acabar con tu número bloqueado, el mismo número que tus clientes llevan años guardando.\n\nNosotros no instalamos bots en tu WhatsApp. Te dejamos bien configuradas las herramientas oficiales y gratuitas de WhatsApp Business (respuestas rápidas, mensajes de ausencia, etiquetas y catálogo) y montamos la automatización alrededor, sin poner tu número en riesgo. Y nada de robots haciéndose pasar por ti: cuando hace falta, el cliente habla con una persona de tu equipo.",
+          "Muchas soluciones conectan un bot a tu WhatsApp por vías no oficiales para que «hable» con los clientes. El riesgo es serio: Meta tiene normas muy estrictas y una conexión que no las cumple puede acabar con tu número bloqueado, el mismo número que tus clientes llevan años guardando.\n\nNosotros no conectamos nada no oficial a tu WhatsApp. Te dejamos bien configuradas las herramientas oficiales y gratuitas de WhatsApp Business (respuestas rápidas, mensajes de ausencia, etiquetas y catálogo) y montamos la automatización alrededor, sin poner tu número en riesgo. Y nada de robots haciéndose pasar por ti: cuando hace falta, el cliente habla con una persona de tu equipo.",
       },
       {
         heading: "Cómo lo ponemos en marcha",

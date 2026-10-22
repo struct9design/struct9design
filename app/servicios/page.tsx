@@ -10,7 +10,7 @@ import { site } from "@/content/site";
 import { JsonLd, organizationLd, pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Servicios de digitalización para negocios",
+  title: "Servicios de diseño web y automatización para negocios",
   description:
     "Web, automatización, diagnóstico con IA y vídeo a partir de fotos. Empieza por un área y crece sin rehacer nada. Presupuesto cerrado y sin tecnicismos.",
   path: "/servicios",

@@ -228,6 +228,7 @@ export const legalDocs: LegalDoc[] = [
             when: "tracking",
           },
           { text: "• *s9-consent* · Propia · Guarda tus preferencias de cookies · 12 meses", when: "tracking" },
+          { text: "• *s9-interno* · Propia · Solo en los navegadores del equipo de struct9, para no contar sus visitas en las estadísticas · 24 meses", when: "tracking" },
           {
             text: "*De análisis* (solo si las aceptas). Nos ayudan a saber qué páginas son útiles, de forma agregada.",
             when: "ga",

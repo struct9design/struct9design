@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { CookieSettingsButton } from "@/components/cookies/CookieSettingsButton";
+import { landings } from "@/content/landings";
 import { services } from "@/content/services";
 import { site } from "@/content/site";
 import { cn } from "@/lib/utils";
@@ -43,6 +44,11 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
                   {s.name}
                 </Link>
               ))}
+              {landings.map((l) => (
+                <Link key={l.slug} href={`/${l.slug}`} className={cn("text-[14.5px]", muted)}>
+                  {l.label}
+                </Link>
+              ))}
             </nav>
             <nav aria-label="Agencia" className="grid content-start gap-2.5">
               <p className={colTitle}>Agencia</p>
@@ -67,7 +73,7 @@ export function Footer({ variant = "full", agency, cookieSettings = true }: Foot
           </div>
           <div className="mt-8 flex flex-wrap justify-between gap-3 border-t border-niebla pt-[22px] text-[13.5px] text-pizarra">
             <p>© 2026 struct9design. Todos los derechos reservados.</p>
-            <p>Hecho en España</p>
+            <p>{site.ciudad} · {site.region} · toda España en remoto</p>
           </div>
         </div>
       </footer>

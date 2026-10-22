@@ -11,6 +11,9 @@ export const site = {
   url: (process.env.NEXT_PUBLIC_SITE_URL || "https://struct9design.com").replace(/\/$/, ""),
   tagline: "Del caos al sistema. Digitalización con orden para negocios que quieren crecer.",
   locale: "es_ES",
+  /** Zona donde trabajamos en persona; se usa en el SEO local y en los datos estructurados. */
+  ciudad: "Sevilla",
+  region: "Andalucía",
 
   // Datos del titular (provisionales hasta dar de alta la actividad)
   titular: "",

@@ -21,7 +21,7 @@ export const articles: Article[] = [
   {
     slug: 'videos-inmobiliaria-a-partir-de-fotos',
     title: 'Vídeos para inmobiliarias a partir de fotos: cómo destacar tus pisos sin grabar',
-    seoTitle: 'Vídeos para inmobiliarias hechos con fotos',
+    seoTitle: 'Cómo destacar tus pisos con vídeo sin grabar',
     metaDescription: 'Convierte las fotos de tus pisos en vídeos que destacan en los portales y filtran visitas, sin grabar nada. Cómo funciona y cómo pedir una muestra gratis.',
     excerpt: 'En un portal inmobiliario, tu anuncio compite con decenas de pisos con fotos parecidas. Un vídeo hecho con las fotos que ya tienes ayuda a que se detengan en el tuyo y a que quien pide visita llegue con interés real. Te contamos cómo funciona.',
     date: '2026-09-24',

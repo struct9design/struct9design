@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useRef } from "react";
 import { consentRequired, tracking } from "@/content/site";
 import { CONSENT_CHANGE_EVENT, readConsent, type Consent } from "@/lib/consent";
-import { applyGTM, loadGA, loadMeta, revokeGA, revokeMeta } from "@/lib/tracking";
+import { applyGTM, loadGA, loadMeta, revokeGA, revokeMeta, syncInternalFlag } from "@/lib/tracking";
 
 /** Aplica el consentimiento: carga GTM y carga o retira GA (análisis) y el píxel de Meta (publicidad). */
 export function Tracking() {
@@ -13,6 +13,7 @@ export function Tracking() {
 
   useEffect(() => {
     if (!consentRequired) return;
+    syncInternalFlag();
     const apply = (c: Consent | null) => {
       applyGTM(c);
       if (c?.analytics) loadGA();

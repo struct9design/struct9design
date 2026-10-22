@@ -40,6 +40,15 @@ export function JsonLd({ data }: { data: Record<string, unknown> }) {
   );
 }
 
+/** Sevilla y Andalucía en persona; el resto de España en remoto. */
+export function areaServedLd() {
+  return [
+    { "@type": "City", name: site.ciudad },
+    { "@type": "AdministrativeArea", name: site.region },
+    { "@type": "Country", name: "España" },
+  ];
+}
+
 export function organizationLd() {
   return {
     "@type": "ProfessionalService",
@@ -49,7 +58,8 @@ export function organizationLd() {
     url: site.url,
     logo: `${site.url}/logo.svg`,
     description: site.tagline,
-    areaServed: "ES",
+    address: { "@type": "PostalAddress", addressLocality: site.ciudad, addressRegion: site.region, addressCountry: "ES" },
+    areaServed: areaServedLd(),
     knowsLanguage: "es",
     ...(site.email ? { email: site.email } : {}),
     ...(site.telefono ? { telephone: site.telefono } : {}),

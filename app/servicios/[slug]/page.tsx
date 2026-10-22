@@ -17,7 +17,7 @@ import { SectionHeading } from "@/components/ui/SectionHeading";
 import { SwipeRow } from "@/components/ui/SwipeRow";
 import { commitments, getService, services } from "@/content/services";
 import { site } from "@/content/site";
-import { faqLd, JsonLd, organizationLd, pageMetadata } from "@/lib/seo";
+import { areaServedLd, faqLd, JsonLd, organizationLd, pageMetadata } from "@/lib/seo";
 import { WhatsAppFloat } from "@/components/ui/WhatsAppLink";
 
 export const dynamicParams = false;
@@ -30,7 +30,7 @@ export async function generateMetadata({ params }: PageProps<"/servicios/[slug]"
   const s = getService((await params).slug);
   if (!s) return {};
   return pageMetadata({
-    title: s.name,
+    title: s.seoTitle,
     description: s.metaDescription ?? s.sub,
     path: `/servicios/${s.slug}`,
     ownImage: true,
@@ -60,7 +60,7 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
           serviceType: s.name,
           description: s.sub,
           url,
-          areaServed: "ES",
+          areaServed: areaServedLd(),
           provider: organizationLd(),
         }}
       />
@@ -90,7 +90,7 @@ export default async function ServicePage({ params }: PageProps<"/servicios/[slu
             <div>
               <div {...up(60)}>
                 <Pill pulse>
-                  {s.n} · {s.name}
+                  {s.n} · {s.keyword}
                 </Pill>
               </div>
               <h1

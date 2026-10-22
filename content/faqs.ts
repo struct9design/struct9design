@@ -23,6 +23,10 @@ export const homeFaqs: Faq[] = [
     a: "Sí, y es lo que recomendamos: empezar por lo que más te aprieta, comprobar resultados y crecer desde ahí. Todo lo que montamos está pensado para ampliarse después sin rehacerlo.",
   },
   {
+    q: "¿Trabajáis solo en Sevilla?",
+    a: "Estamos en Sevilla y trabajamos en persona con negocios de Sevilla y del resto de Andalucía. Para el resto de España lo hacemos todo en remoto, por videollamada y WhatsApp, con el mismo proceso y los mismos plazos.",
+  },
+  {
     q: "¿Qué pasa cuando termina el proyecto?",
     a: "Lo que construimos es tuyo, con sus accesos y su documentación. Si quieres, seguimos con mantenimiento y mejoras; si no, te queda todo en orden y funcionando.",
   },

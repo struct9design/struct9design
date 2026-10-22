@@ -104,7 +104,7 @@ function Banner() {
         Usamos cookies propias necesarias para que la web funcione y, solo si lo aceptas, cookies {purposes}. Puedes
         cambiar tu elección cuando quieras.{" "}
         <Link href="/cookies" className="font-semibold">
-          Más información
+          Más información sobre las cookies
         </Link>
       </p>
 

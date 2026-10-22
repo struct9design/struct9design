@@ -41,6 +41,22 @@ function consentState(c: Consent | null) {
   };
 }
 
+const INTERNAL_COOKIE = "s9-interno";
+
+/**
+ * Visitas propias: abrir la web con ?interno=1 marca este navegador y deja de cargar GTM, GA y Meta
+ * (?interno=0 lo deshace). Así las pruebas del equipo no se cuentan como visitas.
+ */
+export function syncInternalFlag() {
+  const flag = new URLSearchParams(location.search).get("interno");
+  if (flag === "1") document.cookie = `${INTERNAL_COOKIE}=1; Max-Age=${60 * 60 * 24 * 365 * 2}; Path=/; SameSite=Lax`;
+  if (flag === "0") document.cookie = `${INTERNAL_COOKIE}=; Max-Age=0; Path=/`;
+}
+
+function isInternal() {
+  return document.cookie.split("; ").includes(`${INTERNAL_COOKIE}=1`);
+}
+
 let gtmLoaded = false;
 
 /**
@@ -49,7 +65,7 @@ let gtmLoaded = false;
  * para el píxel de Meta, exigir "ad_storage" en la configuración de consentimiento de la etiqueta.
  */
 export function applyGTM(c: Consent | null) {
-  if (!gtmEnabled) return;
+  if (!gtmEnabled || isInternal()) return;
   if (gtmLoaded) {
     consentCommand("consent", "update", consentState(c));
     window.dataLayer!.push({ event: "s9_consent_update" });
@@ -70,7 +86,7 @@ function gtmEvent(event: string, data: Record<string, unknown> = {}) {
 
 /** Google Analytics 4 directo (sin GTM) — categoría "Análisis". */
 export function loadGA() {
-  if (!tracking.gaId) return;
+  if (!tracking.gaId || isInternal()) return;
   if (window.gtag) {
     window.gtag("consent", "update", { analytics_storage: "granted" });
     return;
@@ -94,7 +110,7 @@ export function revokeGA() {
 
 /** Píxel de Meta directo (sin GTM) — categoría "Publicidad". Mismo arranque que el snippet oficial. */
 export function loadMeta() {
-  if (!tracking.metaPixelId) return;
+  if (!tracking.metaPixelId || isInternal()) return;
   if (window.fbq) {
     window.fbq("consent", "grant");
     return;

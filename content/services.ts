@@ -8,6 +8,10 @@ export type Service = {
   area: ServiceArea;
   n: string;
   name: string;
+  /** Título para Google (~50 caracteres sin " · struct9"): lo que la gente busca, no el nombre interno. */
+  seoTitle: string;
+  /** Palabra clave visible en la píldora sobre el H1. */
+  keyword: string;
   teaser: string;
   h1: string;
   sub: string;
@@ -40,6 +44,8 @@ export const services: Service[] = [
     "area": "presencia",
     "n": "01",
     "name": "Presencia digital",
+    "seoTitle": "Diseño de páginas web para negocios en Sevilla",
+    "keyword": "Diseño web para negocios",
     "teaser": "Una web clara que te hace visible en Google y convierte visitas en clientes.",
     "h1": "Una web que trabaja por ti las 24 horas y te trae clientes nuevos.",
     "sub": "Diseñamos tu web, la preparamos para que Google te encuentre y la pensamos para que quien entra acabe llamando, reservando o pidiendo presupuesto.",
@@ -212,6 +218,8 @@ export const services: Service[] = [
     "area": "automatizacion",
     "n": "02",
     "name": "Automatización",
+    "seoTitle": "Automatización de WhatsApp, citas y contactos",
+    "keyword": "Automatización para negocios",
     "teaser": "Contactos, citas y seguimiento que se gestionan solos, también fuera de horario.",
     "h1": "Tu negocio responde, agenda y hace seguimiento aunque tú no estés.",
     "sub": "Automatizamos las tareas que te roban horas cada semana: recoger los contactos que llegan por la web, el correo o los portales, responder al momento, agendar citas y perseguir presupuestos.",
@@ -384,6 +392,8 @@ export const services: Service[] = [
     "area": "diagnostico",
     "n": "03",
     "name": "Diagnóstico",
+    "seoTitle": "Diagnóstico digital y de IA para tu negocio",
+    "keyword": "Diagnóstico digital",
     "teaser": "Descubre dónde te conviene invertir y qué puntos débiles proteger antes de gastar.",
     "h1": "Antes de invertir un euro, descubre exactamente dónde te conviene hacerlo.",
     "metaDescription": "Revisamos tu negocio con ojos de fuera: dónde la IA te ahorra tiempo y dinero y qué puntos débiles te ponen en riesgo. Informe claro y priorizado.",
@@ -557,6 +567,8 @@ export const services: Service[] = [
     "area": "contenido",
     "n": "04",
     "name": "Contenido visual",
+    "seoTitle": "Vídeos a partir de fotos para tu negocio",
+    "keyword": "Vídeos a partir de fotos",
     "teaser": "Vídeos creados a partir de tus fotos para inmuebles, restaurantes y productos.",
     "h1": "Tus fotos convertidas en vídeos que hacen que quieran verlo en persona.",
     "metaDescription": "Convertimos las fotos que ya tienes en vídeos que recorren un espacio, lucen un plato o presentan un producto. Sin rodaje y listos para publicar.",
